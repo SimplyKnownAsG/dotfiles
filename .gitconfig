@@ -1,0 +1,9 @@
+[user]
+        name = g
+        email = gtmalmgren@gmail.com
+[alias]
+        br = branch
+        st = status
+        co = checkout
+        sed = ! git grep -z --full-name -l '.' | xargs -0 sed -i -e
+
