@@ -40,6 +40,7 @@ let g:qfenter_keymap.vopen = ['<C-v>']
 let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']
 let g:qfenter_keymap.topen = ['<C-t>']
 
+Plugin 'Shougo/vimproc.vim'
 Plugin 'rhysd/vim-clang-format'
 let g:clang_format#detect_style_file=1 " use .clang-format
 let g:clang_format#auto_format=1 " format on save
@@ -93,6 +94,8 @@ endif
 let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
 let g:airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
 
+Plugin 'PProvost/vim-ps1'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -115,6 +118,8 @@ vmap <leader>fa "vy\|/<C-R>v<CR>:grep! "<C-R>/"<CR>:copen<CR><CR>
 
 set ruler
 set textwidth=100
+set shiftwidth=4
+set tabstop=4
 set colorcolumn=+1
 " turn line numbers on
 set number
@@ -160,14 +165,9 @@ if g:os == "Darwin" && executable('gmake')
     set makeprg=gmake
 endif
 
-autocmd BufRead,BufNewFile *.py,*.pyx setlocal shiftwidth=4 tabstop=4 textwidth=100
+autocmd BufRead,BufNewFile *.py,*.pyx
                         \ makeprg=pylint\ --reports=n\ --output-format=parseable\ --disable=C\ %:p
                         \ errorformat=%f:%l:\ %m
-autocmd BufRead,BufNewFile *.tex setlocal shiftwidth=2 tabstop=2 textwidth=100
-autocmd BufRead,BufNewFile *.f90,*.rst setlocal shiftwidth=4 tabstop=4 textwidth=100
-autocmd BufRead,BufNewFile *.yaml,*.yml setlocal shiftwidth=2 tabstop=2
-autocmd BufRead,BufNewFile *.xml,*.mako setlocal shiftwidth=4 tabstop=4 textwidth=100
-autocmd BufRead,BufNewFile *.cpp,*.hpp,*.h,*.cxx setlocal shiftwidth=4 tabstop=4 textwidth=100 cino+=g0
 autocmd FileType qf wincmd J
 autocmd FileType sh setlocal shiftwidth=2 tabstop=2
 
