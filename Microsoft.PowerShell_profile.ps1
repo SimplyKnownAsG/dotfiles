@@ -1,7 +1,9 @@
 $env:CODE_HOME="$env:HOMEDRIVE$env:HOMEPATH\codes"
 $env:SHARE_HOME="\\albert\home\$env:USERNAME"
 $env:PYTHONPATH="$env:CODE_HOME\armi"
-$env:HOME=$env:USERPROFILE
+if (-not (Test-Path env:HOME)) {
+    $env:HOME=$env:USERPROFILE
+}
 $env:EDITOR="vim --noplugin"
 $env:TEMP="$env:CODE_HOME\.temp"
 $env:TMP="$env:CODE_HOME\.temp"
