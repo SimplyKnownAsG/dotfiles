@@ -166,9 +166,5 @@ if g:os == "Darwin" && executable('gmake')
     set makeprg=gmake
 endif
 
-autocmd BufRead,BufNewFile *.py,*.pyx
-                        \ makeprg=pylint\ --reports=n\ --output-format=parseable\ --disable=C\ %:p
-                        \ errorformat=%f:%l:\ %m
 autocmd FileType qf wincmd J
-autocmd FileType sh setlocal shiftwidth=2 tabstop=2
 
