@@ -143,6 +143,7 @@ syntax on
 
 if has("gui_running")
     colorscheme solarized
+    set background=dark
     set spell spelllang=en_us
     if g:os == "Darwin"
         set guifont=Fira\ Mono:h12

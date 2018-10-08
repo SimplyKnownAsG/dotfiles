@@ -1,5 +1,8 @@
 
 $userhome = "$env:HOMEDRIVE$env:HOMEPATH"
+if ($userhome -eq "") {
+    $userhome = "$env:HOME"
+}
 
 function replace-with-link() {
     param([System.IO.FileInfo]$target_path,
@@ -11,7 +14,13 @@ function replace-with-link() {
     }
 
     echo "creating link $link_path -> $target_path"
-    cmd /c mklink /h $link_path.FullName $target_path.FullName
+
+    if(!(Test-Path -Path $link_path.DirectoryName )){
+        New-Item -ItemType directory -Path $link_path.DirectoryName
+    }
+
+    New-Item -Path $link_path.FullName -ItemType SymbolicLink -Value $target_path.FullName
+    # cmd /c mklink /h $link_path.FullName $target_path.FullName
 }
 
 foreach ($target_path in $(dir * -file -Exclude install*,.git*,Microsoft*)) {
