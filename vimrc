@@ -51,7 +51,7 @@ Plugin 'JulioJu/neovim-colors-solarized-truecolor-only'
 if has("python") || has("python3")
     Plugin 'Valloric/YouCompleteMe'
     let g:ycm_autoclose_preview_window_after_completion=1
-    let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+    let g:ycm_global_ycm_extra_conf = '~/.dotfiles/resources/ycm_extra_conf.py'
     " go - generic, gh - go to header, gi - go to implementation
     nmap <leader>go :YcmCompleter GoTo<CR>
     nmap <leader>gh :YcmCompleter GoToDeclaration<CR>
