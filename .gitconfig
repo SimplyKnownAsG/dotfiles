@@ -1,9 +1,19 @@
 [user]
-        name = g
-        email = gtmalmgren@gmail.com
+	name = Graham Malmgren
+	email = gmalmgren@terrapower.com
+[core]
+	autocrlf = false
+[gui]
+        recentrepo = C:/codes/mc2
 [alias]
-        br = branch
-        st = status
         co = checkout
-        sed = ! git grep -z --full-name -l '.' | xargs -0 sed -i -e
-
+        st = status
+        hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+        sed = "!f() { git grep -z --full-name -l \"$1\" | xargs -0 sed -i \"s/$1/$2/g\" ; }; f"
+	grep = grep -n
+        br = branch
+        cl = clean -fxde *.swp
+[rev-parse]
+	short = 8
+[credential]
+	helper = manager

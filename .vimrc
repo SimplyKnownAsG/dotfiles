@@ -34,14 +34,18 @@ Plugin 'chrisbra/improvedft'
 Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
+Plugin 'yssl/QFEnter'
+let g:qfenter_keymap = {}
+let g:qfenter_keymap.vopen = ['<C-v>']
+let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']
+let g:qfenter_keymap.topen = ['<C-t>']
+
 Plugin 'rhysd/vim-clang-format'
 let g:clang_format#detect_style_file=1 " use .clang-format
 let g:clang_format#auto_format=1 " format on save
 let g:clang_format#auto_format_on_insert_leave=0
 
 Plugin 'flazz/vim-colorschemes'
-Plugin 'tomasiser/vim-code-dark'
-let g:airline_theme = 'codedark'
 
 if has("python") || has("python3")
     Plugin 'Valloric/YouCompleteMe'
@@ -140,11 +144,13 @@ if has("gui_running")
     endif
 endif
 
-command! Outside set guifont=Consolas:h24 | colorscheme visualstudio
+command! Outside set guifont=Consolas:h24 | set background=light
 
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar
-set guioptions+=c "remove toolbar
+set guioptions+=c "use console dialog instead of pop up
+set guioptions-=r "remove rich scroll bar
+set guioptions-=L "remove left scroll bar
 
 if g:os == "Darwin" && executable('gmake')
     set makeprg=gmake
