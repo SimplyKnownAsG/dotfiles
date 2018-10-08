@@ -13,6 +13,7 @@
 	grep = grep -n
         br = branch
         cl = clean -fxde *.swp
+        change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
 [rev-parse]
 	short = 8
 [credential]

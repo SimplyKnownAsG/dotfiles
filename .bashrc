@@ -100,6 +100,6 @@ if [[ "`uname`" == 'Darwin' ]]; then
   alias gvim=mvim
   export PATH=$(brew --prefix llvm)/bin:$PATH
 else
-  export PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH
+  export PATH=$HOME/.local/usr/bin:$PATH
 fi
 

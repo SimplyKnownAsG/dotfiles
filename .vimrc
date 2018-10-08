@@ -46,10 +46,12 @@ let g:clang_format#auto_format=1 " format on save
 let g:clang_format#auto_format_on_insert_leave=0
 
 Plugin 'flazz/vim-colorschemes'
+Plugin 'JulioJu/neovim-colors-solarized-truecolor-only'
 
 if has("python") || has("python3")
     Plugin 'Valloric/YouCompleteMe'
     let g:ycm_autoclose_preview_window_after_completion=1
+    let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
     " go - generic, gh - go to header, gi - go to implementation
     nmap <leader>go :YcmCompleter GoTo<CR>
     nmap <leader>gh :YcmCompleter GoToDeclaration<CR>
@@ -75,6 +77,8 @@ let g:ale_sign_warning = 'WW'
 let g:ale_sign_column_always = 1
 let g:ale_linters = {
 \   'python': ['pylint'],
+\   'c': [],
+\   'cpp': [],
 \}
 
 Plugin 'vim-airline/vim-airline'
@@ -110,7 +114,7 @@ nmap <leader>fa :grep! "<C-R>/"<CR>:copen<CR><CR>
 vmap <leader>fa "vy\|/<C-R>v<CR>:grep! "<C-R>/"<CR>:copen<CR><CR>
 
 set ruler
-set textwidth=120
+set textwidth=100
 set colorcolumn=+1
 " turn line numbers on
 set number
