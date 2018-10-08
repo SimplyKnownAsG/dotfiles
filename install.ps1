@@ -30,4 +30,5 @@ foreach ($target_path in $(dir * -file -Exclude install*,.git*,Microsoft*)) {
 }
 
 
-replace-with-link $(dir Microsoft.Powershell_profile.ps1) $profile
+replace-with-link $(dir Microsoft.PowerShell_profile.ps1) $profile
+
