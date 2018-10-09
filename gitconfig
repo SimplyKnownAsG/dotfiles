@@ -1,20 +1,16 @@
 [user]
-	name = Graham Malmgren
-	email = gmalmgren@terrapower.com
 [core]
-	autocrlf = false
-[gui]
-        recentrepo = C:/codes/mc2
+    autocrlf = true
 [alias]
-        co = checkout
-        st = status
-        hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-        sed = "!f() { git grep -z --full-name -l \"$1\" | xargs -0 sed -i \"s/$1/$2/g\" ; }; f"
-	grep = grep -n
-        br = branch
-        cl = clean -fxde *.swp
-        change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+    co = checkout
+    st = status
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    sed = "!f() { git grep -z --full-name -l \"$1\" | xargs -0 sed -i \"s/$1/$2/g\" ; }; f"
+    grep = grep -n
+    br = branch
+    cl = clean -fxde *.swp
+    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
 [rev-parse]
-	short = 8
+    short = 8
 [credential]
-	helper = manager
+    helper = manager
