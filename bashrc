@@ -104,3 +104,4 @@ else
   export PATH=$HOME/.local/usr/bin:$PATH
 fi
 
+export TERM=screen-256color

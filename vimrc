@@ -152,6 +152,10 @@ if has("gui_running")
     elseif g:os == "Windows"
         set guifont=Consolas:h10
     endif
+else
+    let g:solarized_termcolors=256
+    colorscheme solarized
+    set background=dark
 endif
 
 command! Outside set guifont=Consolas:h24 | set background=light
