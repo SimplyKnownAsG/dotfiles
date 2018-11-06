@@ -1,6 +1,6 @@
 [user]
 [core]
-    autocrlf = true
+    hooksPath=~/.dotfiles/githooks
 [alias]
     co = checkout
     st = status
@@ -10,6 +10,7 @@
     br = branch
     cl = clean -fxde *.swp
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+    filetype = diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD --
 [rev-parse]
     short = 8
 [credential]

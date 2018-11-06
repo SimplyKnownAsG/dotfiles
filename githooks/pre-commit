@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+errormsg=""
+if [ "$(git config --list --local | grep user.name)" == "" ]
+then
+  errormsg=$'\nError: user.name not specified'
+fi
+
+if [ "$(git config --list --local | grep user.email)" == "" ]
+then
+  errormsg+=$'\nError: user.email not specified'
+fi
+
+if [ "$(git config --list --local | grep core.autocrlf)" == "" ]
+then
+  errormsg+=$'\nError: core.autocrlf not specified'
+fi
+
+if [ "$errormsg" != "" ]
+then
+  echo ""
+  echo "RRRRRR  EEEEEEE     JJJ EEEEEEE  CCCCC  TTTTTTT EEEEEEE DDDDD"
+  echo "RR   RR EE          JJJ EE      CC    C   TTT   EE      DD  DD"
+  echo "RRRRRR  EEEEE       JJJ EEEEE   CC        TTT   EEEEE   DD   DD"
+  echo "RR  RR  EE      JJ  JJJ EE      CC    C   TTT   EE      DD   DD"
+  echo "RR   RR EEEEEEE  JJJJJ  EEEEEEE  CCCCC    TTT   EEEEEEE DDDDDD"
+  echo ""
+  echo "$errormsg"
+  echo ""
+  exit 1
+fi
+
