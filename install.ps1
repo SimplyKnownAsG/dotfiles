@@ -10,12 +10,14 @@ function replace-with-link() {
     param([System.IO.FileInfo]$target_path,
           [System.IO.FileInfo]$link_path)
 
+    write-output "processing $($target_path.FullName)"
+
     if (test-path $link_path) {
-        Write-Warning "renaming $link_path -> $link_path.bak"
-        Move-Item -Force $link_path "$link_path.bak"
+        write-output "    renaming $link_path -> $link_path.bak"
+        Move-Item -Force $link_path.FullName "$($link_path.FullPath).bak"
     }
 
-    echo "creating link $link_path -> $target_path"
+    write-output "    creating link $($link_path.FullName) -> $($target_path.FullName)"
 
     if(!(Test-Path -Path $link_path.DirectoryName )){
         New-Item -ItemType directory -Path $link_path.DirectoryName
@@ -29,13 +31,20 @@ function replace-with-link() {
     }
 }
 
-foreach ($target_path in $(dir * -file -Exclude install*,.git*,Microsoft*)) {
-    $link_path=join-path $userhome ".$($target_path.Name)"
+$skip_patterns = 'githooks install .git Microsoft resources'.Split()
+
+foreach ($target_path in $(dir -Recurse * -file )) {
+    $skip = $false
+    foreach ($s in $skip_patterns) {
+        if ($target_path -match $s) {
+            $skip = $true
+        }
+    }
+    if ($skip) { continue; }
+    $link_path=join-path $userhome "$($target_path | Resolve-Path -Relative)"
 
     replace-with-link $target_path $link_path
 }
 
-
 replace-with-link $(dir Microsoft.PowerShell_profile.ps1) $profile
-
 

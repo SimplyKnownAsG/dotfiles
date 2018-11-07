@@ -94,6 +94,7 @@ if ! [ -x "$(command -v vim)" ]; then
   fi
 fi
 
+export VIMINIT=source ~/.config/nvim/init.vim
 if [[ "`uname`" == 'Darwin' ]]; then
   export EDITOR='mvim -v'
   alias vim='mvim -v'
