@@ -14,7 +14,7 @@ function replace-with-link() {
 
     if (test-path $link_path) {
         write-output "    renaming $link_path -> $link_path.bak"
-        Move-Item -Force $link_path.FullName "$($link_path.FullPath).bak"
+        Move-Item -Force -ErrorAction Ignore $link_path.FullName "$($link_path.FullPath).bak"
     }
 
     write-output "    creating link $($link_path.FullName) -> $($target_path.FullName)"
@@ -27,7 +27,7 @@ function replace-with-link() {
         cmd /c mklink /h $link_path.FullName $target_path.FullName
     }
     else {
-        New-Item -Path $link_path.FullName -ItemType SymbolicLink -Value $target_path.FullName
+        New-Item -Force -Path $link_path.FullName -ItemType SymbolicLink -Value $target_path.FullName
     }
 }
 
