@@ -154,7 +154,7 @@ if has("gui_running")
     endif
 else
     let g:solarized_termcolors=256
-    colorscheme solarized
+    colorscheme darkZ
     set background=dark
 endif
 

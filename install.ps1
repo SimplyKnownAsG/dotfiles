@@ -31,9 +31,9 @@ function replace-with-link() {
     }
 }
 
-$skip_patterns = 'githooks install .git Microsoft resources'.Split()
+$skip_patterns = 'githooks install .gitignore Microsoft resources'.Split()
 
-foreach ($target_path in $(dir -Recurse * -file )) {
+foreach ($target_path in $(dir -Recurse -Hidden * -file )) {
     $skip = $false
     foreach ($s in $skip_patterns) {
         if ($target_path -match $s) {
