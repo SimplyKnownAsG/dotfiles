@@ -105,4 +105,7 @@ else
   export PATH=$HOME/.local/usr/bin:$PATH
 fi
 
+# clean path, thanks https://unix.stackexchange.com/a/40755/26585
+export PATH=`printf %s "$PATH" | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
+
 export TERM=screen-256color
