@@ -96,7 +96,6 @@ fi
 
 export VIMINIT="source ~/.config/nvim/init.vim"
 if [[ "`uname`" == 'Darwin' ]]; then
-  export EDITOR='mvim -v'
   alias vim='mvim -v'
   alias gvim=mvim
   export PATH=$(brew --prefix llvm)/bin:$PATH
@@ -105,7 +104,17 @@ else
   export PATH=$HOME/.local/usr/bin:$PATH
 fi
 
+export EDITOR=vim
+
 # clean path, thanks https://unix.stackexchange.com/a/40755/26585
 export PATH=`printf %s "$PATH" | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
-export TERM=screen-256color
+if [ -x ~/vcpkg/vcpkg ] ; then
+    alias vcpkg='~/vcpkg/vcpkg'
+elif [ -x ~/codes/vcpkg/vcpkg ] ; then
+    alias vcpkg='~/codes/vcpkg/vcpkg'
+elif [ -x ~/Projects/vcpkg/vcpkg ] ; then
+    alias vcpkg='~/Projecst/vcpkg/vcpkg'
+fi
+
+# export TERM=screen-256color
