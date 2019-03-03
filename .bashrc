@@ -86,22 +86,23 @@ alias py3='python3'
 alias up='cd ..'
 alias u2='cd ../..'
 
+export VIMINIT="source ~/.config/nvim/init.vim"
+if [[ "`uname`" == 'Darwin' ]]; then
+  alias vim='mvim -v'
+  alias gvim=mvim
+  export PATH=$(brew --prefix llvm)/bin:$PATH
+  export PATH=/usr/local/sbin:$PATH
+else
+  export PATH=$HOME/.local/bin:$PATH
+  export PATH=$HOME/.local/usr/bin:$PATH
+fi
+
 if ! [ -x "$(command -v vim)" ]; then
   if ! [ -x "$(command -v gvim)" ]; then
     echo 'Missing vim and gvim... good luck!'
   else
     alias vim='gvim -v'
   fi
-fi
-
-export VIMINIT="source ~/.config/nvim/init.vim"
-if [[ "`uname`" == 'Darwin' ]]; then
-  alias vim='mvim -v'
-  alias gvim=mvim
-  export PATH=$(brew --prefix llvm)/bin:$PATH
-else
-  export PATH=$HOME/.local/bin:$PATH
-  export PATH=$HOME/.local/usr/bin:$PATH
 fi
 
 export EDITOR=vim
