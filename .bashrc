@@ -107,6 +107,10 @@ fi
 
 export EDITOR=vim
 
+if [ -d ~/.gem/ruby/ ] ; then
+    export PATH=$PATH:~/.gem/ruby/`ls -1 ~/.gem/ruby/ | sort -V | tail -n 1`/bin
+fi
+
 # clean path, thanks https://unix.stackexchange.com/a/40755/26585
 export PATH=`printf %s "$PATH" | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
