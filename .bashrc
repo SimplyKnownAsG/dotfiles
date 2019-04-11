@@ -37,7 +37,7 @@ fi
 
 # if [ "$color_prompt" = yes ]; then
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[38;5;142m\]\u\[\033[00m\]@\[\033[38;5;172m\]\h\[\033[00m\]:\[\033[38;5;220m\]\w\[\033[00m\]\n\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
