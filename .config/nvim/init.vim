@@ -1,13 +1,12 @@
 if !exists("g:os")
     if has("win64") || has("win32") || has("win32unix") || has("win16")
-        let g:os = "Windows"
-        set rtp+=~/codes/.vim/bundle/Vundle.vim
-        let path='~/codes/.vim/bundle'
+        " nothing ...
     else
         let g:os = substitute(system('uname'), '\n', '', '')
-        set rtp+=~/.vim/bundle/Vundle.vim
-        let path='~/.vim/bundle'
     endif
+
+    set rtp+=~/.config/nvim/bundle/Vundle.vim
+    let path='~/.config/nvim/bundle'
 endif
 
 nnoremap <Space> <Nop>
@@ -52,7 +51,7 @@ Plugin 'JulioJu/neovim-colors-solarized-truecolor-only'
 if has("python") || has("python3")
     Plugin 'Valloric/YouCompleteMe'
     let g:ycm_autoclose_preview_window_after_completion=1
-    let g:ycm_global_ycm_extra_conf = '~/.dotfiles/resources/ycm_extra_conf.py'
+    let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
     " go - generic, gh - go to header, gi - go to implementation
     nmap <leader>go :YcmCompleter GoTo<CR>
     nmap <leader>gh :YcmCompleter GoToDeclaration<CR>

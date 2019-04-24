@@ -27,12 +27,14 @@ function replace-with-link() {
         cmd /c mklink /h $link_path.FullName $target_path.FullName
     }
     else {
-        New-Item -Force -Path $link_path.FullName -ItemType SymbolicLink -Value $target_path.FullName
+        New-Item -Force -Path $link_path.FullName -ItemType SymbolicLink -Value $target_path.FullName | Out-Null
     }
 }
 
-$skip_patterns = 'githooks install .gitignore Microsoft resources .swp'.Split()
+$skip_patterns = 'githooks install .git/ .gitignore Microsoft resources .swp'.Split()
 
+$skips = 0
+$processed = 0
 foreach ($target_path in $(dir -Recurse -Attributes Hidden,Normal -file *)) {
     $skip = $false
     foreach ($s in $skip_patterns) {
@@ -41,7 +43,11 @@ foreach ($target_path in $(dir -Recurse -Attributes Hidden,Normal -file *)) {
             break
         }
     }
-    if ($skip) { continue; }
+    if ($skip) { 
+        $skips += 1
+        continue;
+    }
+    $processed += 1
     $link_path=join-path $userhome "$($target_path | Resolve-Path -Relative)"
 
     replace-with-link $target_path $link_path
@@ -49,3 +55,12 @@ foreach ($target_path in $(dir -Recurse -Attributes Hidden,Normal -file *)) {
 
 replace-with-link $(dir Microsoft.PowerShell_profile.ps1) $profile
 
+write-output "processed: $processed. skipped: $skips"
+
+# check for vim plugins... if not there, install
+
+if (!(test-path .config/nvim/bundle/Vundle.vim)) {
+    write-output "getting Vundle.vim for you"
+    git clone https://github.com/VundleVim/Vundle.vim.git $userhome/.config/nvim/bundle/Vundle.vim 2> "&1" | Out-Null
+    write-output "    be sure to run 'n?vim +PluginInstall'"
+}
