@@ -48,6 +48,8 @@ case "$OSTYPE" in
         alias grep='grep --color=auto'
         alias fgrep='fgrep --color=auto'
         alias egrep='egrep --color=auto'
+        export PATH=$(brew --prefix llvm)/bin:$PATH
+        export PATH=/usr/local/sbin:$PATH
         ;;
     linux*)
         alias ls='ls --color=auto'
@@ -86,25 +88,16 @@ alias py3='python3'
 alias up='cd ..'
 alias u2='cd ../..'
 
+export GOPATH=~/.local/go
+
+for d in $HOME/.local/go/bin $HOME/.local/bin $HOME/.local/usr/bin
+do
+    if [ -d $d ]; then
+        export PATH=$d:$PATH
+    fi
+done
+
 export VIMINIT="source ~/.config/nvim/init.vim"
-if [[ "`uname`" == 'Darwin' ]]; then
-  alias vim='mvim -v'
-  alias gvim=mvim
-  export PATH=$(brew --prefix llvm)/bin:$PATH
-  export PATH=/usr/local/sbin:$PATH
-else
-  export PATH=$HOME/.local/bin:$PATH
-  export PATH=$HOME/.local/usr/bin:$PATH
-fi
-
-if ! [ -x "$(command -v vim)" ]; then
-  if ! [ -x "$(command -v gvim)" ]; then
-    echo 'Missing vim and gvim... good luck!'
-  else
-    alias vim='gvim -v'
-  fi
-fi
-
 export EDITOR=vim
 
 if [ -d ~/.gem/ruby/ ] ; then
@@ -123,3 +116,4 @@ elif [ -x ~/Projects/vcpkg/vcpkg ] ; then
 fi
 
 # export TERM=screen-256color
+
