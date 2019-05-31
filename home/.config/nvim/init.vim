@@ -79,6 +79,7 @@ let g:ale_linters = {
 \   'python': ['pylint'],
 \   'c': [],
 \   'cpp': [],
+\   'java': [],
 \}
 
 Plugin 'vim-airline/vim-airline'
