@@ -35,9 +35,13 @@ let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclu
 
 Plugin 'yssl/QFEnter'
 let g:qfenter_keymap = {}
-let g:qfenter_keymap.vopen = ['<C-v>']
-let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']
-let g:qfenter_keymap.topen = ['<C-t>']
+let g:qfenter_keymap.open = ['o']
+let g:qfenter_keymap.open_keep = ['O']
+let g:qfenter_keymap.cnext_keep = ['n']
+let g:qfenter_keymap.cprev_keep = ['p']
+let g:qfenter_keymap.vopen = ['v']
+let g:qfenter_keymap.hopen = ['h', 's']
+let g:qfenter_keymap.topen = ['t', '<C-t>']
 
 Plugin 'Shougo/vimproc.vim'
 Plugin 'rhysd/vim-clang-format'
@@ -94,8 +98,13 @@ endif
 let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
 let g:airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
 
-Plugin 'PProvost/vim-ps1'
+Plugin 'scrooloose/nerdtree'
+noremap <leader>nt :NERDTreeToggle<CR>
+noremap <leader>nf :NERDTreeFind<CR>
 
+Plugin 'MattesGroeger/vim-bookmarks'
+let g:bookmark_disable_ctrlp = 1
+Plugin 'fatih/vim-go'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -154,8 +163,10 @@ if has("gui_running")
     endif
 else
     let g:solarized_termcolors=256
-    colorscheme darkZ
     set background=dark
+    colorscheme darkZ
+    hi Search ctermbg=239
+    hi IncSearch ctermfg=0
 endif
 
 command! Outside set guifont=Consolas:h24 | set background=light

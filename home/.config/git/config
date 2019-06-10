@@ -1,6 +1,6 @@
 [user]
 [core]
-    hooksPath=~/.dotfiles/githooks
+    hooksPath=~/.config/git/githooks
 [alias]
     co = checkout
     st = status

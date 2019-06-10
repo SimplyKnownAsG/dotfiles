@@ -6,7 +6,6 @@ then
     rm $HOME/.bashrc
 fi
 
-
 need_new_bashrc=true
 function add_bash_source() {
     local target_path=$1
