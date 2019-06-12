@@ -122,8 +122,26 @@ noremap zO zR
 noremap zC zM
 
 " Find all, open quickfix
-nmap <leader>fa :grep! "<C-R>/"<CR>:copen<CR><CR>
-vmap <leader>fa "vy\|/<C-R>v<CR>:grep! "<C-R>/"<CR>:copen<CR><CR>
+function! FindAll(include_test, pattern)
+    execute "grep! \"" . a:pattern . "\""
+    if !a:include_test
+        let new_results = []
+        for qresult in getqflist()
+            if bufname(qresult.bufnr) !~ 'TEST'
+                call add(new_results, qresult)
+            endif
+        endfor
+        call setqflist(new_results)
+    endif
+    copen
+    wincmd p
+endfunction
+
+nmap <leader>fA :call FindAll(1, @/)<CR><CR>
+nmap <leader>fa :call FindAll(0, @/)<CR><CR>
+
+vmap <leader>fA "vy\|/<C-R>v<CR>:call FindAll(1, @v)<CR><CR>
+vmap <leader>fa "vy\|/<C-R>v<CR>:call FindAll(0, @v)<CR><CR>
 
 set ruler
 set textwidth=100
