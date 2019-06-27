@@ -27,6 +27,10 @@ def main():
             default=False,
             action='store_true'
     )
+    parser.add_argument('--remove-dead', '--clean',
+            default=False,
+            action='store_true'
+    )
     args = parser.parse_args()
 
     HOME = args.home
@@ -35,7 +39,8 @@ def main():
 
     dotfile_map = discover_dotfiles(args.dot_dir_root)
     dotfiles = resolve_duplicates(args.copy, dotfile_map)
-    apply_dotfiles(args.dry, args.copy, dotfiles)
+    created_files = apply_dotfiles(args.dry, args.copy, dotfiles)
+    remove_dead_links(args.remove_dead, created_files)
 
 
 def discover_dotfiles(dot_dir_root):
@@ -100,14 +105,53 @@ def resolve_duplicates(copy, dotfile_map):
 
 
 def apply_dotfiles(dry, copy, dotfiles):
+    created_files = []
     for df in dotfiles:
-        df.link(dry, copy)
+        created_files.append(df.link(dry, copy))
+    return created_files
 
 
 def mkdirs(dry, path):
     if not os.path.exists(path):
         print(f'making directory {path}')
         os.makedirs(path, exists_ok=True)
+
+
+def remove_dead_links(clean, created_files):
+    created_files = set(created_files)
+
+    def recurse(dirpath):
+        for path in os.listdir(dirpath):
+            full_path = os.path.join(dirpath, path)
+
+            if os.path.isdir(full_path) and path != '.git':
+                recurse(full_path)
+            elif full_path in created_files:
+                continue
+            elif os.path.islink(full_path):
+                if not os.path.exists(os.path.join(dirpath, os.readlink(full_path))):
+                    print(f'symlink target missing for {full_path}')
+
+                    if clean:
+                        print(f'    rm {full_path}')
+                        os.remove(full_path)
+            else:
+                try:
+                    with open(full_path, 'r') as stream:
+                        header = [stream.readline() for _ in range(6)]
+                except:
+                    # there are not that many lines... or no lines at all
+                    continue
+
+                if 'This file was automatically generated' in header:
+                    if 'You probably should not edit it' in header:
+                        print(f'file contains header but was not created now {full_path}')
+
+                        if clean:
+                            print(f'    rm {full_path}')
+                            os.remove(full_path)
+
+    recurse(HOME)
 
 
 class Dotfile(object):
@@ -131,6 +175,8 @@ class Dotfile(object):
             print(f'creating symlink {self.destpath} <- {self.abspath}')
             if not dry:
                 os.symlink(self.abspath, self.destpath)
+
+        return self.destpath
 
 
 class Combinable(object):
@@ -190,6 +236,8 @@ class Combinable(object):
         finally:
             if conf_file is not None:
                 conf_file.close()
+
+        return self.destpath
 
 
 if __name__ == '__main__':
