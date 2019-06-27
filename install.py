@@ -120,9 +120,8 @@ class Dotfile(object):
     def link(self, dry, copy):
         mkdirs(dry, os.path.dirname(self.destpath))
 
-        if not dry:
-            if os.path.exists(self.destpath):
-                os.remove(self.destpath)
+        if not dry and os.path.exists(self.destpath):
+            os.remove(self.destpath)
 
         if copy:
             print(f'creating copy {self.destpath} <- {self.abspath}')
@@ -167,6 +166,8 @@ class Combinable(object):
             conf_file = None
 
             if not dry:
+                if os.path.exists(self.destpath):
+                    os.remove(self.destpath)
                 conf_file = open(self.destpath, 'w')
                 self._write_banner(conf_file)
 
