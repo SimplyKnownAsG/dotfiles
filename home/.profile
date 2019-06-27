@@ -15,11 +15,6 @@ alias u2='cd ../..'
 export VIMINIT="source ~/.config/nvim/init.vim"
 export EDITOR=vim
 
-if hash brew
-then
-    export PATH=$(brew --prefix llvm)/bin:$PATH
-fi
-
 export GOPATH=~/.local/go
 
 for d in $HOME/.local/go/bin $HOME/.local/bin $HOME/.local/usr/bin
@@ -31,6 +26,11 @@ done
 
 if [ -d ~/.gem/ruby/ ] ; then
     export PATH=$PATH:~/.gem/ruby/`ls -1 ~/.gem/ruby/ | sort -V | tail -n 1`/bin
+fi
+
+if hash brew 2>/dev/null
+then
+    export PATH=$(brew --prefix llvm)/bin:$PATH
 fi
 
 # clean path, thanks https://unix.stackexchange.com/a/40755/26585
