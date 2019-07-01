@@ -4,10 +4,10 @@ if !exists("g:os")
     else
         let g:os = substitute(system('uname'), '\n', '', '')
     endif
-
-    set rtp+=~/.config/nvim/bundle/Vundle.vim
-    let path='~/.config/nvim/bundle'
 endif
+
+set rtp+=~/.config/nvim/bundle/Vundle.vim
+let path='~/.config/nvim/bundle'
 
 nnoremap <Space> <Nop>
 let mapleader="\<Space>"
@@ -15,103 +15,107 @@ let mapleader="\<Space>"
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-call vundle#begin(path)
+try
+    " set the runtime path to include Vundle and initialize
+    call vundle#begin(path)
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+    " let Vundle manage Vundle, required
+    Plugin 'gmarik/Vundle.vim'
 
-Plugin 'tpope/vim-fugitive'
-nmap <leader>nd <C-W><C-O>:grep "<<<<"<CR>:Gvdiff<CR><CR>
+    Plugin 'tpope/vim-fugitive'
+    nmap <leader>nd <C-W><C-O>:grep "<<<<"<CR>:Gvdiff<CR><CR>
 
-Plugin 'honza/vim-snippets'
+    Plugin 'honza/vim-snippets'
 
-Plugin 'tpope/vim-commentary'
+    Plugin 'tpope/vim-commentary'
 
-Plugin 'chrisbra/improvedft'
+    Plugin 'chrisbra/improvedft'
 
-Plugin 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+    Plugin 'ctrlpvim/ctrlp.vim'
+    let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
-Plugin 'yssl/QFEnter'
-let g:qfenter_keymap = {}
-let g:qfenter_keymap.open = ['o']
-let g:qfenter_keymap.open_keep = ['O']
-let g:qfenter_keymap.cnext_keep = ['n']
-let g:qfenter_keymap.cprev_keep = ['p']
-let g:qfenter_keymap.vopen = ['v']
-let g:qfenter_keymap.hopen = ['h', 's']
-let g:qfenter_keymap.topen = ['t', '<C-t>']
+    Plugin 'yssl/QFEnter'
+    let g:qfenter_keymap = {}
+    let g:qfenter_keymap.open = ['o']
+    let g:qfenter_keymap.open_keep = ['O']
+    let g:qfenter_keymap.cnext_keep = ['n']
+    let g:qfenter_keymap.cprev_keep = ['p']
+    let g:qfenter_keymap.vopen = ['v']
+    let g:qfenter_keymap.hopen = ['h', 's']
+    let g:qfenter_keymap.topen = ['t', '<C-t>']
 
-Plugin 'Shougo/vimproc.vim'
-Plugin 'rhysd/vim-clang-format'
-let g:clang_format#detect_style_file=1 " use .clang-format
-let g:clang_format#auto_format=1 " format on save
-let g:clang_format#auto_format_on_insert_leave=0
+    Plugin 'Shougo/vimproc.vim'
+    Plugin 'rhysd/vim-clang-format'
+    let g:clang_format#detect_style_file=1 " use .clang-format
+    let g:clang_format#auto_format=1 " format on save
+    let g:clang_format#auto_format_on_insert_leave=0
 
-Plugin 'flazz/vim-colorschemes'
-Plugin 'JulioJu/neovim-colors-solarized-truecolor-only'
+    Plugin 'flazz/vim-colorschemes'
+    Plugin 'JulioJu/neovim-colors-solarized-truecolor-only'
 
-if has("python") || has("python3")
-    Plugin 'Valloric/YouCompleteMe'
-    let g:ycm_autoclose_preview_window_after_completion=1
-    let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
-    " go - generic, gh - go to header, gi - go to implementation
-    nmap <leader>go :YcmCompleter GoTo<CR>
-    nmap <leader>gh :YcmCompleter GoToDeclaration<CR>
-    nmap <leader>gd :YcmCompleter GoToDefinition<CR>
-endif
+    if has("python") || has("python3")
+        Plugin 'Valloric/YouCompleteMe'
+        let g:ycm_autoclose_preview_window_after_completion=1
+        let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
+        " go - generic, gh - go to header, gi - go to implementation
+        nmap <leader>go :YcmCompleter GoTo<CR>
+        nmap <leader>gh :YcmCompleter GoToDeclaration<CR>
+        nmap <leader>gd :YcmCompleter GoToDefinition<CR>
+    endif
 
-Plugin 'majutsushi/tagbar'
-let g:tagbar_sort=0 " sort by order in file
-" Outline
-nmap <leader>O :TagbarToggle<CR>
-nmap <leader>o :TagbarOpenAutoClose<CR>
+    Plugin 'majutsushi/tagbar'
+    let g:tagbar_sort=0 " sort by order in file
+    " Outline
+    nmap <leader>O :TagbarToggle<CR>
+    nmap <leader>o :TagbarOpenAutoClose<CR>
 
-Plugin 'ntpeters/vim-better-whitespace'
-nmap <leader>w :StripWhitespace<CR>
+    Plugin 'ntpeters/vim-better-whitespace'
+    nmap <leader>w :StripWhitespace<CR>
 
-Plugin 'terryma/vim-multiple-cursors'
+    Plugin 'terryma/vim-multiple-cursors'
 
-Plugin 'vim-scripts/DoxygenToolkit.vim'
+    Plugin 'vim-scripts/DoxygenToolkit.vim'
 
-Plugin 'w0rp/ale'
-let g:ale_sign_error = 'EE'
-let g:ale_sign_warning = 'WW'
-let g:ale_sign_column_always = 1
-let g:ale_linters = {
-\   'python': ['pylint'],
-\   'c': [],
-\   'cpp': [],
-\   'java': [],
-\}
+    Plugin 'w0rp/ale'
+    let g:ale_sign_error = 'EE'
+    let g:ale_sign_warning = 'WW'
+    let g:ale_sign_column_always = 1
+    let g:ale_linters = {
+    \   'python': ['pylint'],
+    \   'c': [],
+    \   'cpp': [],
+    \   'java': [],
+    \}
 
-Plugin 'vim-airline/vim-airline'
-" Set this. Airline will handle the rest.
-let g:airline#extensions#ale#enabled=1
-let g:airline_detect_spell=0
-if g:os == "Windows"
-    let g:airline#parts#ffenc#skip_expected_string='utf-8[dos]'
-else
-    let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-endif
-let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
-let g:airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
+    Plugin 'vim-airline/vim-airline'
+    " Set this. Airline will handle the rest.
+    let g:airline#extensions#ale#enabled=1
+    let g:airline_detect_spell=0
+    if g:os == "Windows"
+        let g:airline#parts#ffenc#skip_expected_string='utf-8[dos]'
+    else
+        let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+    endif
+    let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
+    let g:airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
 
-Plugin 'scrooloose/nerdtree'
-noremap <leader>nt :NERDTreeToggle<CR>
-noremap <leader>nf :NERDTreeFind<CR>
+    Plugin 'scrooloose/nerdtree'
+    noremap <leader>nt :NERDTreeToggle<CR>
+    noremap <leader>nf :NERDTreeFind<CR>
 
-Plugin 'MattesGroeger/vim-bookmarks'
-let g:bookmark_disable_ctrlp = 1
-Plugin 'fatih/vim-go'
+    Plugin 'MattesGroeger/vim-bookmarks'
+    let g:bookmark_disable_ctrlp = 1
+    Plugin 'fatih/vim-go'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+    " All of your Plugins must be added before the following line
+    call vundle#end()            " required
+catch
+    " dont really care...
+endtry
+
+filetype plugin indent on
 
 set encoding=utf-8
-
 set backspace=indent,eol,start
 
 
@@ -163,7 +167,7 @@ set expandtab
 if !empty(glob('.git'))
     set grepprg=git\ grep\ -n
 else
-    set grepprg=grep
+    set grepprg=grep\ -rn\ --exclude-dir=.git
 endif
 
 syntax on
