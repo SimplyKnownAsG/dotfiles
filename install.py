@@ -27,7 +27,12 @@ def main():
             default=False,
             action='store_true'
     )
-    parser.add_argument('--remove-dead', '--clean',
+    g = parser.add_mutually_exclusive_group()
+    g.add_argument('--remove-dead', '--clean',
+            default=False,
+            action='store_true'
+    )
+    g.add_argument('--skip-symlink-check', '--ssc',
             default=False,
             action='store_true'
     )
@@ -40,7 +45,9 @@ def main():
     dotfile_map = discover_dotfiles(args.dot_dir_root)
     dotfiles = resolve_duplicates(args.copy, dotfile_map)
     created_files = apply_dotfiles(args.dry, args.copy, dotfiles)
-    remove_dead_links(args.remove_dead, created_files)
+
+    if not args.skip_symlink_check:
+        remove_dead_links(args.remove_dead, created_files)
 
 
 def discover_dotfiles(dot_dir_root):
