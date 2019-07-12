@@ -164,11 +164,15 @@ set infercase
 
 set expandtab
 
-if !empty(glob('.git'))
-    set grepprg=git\ grep\ -n
-else
-    set grepprg=grep\ -rn\ --exclude-dir=.git
-endif
+function SetGrepPrg()
+    let l:git_status_output = system('git status')
+    if v:shell_error
+        set grepprg=grep\ -rn\ --exclude-dir=.git
+    else
+        set grepprg=git\ grep\ -n
+    endif
+endfunction
+call SetGrepPrg()
 
 syntax on
 
