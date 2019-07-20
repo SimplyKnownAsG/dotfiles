@@ -121,7 +121,10 @@ def apply_dotfiles(dry, copy, dotfiles):
 def mkdirs(dry, path):
     if not os.path.exists(path):
         print(f'making directory {path}')
-        os.makedirs(path, exists_ok=True)
+        try:
+            os.makedirs(path)
+        except:
+            pass
 
 
 def remove_dead_links(clean, created_files):
@@ -135,13 +138,12 @@ def remove_dead_links(clean, created_files):
                 recurse(full_path)
             elif full_path in created_files:
                 continue
-            elif os.path.islink(full_path):
-                if not os.path.exists(os.path.join(dirpath, os.readlink(full_path))):
-                    print(f'symlink target missing for {full_path}')
+            elif os.path.lexists(full_path) != os.path.exists(full_path):
+                print(f'symlink target missing for {full_path}')
 
-                    if clean:
-                        print(f'    rm {full_path}')
-                        os.remove(full_path)
+                if clean:
+                    print(f'    rm {full_path}')
+                    os.remove(full_path)
             else:
                 try:
                     with open(full_path, 'r') as stream:
@@ -171,7 +173,7 @@ class Dotfile(object):
     def link(self, dry, copy):
         mkdirs(dry, os.path.dirname(self.destpath))
 
-        if not dry and os.path.exists(self.destpath):
+        if not dry and os.path.lexists(self.destpath):
             os.remove(self.destpath)
 
         if copy:
