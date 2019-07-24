@@ -54,7 +54,7 @@ try
     Plugin 'JulioJu/neovim-colors-solarized-truecolor-only'
 
     if has("python") || has("python3")
-        Plugin 'Valloric/YouCompleteMe'
+        Plugin 'ycm-core/YouCompleteMe'
         let g:ycm_autoclose_preview_window_after_completion=1
         let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
         " go - generic, gh - go to header, gi - go to implementation
@@ -188,11 +188,10 @@ if has("gui_running")
         set guifont=Consolas:h10
     endif
 else
-    let g:solarized_termcolors=256
     set background=dark
-    colorscheme darkZ
-    hi Search ctermbg=239
-    hi IncSearch ctermfg=0
+    let g:solarized_termtrans=1
+    let g:solarized_termcolors=256
+    colorscheme solarized
 endif
 
 command! Outside set guifont=Consolas:h24 | set background=light
