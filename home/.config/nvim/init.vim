@@ -6,35 +6,30 @@ if !exists("g:os")
     endif
 endif
 
-set rtp+=~/.config/nvim/bundle/Vundle.vim
-let path='~/.config/nvim/bundle'
+source ~/.config/vim-plug/plug.vim
 
 nnoremap <Space> <Nop>
 let mapleader="\<Space>"
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+filetype off
 
 try
-    " set the runtime path to include Vundle and initialize
-    call vundle#begin(path)
+    call plug#begin('~/.config/vim-plug/plugged')
 
-    " let Vundle manage Vundle, required
-    Plugin 'gmarik/Vundle.vim'
-
-    Plugin 'tpope/vim-fugitive'
+    Plug 'tpope/vim-fugitive'
     nmap <leader>nd <C-W><C-O>:grep "<<<<"<CR>:Gvdiff<CR><CR>
 
-    Plugin 'honza/vim-snippets'
+    Plug 'honza/vim-snippets'
 
-    Plugin 'tpope/vim-commentary'
+    Plug 'tpope/vim-commentary'
 
-    Plugin 'chrisbra/improvedft'
+    Plug 'chrisbra/improvedft'
 
-    Plugin 'ctrlpvim/ctrlp.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
     let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
-    Plugin 'yssl/QFEnter'
+    Plug 'yssl/QFEnter'
     let g:qfenter_keymap = {}
     let g:qfenter_keymap.open = ['o']
     let g:qfenter_keymap.open_keep = ['O']
@@ -44,17 +39,17 @@ try
     let g:qfenter_keymap.hopen = ['h', 's']
     let g:qfenter_keymap.topen = ['t', '<C-t>']
 
-    Plugin 'Shougo/vimproc.vim'
-    Plugin 'rhysd/vim-clang-format'
+    Plug 'Shougo/vimproc.vim'
+    Plug 'rhysd/vim-clang-format'
     let g:clang_format#detect_style_file=1 " use .clang-format
     let g:clang_format#auto_format=1 " format on save
     let g:clang_format#auto_format_on_insert_leave=0
 
-    Plugin 'flazz/vim-colorschemes'
-    Plugin 'JulioJu/neovim-colors-solarized-truecolor-only'
+    Plug 'flazz/vim-colorschemes'
+    Plug 'JulioJu/neovim-colors-solarized-truecolor-only'
 
     if has("python") || has("python3")
-        Plugin 'ycm-core/YouCompleteMe'
+        Plug 'ycm-core/YouCompleteMe'
         let g:ycm_autoclose_preview_window_after_completion=1
         let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
         " go - generic, gh - go to header, gi - go to implementation
@@ -63,20 +58,20 @@ try
         nmap <leader>gd :YcmCompleter GoToDefinition<CR>
     endif
 
-    Plugin 'majutsushi/tagbar'
+    Plug 'majutsushi/tagbar'
     let g:tagbar_sort=0 " sort by order in file
     " Outline
     nmap <leader>O :TagbarToggle<CR>
     nmap <leader>o :TagbarOpenAutoClose<CR>
 
-    Plugin 'ntpeters/vim-better-whitespace'
+    Plug 'ntpeters/vim-better-whitespace'
     nmap <leader>w :StripWhitespace<CR>
 
-    Plugin 'terryma/vim-multiple-cursors'
+    Plug 'terryma/vim-multiple-cursors'
 
-    Plugin 'vim-scripts/DoxygenToolkit.vim'
+    Plug 'vim-scripts/DoxygenToolkit.vim'
 
-    Plugin 'w0rp/ale'
+    Plug 'w0rp/ale'
     let g:ale_sign_error = 'EE'
     let g:ale_sign_warning = 'WW'
     let g:ale_sign_column_always = 1
@@ -87,7 +82,7 @@ try
     \   'java': [],
     \}
 
-    Plugin 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline'
     " Set this. Airline will handle the rest.
     let g:airline#extensions#ale#enabled=1
     let g:airline_detect_spell=0
@@ -99,16 +94,18 @@ try
     let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
     let g:airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
 
-    Plugin 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree'
     noremap <leader>nt :NERDTreeToggle<CR>
     noremap <leader>nf :NERDTreeFind<CR>
 
-    Plugin 'MattesGroeger/vim-bookmarks'
+    Plug 'MattesGroeger/vim-bookmarks'
     let g:bookmark_disable_ctrlp = 1
-    Plugin 'fatih/vim-go'
 
-    " All of your Plugins must be added before the following line
-    call vundle#end()            " required
+    Plug 'fatih/vim-go'
+
+    Plug 'lervag/vimtex'
+
+    call plug#end()
 catch
     " dont really care...
 endtry

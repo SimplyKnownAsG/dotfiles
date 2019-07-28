@@ -36,6 +36,10 @@ def main():
             default=False,
             action='store_true'
     )
+    g.add_argument('--depth-limit', '-l',
+            default=4,
+            action='store_true'
+    )
     args = parser.parse_args()
 
     HOME = args.home
@@ -47,7 +51,7 @@ def main():
     created_files = apply_dotfiles(args.dry, args.copy, dotfiles)
 
     if not args.skip_symlink_check:
-        remove_dead_links(args.remove_dead, created_files)
+        remove_dead_links(args.remove_dead, args.depth_limit, created_files)
 
 
 def discover_dotfiles(dot_dir_root):
@@ -127,15 +131,17 @@ def mkdirs(dry, path):
             pass
 
 
-def remove_dead_links(clean, created_files):
+def remove_dead_links(clean, depth_limit, created_files):
     created_files = set(created_files)
 
-    def recurse(dirpath):
+    def recurse(dirpath, depth):
+        if depth >= depth_limit:
+            return
         for path in os.listdir(dirpath):
             full_path = os.path.join(dirpath, path)
 
             if os.path.isdir(full_path) and path != '.git':
-                recurse(full_path)
+                recurse(full_path, depth + 1)
             elif full_path in created_files:
                 continue
             elif os.path.lexists(full_path) != os.path.exists(full_path):
@@ -160,7 +166,7 @@ def remove_dead_links(clean, created_files):
                             print(f'    rm {full_path}')
                             os.remove(full_path)
 
-    recurse(HOME)
+    recurse(HOME, 0)
 
 
 class Dotfile(object):

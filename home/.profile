@@ -12,8 +12,16 @@ alias py3='python3'
 alias up='cd ..'
 alias u2='cd ../..'
 
-export VIMINIT="source ~/.config/nvim/init.vim"
-export EDITOR=vim
+# editor stuff
+if hash nvim 2>/dev/null ; then
+    export EDITOR=nvim
+else
+    export EDITOR=vim
+fi
+export MYVIMRC=~/.config/nvim/init.vim
+export MYGVIMRC=~/.config/nvim/ginit.vim
+alias vim='vim -u $MYVIMRC'
+alias gvim='vim -U $MYGVIMRC'
 
 export GOPATH=~/.local/go
 
