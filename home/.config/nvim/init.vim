@@ -23,6 +23,7 @@ try
     Plug 'honza/vim-snippets'
 
     Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
 
     Plug 'chrisbra/improvedft'
 
@@ -190,6 +191,9 @@ else
     let g:solarized_termcolors=256
     colorscheme solarized
 endif
+
+let g:tex_verbspell=0
+set spell
 
 command! Outside set guifont=Consolas:h24 | set background=light
 
