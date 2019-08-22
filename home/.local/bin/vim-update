@@ -9,5 +9,5 @@ if [ ! -f ~/.config/vim-plug/plug.vim ] ; then
         > ~/.config/vim-plug/plug.vim
 fi
 
-$EDITOR +PlugUpgrade
-$EDITOR +PlugUpdate
+$EDITOR +PlugUpgrade -c qa
+$EDITOR +PlugUpdate -c qa

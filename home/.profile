@@ -11,6 +11,7 @@ alias py='python2'
 alias py3='python3'
 alias up='cd ..'
 alias u2='cd ../..'
+alias tmux='tmux -f ~/.config/tmux/tmux.conf'
 
 # editor stuff
 if hash nvim 2>/dev/null ; then
@@ -22,6 +23,7 @@ export MYVIMRC=~/.config/nvim/init.vim
 export MYGVIMRC=~/.config/nvim/ginit.vim
 alias vim='vim -u $MYVIMRC'
 alias gvim='vim -U $MYGVIMRC'
+export LSCOLORS=GxFxCxDxBxegedabagaced
 
 export GOPATH=~/.local/go
 

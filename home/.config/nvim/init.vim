@@ -6,13 +6,13 @@ if !exists("g:os")
     endif
 endif
 
+set nocompatible
+filetype off
+
 source ~/.config/vim-plug/plug.vim
 
 nnoremap <Space> <Nop>
 let mapleader="\<Space>"
-
-set nocompatible
-filetype off
 
 try
     call plug#begin('~/.config/vim-plug/plugged')
@@ -95,14 +95,15 @@ try
     let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
     let g:airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
 
-    Plug 'scrooloose/nerdtree'
-    noremap <leader>nt :NERDTreeToggle<CR>
-    noremap <leader>nf :NERDTreeFind<CR>
+    " let g:NERDTreeHijackNetrw=0
+    " Plug 'scrooloose/nerdtree'
+    " noremap <leader>nt :NERDTreeToggle<CR>
+    " noremap <leader>nf :NERDTreeFind<CR>
 
     Plug 'MattesGroeger/vim-bookmarks'
     let g:bookmark_disable_ctrlp = 1
 
-    Plug 'fatih/vim-go'
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
     Plug 'lervag/vimtex'
 
@@ -193,7 +194,7 @@ else
 endif
 
 let g:tex_verbspell=0
-set spell
+" set spell
 
 command! Outside set guifont=Consolas:h24 | set background=light
 
