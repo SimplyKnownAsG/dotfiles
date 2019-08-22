@@ -92,7 +92,7 @@ try
     else
         let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
     endif
-    let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
+    " let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
     let g:airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
 
     " let g:NERDTreeHijackNetrw=0

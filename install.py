@@ -75,9 +75,9 @@ def discover_dotfiles(dot_dir_root):
 
 def resolve_duplicates(copy, dotfile_map):
     combinable = [
-        Combinable('.vimrc', comment_char='"'),
-        Combinable('.config/nvim/init.vim', comment_char='"'),
-        Combinable('.config/nvim/ginit.vim', comment_char='"'),
+        Combinable('.vimrc', comment_char='"', reverse=True),
+        Combinable('.config/nvim/init.vim', comment_char='"', reverse=True),
+        Combinable('.config/nvim/ginit.vim', comment_char='"', reverse=True),
         Combinable('.bashrc'),
         Combinable('.zshrc'),
         Combinable('.profile'),
@@ -196,12 +196,13 @@ class Dotfile(object):
 
 class Combinable(object):
 
-    def __init__(self, *refpaths, comment_char='#'):
+    def __init__(self, *refpaths, comment_char='#', reverse=False):
         self.refpath = refpaths[0]
         self.destpath = os.path.join(HOME, self.refpath)
         self.refpaths = refpaths
         self.dotfiles = []
         self.comment_char = comment_char
+        self.reverse = reverse
 
     def matches(self, refpath):
         return refpath in self.refpaths
@@ -232,7 +233,10 @@ class Combinable(object):
                 conf_file = open(self.destpath, 'w')
                 self._write_banner(conf_file)
 
-            for df in self.dotfiles:
+
+            get_dotfiles = sorted if not self.reverse else lambda files: reversed(sorted(files))
+
+            for df in get_dotfiles(self.dotfiles):
 
                 if copy:
                     print(f'    read {df}')
