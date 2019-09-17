@@ -1,3 +1,5 @@
+source ~/.profile
+
 unsetopt CORRECT_ALL
 setopt PROMPT_SUBST
 
@@ -8,7 +10,7 @@ function git_prompt_info() {
 
 PS1=$'%F{135}%n%f @ %F{14}%m%f : %F{228}%~%f $(git_prompt_info)\n$ '
 
-alias bk='cd $OLDPWD'
+alias bk='cd "${OLDPWD}"'
 
 bindkey "^R" history-incremental-search-backward
 bindkey "^E" end-of-line
@@ -25,3 +27,5 @@ SAVEHIST=5000
 # force creatiion, ignore error
 mkdir -p ~/.config/zsh || true
 HISTFILE=~/.config/zsh/history
+
+clean-path
