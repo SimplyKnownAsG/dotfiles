@@ -208,5 +208,5 @@ if g:os == "Darwin" && executable('gmake')
     set makeprg=gmake
 endif
 
-autocmd FileType qf wincmd J
+autocmd FileType qf wincmd J | vertical resize 10
 
