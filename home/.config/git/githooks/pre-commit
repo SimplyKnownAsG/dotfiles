@@ -3,30 +3,23 @@
 failed=false
 if [ "$(git config --list --local | grep user.name)" = "" ]
 then
-  echo 'Error: user.name not specified'
+  echo 'WARNING: user.name not specified'
   failed=true
 fi
 
 if [ "$(git config --list --local | grep user.email)" = "" ]
 then
-  echo 'Error: user.email not specified'
-  failed=true
-fi
-
-if [ "$(git config --list --local | grep core.autocrlf)" = "" ]
-then
-  echo 'Error: core.autocrlf not specified'
+  echo 'WARNING: user.email not specified'
   failed=true
 fi
 
 if [ "$failed" = true ]
 then
   echo ""
-  echo "RRRRRR  EEEEEEE     JJJ EEEEEEE  CCCCC TTTTTTT EEEEEEE DDDDD"
-  echo "RR   RR EE          JJJ EE      CC       TTT   EE      DD  DD"
-  echo "RRRRRR  EEEEE       JJJ EEEEE   CC       TTT   EEEEE   DD   DD"
-  echo "RR  RR  EE      JJ  JJJ EE      CC       TTT   EE      DD  DD"
-  echo "RR   RR EEEEEEE  JJJJJ  EEEEEEE  CCCCC   TTT   EEEEEEE DDDDD"
+  echo "WW  W  WW  AAAA  RRRRRR  NNN  NN IIIIII NNN  NN  GGGG"
+  echo " WW W WW  AA  AA RR   RR NNNN NN   II   NNNN NN GG"
+  echo " WW W WW  AAAAAA RRRRRR  NN N NN   II   NN N NN GG  GGG"
+  echo "  WWWWW   AA  AA RR  RR  NN NNNN   II   NN NNNN GG   GG"
+  echo "  WW WW   AA  AA RR   RR NN  NNN IIIIII NN  NNN  GGGGG"
   echo ""
-  exit 1
 fi

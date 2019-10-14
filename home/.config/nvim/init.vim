@@ -46,8 +46,9 @@ try
     let g:clang_format#auto_format=1 " format on save
     let g:clang_format#auto_format_on_insert_leave=0
 
-    Plug 'flazz/vim-colorschemes'
-    Plug 'JulioJu/neovim-colors-solarized-truecolor-only'
+    " Plug 'flazz/vim-colorschemes'
+    Plug 'tomasiser/vim-code-dark'
+    " Plug 'JulioJu/neovim-colors-solarized-truecolor-only'
 
     if has("python") || has("python3")
         Plug 'ycm-core/YouCompleteMe'
@@ -106,6 +107,7 @@ try
     Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
     Plug 'lervag/vimtex'
+    Plug 'jparise/vim-graphql'
 
     call plug#end()
 catch
@@ -187,16 +189,20 @@ if has("gui_running")
         set guifont=Consolas:h10
     endif
 else
-    set background=dark
-    let g:solarized_termtrans=1
-    let g:solarized_termcolors=256
-    colorscheme solarized
+    " set background=dark
+    " let g:solarized_termtrans=1
+    " let g:solarized_termcolors=256
+    " colorscheme solarized
+    let g:codedark_conservative=1
+    let g:airline_theme='codedark'
+    colorscheme codedark
 endif
 
 let g:tex_verbspell=0
 " set spell
 
-command! Outside set guifont=Consolas:h24 | set background=light
+command! Inside let g:solarized_termtran=1 | set background=dark | colorscheme solarized
+command! Outside let g:solarized_termtran=0 | set background=light | colorscheme solarized
 
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar

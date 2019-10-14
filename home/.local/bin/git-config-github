@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+git config user.name "g"
+git config user.email "gtmalmgren@gmail.com"
+git config core.autocrlf input
+
