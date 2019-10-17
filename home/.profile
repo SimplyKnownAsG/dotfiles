@@ -12,6 +12,8 @@ alias py3='python3'
 alias up='cd ..'
 alias u2='cd ../..'
 alias tmux='tmux -f ~/.config/tmux/tmux.conf'
+alias gotest='go test -v -count=1 ./...'
+alias gopest='go test -v -count=1 -parallel 4 ./...'
 
 # editor stuff
 if hash nvim 2>/dev/null ; then
@@ -26,6 +28,12 @@ alias gvim='vim -U $MYGVIMRC'
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
 export GOPATH=~/.local/go
+
+if [ -s ~/.config/nvm/nvm.sh ]
+then
+    export NVM_DIR=~/.config/nvm
+    source $NVM_DIR/nvm.sh --no-use
+fi
 
 function clean-path() {
     for d in $HOME/.local/go/bin $HOME/.local/bin $HOME/.local/usr/bin

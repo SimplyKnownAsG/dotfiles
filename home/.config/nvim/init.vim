@@ -193,7 +193,6 @@ else
     " let g:solarized_termtrans=1
     " let g:solarized_termcolors=256
     " colorscheme solarized
-    let g:codedark_conservative=1
     let g:airline_theme='codedark'
     colorscheme codedark
 endif
