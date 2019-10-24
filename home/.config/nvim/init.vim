@@ -20,10 +20,9 @@ try
     Plug 'tpope/vim-fugitive'
     nmap <leader>nd <C-W><C-O>:grep "<<<<"<CR>:Gvdiff<CR><CR>
 
-    Plug 'honza/vim-snippets'
-
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-eunuch'
 
     Plug 'chrisbra/improvedft'
 
@@ -69,20 +68,16 @@ try
     Plug 'ntpeters/vim-better-whitespace'
     nmap <leader>w :StripWhitespace<CR>
 
-    Plug 'terryma/vim-multiple-cursors'
-
-    Plug 'vim-scripts/DoxygenToolkit.vim'
-
-    Plug 'w0rp/ale'
-    let g:ale_sign_error = 'EE'
-    let g:ale_sign_warning = 'WW'
-    let g:ale_sign_column_always = 1
-    let g:ale_linters = {
-    \   'python': ['pylint'],
-    \   'c': [],
-    \   'cpp': [],
-    \   'java': [],
-    \}
+    " Plug 'w0rp/ale'
+    " let g:ale_sign_error = 'EE'
+    " let g:ale_sign_warning = 'WW'
+    " let g:ale_sign_column_always = 1
+    " let g:ale_linters = {
+    " \   'python': ['pylint'],
+    " \   'c': [],
+    " \   'cpp': [],
+    " \   'java': [],
+    " \}
 
     Plug 'vim-airline/vim-airline'
     " Set this. Airline will handle the rest.
@@ -108,6 +103,10 @@ try
 
     Plug 'lervag/vimtex'
     Plug 'jparise/vim-graphql'
+    Plug 'jparise/vim-graphql'
+    Plug 'maxmellon/vim-jsx-pretty'
+    Plug 'leafgarland/typescript-vim'
+    Plug 'peitalin/vim-jsx-typescript'
 
     call plug#end()
 catch

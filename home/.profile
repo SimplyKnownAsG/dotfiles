@@ -29,10 +29,12 @@ export LSCOLORS=GxFxCxDxBxegedabagaced
 
 export GOPATH=~/.local/go
 
+export XDG_CONFIG_HOME=~/.config
 if [ -s ~/.config/nvm/nvm.sh ]
 then
-    export NVM_DIR=~/.config/nvm
-    source $NVM_DIR/nvm.sh --no-use
+    # export NVM_DIR=~/.config/nvm
+    # source $NVM_DIR/nvm.sh --no-use
+    source ~/.config/nvm/nvm.sh
 fi
 
 function clean-path() {
