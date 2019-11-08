@@ -9,12 +9,12 @@ endif
 set nocompatible
 filetype off
 
-source ~/.config/vim-plug/plug.vim
-
 nnoremap <Space> <Nop>
 let mapleader="\<Space>"
 
 try
+    source ~/.config/vim-plug/plug.vim
+
     call plug#begin('~/.config/vim-plug/plugged')
 
     Plug 'tpope/vim-fugitive'
@@ -31,13 +31,11 @@ try
 
     Plug 'yssl/QFEnter'
     let g:qfenter_keymap = {}
-    let g:qfenter_keymap.open = ['o']
-    let g:qfenter_keymap.open_keep = ['O']
-    let g:qfenter_keymap.cnext_keep = ['n']
-    let g:qfenter_keymap.cprev_keep = ['p']
-    let g:qfenter_keymap.vopen = ['v']
-    let g:qfenter_keymap.hopen = ['h', 's']
-    let g:qfenter_keymap.topen = ['t', '<C-t>']
+    let g:qfenter_keymap.cnext_keep = ['<C-n>']
+    let g:qfenter_keymap.cprev_keep = ['<C-p>']
+    let g:qfenter_keymap.vopen = ['<C-v>']
+    let g:qfenter_keymap.hopen = ['<C-CR>']
+    let g:qfenter_keymap.topen = ['<C-t>']
 
     Plug 'Shougo/vimproc.vim'
     Plug 'rhysd/vim-clang-format'
@@ -57,6 +55,8 @@ try
         nmap <leader>go :YcmCompleter GoTo<CR>
         nmap <leader>gh :YcmCompleter GoToDeclaration<CR>
         nmap <leader>gd :YcmCompleter GoToDefinition<CR>
+        nmap <leader>fi :YcmCompleter FixIt<CR>
+        nmap <leader>oi :YcmCompleter OrganizeImports<CR>
     endif
 
     Plug 'majutsushi/tagbar'
@@ -68,16 +68,18 @@ try
     Plug 'ntpeters/vim-better-whitespace'
     nmap <leader>w :StripWhitespace<CR>
 
-    " Plug 'w0rp/ale'
-    " let g:ale_sign_error = 'EE'
-    " let g:ale_sign_warning = 'WW'
-    " let g:ale_sign_column_always = 1
-    " let g:ale_linters = {
-    " \   'python': ['pylint'],
-    " \   'c': [],
-    " \   'cpp': [],
-    " \   'java': [],
-    " \}
+    Plug 'w0rp/ale'
+    let g:ale_sign_error = 'EE'
+    let g:ale_sign_warning = 'WW'
+    let g:ale_sign_column_always = 1
+    let g:ale_linters = {
+    \   'python': ['pylint'],
+    \   'c': [],
+    \   'cpp': [],
+    \   'java': [],
+    \   'javascript': [],
+    \   'typescript': [],
+    \}
 
     Plug 'vim-airline/vim-airline'
     " Set this. Airline will handle the rest.
@@ -103,8 +105,7 @@ try
 
     Plug 'lervag/vimtex'
     Plug 'jparise/vim-graphql'
-    Plug 'jparise/vim-graphql'
-    Plug 'maxmellon/vim-jsx-pretty'
+    " let g:typescript_indent_disable = 1
     Plug 'leafgarland/typescript-vim'
     Plug 'peitalin/vim-jsx-typescript'
 
