@@ -44,7 +44,7 @@ try
     let g:clang_format#auto_format_on_insert_leave=0
 
     " Plug 'flazz/vim-colorschemes'
-    Plug 'tomasiser/vim-code-dark'
+    Plug 'SimplyKnownAsG/vim-code-dark'
     " Plug 'JulioJu/neovim-colors-solarized-truecolor-only'
 
     if has("python") || has("python3")
@@ -194,6 +194,8 @@ else
     " let g:solarized_termcolors=256
     " colorscheme solarized
     let g:airline_theme='codedark'
+    let g:codedark_cterm_background='NONE'
+    let g:codedark_cterm_taboutside='NONE'
     colorscheme codedark
 endif
 
