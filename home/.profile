@@ -34,7 +34,7 @@ if [ -s ~/.config/nvm/nvm.sh ]
 then
     # export NVM_DIR=~/.config/nvm
     # source $NVM_DIR/nvm.sh --no-use
-    source ~/.config/nvm/nvm.sh
+    source ~/.config/nvm/nvm.sh --no-use
 fi
 
 function clean-path() {
