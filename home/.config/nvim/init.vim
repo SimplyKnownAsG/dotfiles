@@ -34,7 +34,7 @@ try
     let g:qfenter_keymap.cnext_keep = ['<C-n>']
     let g:qfenter_keymap.cprev_keep = ['<C-p>']
     let g:qfenter_keymap.vopen = ['<C-v>']
-    let g:qfenter_keymap.hopen = ['<C-CR>']
+    let g:qfenter_keymap.hopen = ['<C-h>']
     let g:qfenter_keymap.topen = ['<C-t>']
 
     Plug 'Shougo/vimproc.vim'
@@ -56,6 +56,7 @@ try
         nmap <leader>gh :YcmCompleter GoToDeclaration<CR>
         nmap <leader>gd :YcmCompleter GoToDefinition<CR>
         nmap <leader>fi :YcmCompleter FixIt<CR>
+        nmap <leader>fo :YcmCompleter Format<CR>
         nmap <leader>oi :YcmCompleter OrganizeImports<CR>
     endif
 
@@ -93,19 +94,14 @@ try
     " let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
     let g:airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
 
-    " let g:NERDTreeHijackNetrw=0
-    " Plug 'scrooloose/nerdtree'
-    " noremap <leader>nt :NERDTreeToggle<CR>
-    " noremap <leader>nf :NERDTreeFind<CR>
-
     Plug 'MattesGroeger/vim-bookmarks'
     let g:bookmark_disable_ctrlp = 1
 
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+    " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
     Plug 'lervag/vimtex'
     Plug 'jparise/vim-graphql'
-    " let g:typescript_indent_disable = 1
+    let g:typescript_indent_disable = 1
     Plug 'leafgarland/typescript-vim'
     Plug 'peitalin/vim-jsx-typescript'
 
@@ -152,10 +148,14 @@ set ruler
 set textwidth=100
 set shiftwidth=4
 set tabstop=4
-set colorcolumn=+1
+if exists('&colorcolumn')
+    set colorcolumn=+1
+endif
 " turn line numbers on
 set number
-set relativenumber
+if exists('&relativenumber')
+    set relativenumber
+endif
 set nowrap
 
 set hlsearch
@@ -178,8 +178,6 @@ call SetGrepPrg()
 syntax on
 
 if has("gui_running")
-    colorscheme solarized
-    set background=dark
     set spell spelllang=en_us
     if g:os == "Darwin"
         set guifont=Fira\ Mono:h12
@@ -189,18 +187,18 @@ if has("gui_running")
         set guifont=Consolas:h10
     endif
 else
-    " set background=dark
-    " let g:solarized_termtrans=1
-    " let g:solarized_termcolors=256
-    " colorscheme solarized
+    set background=dark
     let g:airline_theme='codedark'
     let g:codedark_cterm_background='NONE'
     let g:codedark_cterm_taboutside='NONE'
-    colorscheme codedark
+    try
+        colorscheme codedark
+    catch
+        " whatever
+    endtry
 endif
 
 let g:tex_verbspell=0
-" set spell
 
 command! Inside let g:solarized_termtran=1 | set background=dark | colorscheme solarized
 command! Outside let g:solarized_termtran=0 | set background=light | colorscheme solarized
