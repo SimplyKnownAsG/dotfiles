@@ -34,7 +34,7 @@ try
     let g:qfenter_keymap.cnext_keep = ['<C-n>']
     let g:qfenter_keymap.cprev_keep = ['<C-p>']
     let g:qfenter_keymap.vopen = ['<C-v>']
-    let g:qfenter_keymap.hopen = ['<C-h>']
+    let g:qfenter_keymap.hopen = ['<C-s>']
     let g:qfenter_keymap.topen = ['<C-t>']
 
     Plug 'Shougo/vimproc.vim'
