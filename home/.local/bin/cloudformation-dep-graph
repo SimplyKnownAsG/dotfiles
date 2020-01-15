@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+
+import json
+import sys
+from subprocess import Popen, PIPE
+import pickle
+import os
+from argparse import ArgumentParser
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument('--ignore-unreferenced', '-u', action='store_true')
+    args = parser.parse_args()
+
+    if os.path.exists('cfnviz.pkl'):
+        with open('cfnviz.pkl', 'rb') as pkl:
+            stacks = pickle.load(pkl)
+
+    else:
+        cmd = 'aws cloudformation describe-stacks'.split()
+        proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        out, err = proc.communicate()
+
+        if err:
+            print('failed to execute command: {cmd}')
+            print(err.decode())
+
+        json_data = json.loads(out.decode())
+        stacks = [Stack(stack_json) for stack_json in json_data["Stacks"]]
+
+        with open('cfnviz.pkl', 'wb') as pkl:
+            pickle.dump(stacks, pkl)
+
+    stacks = link_outputs(stacks, args.ignore_unreferenced)
+
+    with open('cfn-graph.dot', 'w') as dot:
+        dot.write('digraph {\n')
+        dot.write('  compound=true;\n')
+        dot.write('  graph [ranksep=3];\n')
+        for si, stack in enumerate(stacks):
+            stack.node_name = f"cluster_{si}"
+            dot.write(f'  subgraph cluster_{si} {{\n')
+            dot.write(f'    label="{stack.name}";\n')
+            dot.write(f'    "{stack.name}" [style=invis];\n')
+
+            for o in stack.outputs:
+                dot.write(f'    "{o.name}";\n')
+
+            dot.write(f'  }}\n\n')
+
+        for stack in stacks:
+            for output in stack.outputs:
+                for import_stack in output.imports:
+                    dot.write(f'  "{output.name}" -> "{import_stack.name}" [lhead={import_stack.node_name}];\n')
+
+        dot.write('\n}\n')
+
+    Popen('dot -Tsvg -ocfn-graph.svg cfn-graph.dot'.split()).communicate()
+
+
+def link_outputs(stacks, remove_unreferenced):
+    for s in stacks:
+        s.rank = 0
+
+    stacks_by_name = {stack.name: stack for stack in stacks}
+    used_stacks = set()
+
+    for stack in stacks:
+        for output in stack.outputs:
+            used_stacks.add(stack)
+            output.imports = [stacks_by_name[i] for i in output.imports]
+            used_stacks.update(output.imports)
+            stack.rank += len(output.imports)
+
+    if remove_unreferenced:
+        return sorted(used_stacks, key=lambda s: -s.rank)
+    else:
+        return sorted(stacks, key=lambda s: -s.rank)
+
+
+class Stack(object):
+
+    def __init__(self, json_dict):
+        self.id = json_dict['StackId']
+        self.name = json_dict['StackName']
+        self.description = json_dict.get('Description', None)
+        self.parameters = {p['ParameterKey']: p['ParameterValue'] for p in json_dict.get('Parameters', ())}
+        self.outputs = [Output(o) for o in json_dict.get('Outputs', ())]
+        self.outputs = [o for o in self.outputs if len(o.imports) > 0]
+        stack.rank = 0
+
+
+class Output(object):
+
+    def __init__(self, json_dict):
+        self.key = json_dict['OutputKey']
+        self.value = json_dict['OutputValue']
+        self.name = json_dict.get('ExportName', None)
+        self.imports = []
+
+        if self.name is not None:
+            proc = Popen(f'aws cloudformation list-imports --export-name {self.name}'.split(), stdout=PIPE, stderr=PIPE)
+            out, err = proc.communicate()
+
+            if err:
+                print(f'Output {self.name} is not imported')
+                print(err.decode())
+            else:
+                self.imports = json.loads(out.decode())["Imports"]
+
+        print(f'Output {self.name} is imported {len(self.imports)} times')
+
+
+if __name__ == '__main__':
+    main()
