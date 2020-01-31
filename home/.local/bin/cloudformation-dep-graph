@@ -87,7 +87,7 @@ class Stack(object):
         self.parameters = {p['ParameterKey']: p['ParameterValue'] for p in json_dict.get('Parameters', ())}
         self.outputs = [Output(o) for o in json_dict.get('Outputs', ())]
         self.outputs = [o for o in self.outputs if len(o.imports) > 0]
-        stack.rank = 0
+        self.rank = 0
 
 
 class Output(object):
