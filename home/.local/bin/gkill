@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+from argparse import ArgumentParser
+from subprocess import Popen, PIPE
+import re
+import os
+import signal
+
+parser = ArgumentParser('gkill')
+parser.add_argument('-a', help='all', action='store_true')
+parser.add_argument('-x', help='tty not required', action='store_true')
+parser.add_argument('--dry', '-n', help='dry run, do not execute', action='store_true')
+parser.add_argument('--force', '-f', help='force execution', action='store_true')
+parser.add_argument('pattern', help='pattern to search')
+
+args = parser.parse_args()
+
+flags = ''
+if args.a: flags += 'a'
+if args.x: flags += 'x'
+if flags: flags = ' ' + flags
+
+out, err = Popen(f'ps{flags}'.split(), stdout=PIPE, stderr=PIPE).communicate()
+
+pattern = re.compile(args.pattern)
+ps_results = out.decode().split('\n')[1:]
+pids = [p.strip().split()[0] for p in ps_results if pattern.search(p)]
+
+try:
+    # if not all or tty only
+    pids.remove(str(os.getpid()))
+except:
+    pass
+
+if len(pids) == len(ps_results):
+    print("error: would kill everthing. just shut the computer down")
+    exit(0)
+
+if len(pids) > 0.5 * len(ps_results) and not args.force:
+    print("error: would kill 50% of everthing. use --force")
+    exit(0)
+
+if len(pids) == 0:
+    print("error: no matching pids")
+    exit(0)
+
+for pid in pids:
+    print(f'kill {pid}')
+    if not args.dry:
+        os.kill(int(pid), signal.SIGKILL)
+
