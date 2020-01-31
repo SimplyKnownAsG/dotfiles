@@ -38,7 +38,7 @@ then
 fi
 
 function clean-path() {
-    for d in $HOME/.local/go/bin $HOME/.local/bin $HOME/.local/usr/bin
+    for d in ~/.local/goroot/bin ~/.local/go/bin ~/.local/bin ~/.local/usr/bin
     do
         if [ -d $d ]; then
             export PATH=$d:$PATH

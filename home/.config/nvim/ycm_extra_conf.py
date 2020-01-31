@@ -111,8 +111,8 @@ def FlagsForFile(filename, **kwargs):
     }
 
 
-def Settings(**kwargs):
-    if kwargs["language"] == "typescript":
+def Settings(filename='', **kwargs):
+    if os.path.splitext(filename)[1] in ('.ts', '.tsx'):
         return {
             "formatting_options": dict(
                 insertSpaceAfterCommaDelimiter=True,
