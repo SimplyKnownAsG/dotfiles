@@ -4,16 +4,18 @@ alias egrep='egrep --color=auto'
 
 # some more ls aliases
 alias ls="ls -F $(ls --help 2>&1 | grep -qo -- --color && echo "--color=auto" || echo \-G)"
-alias ll='ls -alF'
+alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 alias py='python2'
 alias py3='python3'
 alias up='cd ..'
 alias u2='cd ../..'
+alias u3='cd ../../..'
 alias tmux='tmux -f ~/.config/tmux/tmux.conf'
 alias gotest='go test -v -count=1 ./...'
 alias gopest='go test -v -count=1 -parallel 4 ./...'
+alias clear='clear ; tmux clear-history 2>/dev/null'
 
 # editor stuff
 if hash nvim 2>/dev/null ; then
