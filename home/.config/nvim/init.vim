@@ -42,12 +42,13 @@ try
     Plug 'SimplyKnownAsG/vim-code-dark'
 
     Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/vim-lsp'
+
     " performance issues
     let g:lsp_highlights_enabled = 0
     let g:lsp_textprop_enabled = 0
     let g:lsp_fold_enabled = 0
     set completeopt-=preview
+    Plug 'prabirshrestha/vim-lsp'
 
     " custom text formatting options
     let my_typescript_format_options = {
