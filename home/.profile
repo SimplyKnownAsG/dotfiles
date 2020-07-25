@@ -30,6 +30,8 @@ alias gvim='vim -U $MYGVIMRC'
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
 export GOPATH=~/.local/go
+export CARGO_HOME=~/.local/rust/cargo
+export RUSTUP_HOME=~/.local/rust/rustup
 
 export XDG_CONFIG_HOME=~/.config
 if [ -s ~/.config/nvm/nvm.sh ]
@@ -40,7 +42,7 @@ then
 fi
 
 function clean-path() {
-    for d in ~/.local/goroot/bin ~/.local/go/bin ~/.local/bin ~/.local/usr/bin
+    for d in ~/.local/goroot/bin ~/.local/rust/cargo/bin ~/.local/go/bin ~/.local/bin ~/.local/usr/bin
     do
         if [ -d $d ]; then
             export PATH=$d:$PATH

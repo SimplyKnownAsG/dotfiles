@@ -23,6 +23,8 @@ try
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-eunuch'
+    Plug 'tpope/vim-unimpaired'
+    Plug 'tpope/vim-obsession'
 
     Plug 'chrisbra/improvedft'
 
@@ -458,7 +460,7 @@ try
 
     call plug#end()
 catch
-    " dont really care...
+    " don't really care
 endtry
 
 filetype plugin indent on
@@ -475,7 +477,8 @@ noremap zC zM
 
 " Find all, open quickfix
 function! FindAll(include_test, pattern)
-    execute "grep! \"" . a:pattern . "\""
+    let friendly_pattern = substitute(substitute(a:pattern, '\\<', '\\b', "g"), '\\>', '\\b', "g")
+    execute "grep! \"" . friendly_pattern . "\""
     if !a:include_test
         let new_results = []
         for qresult in getqflist()
@@ -506,12 +509,6 @@ endif
 set number
 if exists('&relativenumber')
     set relativenumber
-    " augroup numbertoggle
-    "     autocmd!
-    "     autocmd BufEnter,FocusGained,InsertLeave * if line("$") < 3000 | set relativenumber | endif
-    "     autocmd BufEnter,FocusGained,InsertLeave * if line("$") > 3000 | set norelativenumber | endif
-    "     autocmd BufLeave,FocusLost,InsertEnter * if line("$") < 3000 | set norelativenumber | endif
-    " augroup END
 endif
 set nowrap
 
@@ -519,20 +516,13 @@ set hlsearch
 set ignorecase
 set smartcase
 set infercase
-
+" set hidden
+" set autowriteall
+syntax on
 set expandtab
 
-function SetGrepPrg()
-    let l:git_status_output = system('git status')
-    if v:shell_error
-        set grepprg=grep\ -rn\ --exclude-dir=.git
-    else
-        set grepprg=git\ grep\ -n
-    endif
-endfunction
-call SetGrepPrg()
-
-syntax on
+set grepprg=ag\ --vimgrep
+set grepformat=%f:%l:%c:%m
 
 if has("gui_running")
     set spell spelllang=en_us
@@ -556,15 +546,6 @@ else
 endif
 
 let g:tex_verbspell=0
-
-command! Inside let g:solarized_termtran=1 | set background=dark | colorscheme solarized
-command! Outside let g:solarized_termtran=0 | set background=light | colorscheme solarized
-
-set guioptions-=m "remove menu bar
-set guioptions-=T "remove toolbar
-set guioptions+=c "use console dialog instead of pop up
-set guioptions-=r "remove rich scroll bar
-set guioptions-=L "remove left scroll bar
 
 if g:os == "Darwin" && executable('gmake')
     set makeprg=gmake
