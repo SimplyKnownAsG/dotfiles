@@ -4,11 +4,16 @@ unsetopt CORRECT_ALL
 setopt PROMPT_SUBST
 
 function git_prompt_info() {
-  ref=$(git describe --all --dirty=%f-%F{196}dirty 2>/dev/null) || return
-  echo "[%F{130}$ref%f]"
+    git_info=$(git describe --all --dirty=%f-%F{196}dirty 2>/dev/null)
+    if [[ ! -z "$git_info" ]]
+    then
+      git_info="[%F{130}$git_info%f]"
+    fi
+    ps1="%F{135}%M%f @ %F{14}20%DT%*%f : %F{228}%~%f $git_info\n\$ "
+    echo $ps1
 }
 
-PS1=$'%F{135}%n%f @ %F{14}%m%f : %F{228}%~%f $(git_prompt_info)\n$ '
+PS1=$'$(git_prompt_info)'
 
 alias bk='cd "${OLDPWD}"'
 

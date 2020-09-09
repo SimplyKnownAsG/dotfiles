@@ -60,6 +60,8 @@ try
     nmap <leader>pd :LspPeekDefinition<CR>
     nmap <leader>fi :LspCodeAction<CR>
     nmap <leader>df :LspDocumentFormatSync<CR>
+    nmap <leader>dd :LspDocumentDiagnostics<CR>
+    nmap <leader>dn :LspNextDiagnostic<CR>
 
     Plug 'prabirshrestha/asyncomplete.vim'
     inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -145,7 +147,7 @@ try
     Plug 'MattesGroeger/vim-bookmarks'
     let g:bookmark_disable_ctrlp = 1
 
-    Plug 'lervag/vimtex'
+    " Plug 'lervag/vimtex'
     Plug 'jparise/vim-graphql'
     let g:typescript_indent_disable = 1
     Plug 'leafgarland/typescript-vim'
