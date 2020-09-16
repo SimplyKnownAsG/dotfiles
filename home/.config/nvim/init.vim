@@ -81,6 +81,7 @@ try
     endif
 
     Plug 'mattn/vim-goimports'
+    Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
     Plug 'majutsushi/tagbar'
     let g:tagbar_sort=0 " sort by order in file

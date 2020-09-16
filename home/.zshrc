@@ -2,15 +2,15 @@ source ~/.profile
 
 unsetopt CORRECT_ALL
 setopt PROMPT_SUBST
-
+althome=`readlink -f $HOME`
 function git_prompt_info() {
     git_info=$(git describe --all --dirty=%f-%F{196}dirty 2>/dev/null)
     if [[ ! -z "$git_info" ]]
     then
       git_info="[%F{130}$git_info%f]"
     fi
-    ps1="%F{135}%M%f @ %F{14}20%DT%*%f : %F{228}%~%f $git_info\n\$ "
-    echo $ps1
+    curdir=`dirs | sed "s@$althome@~@g"`
+    echo "%F{135}%M%f @ %F{14}20%DT%*%f : %F{228}$curdir%f $git_info\n\$ "
 }
 
 PS1=$'$(git_prompt_info)'
