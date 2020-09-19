@@ -1,25 +1,33 @@
 #!/bin/sh
 
-failed=false
+warnings=()
 if [ "$(git config --list --local | grep user.name)" = "" ]
 then
-  echo 'WARNING: user.name not specified'
-  failed=true
+    warnings+=("WARNING: user.name not specified")
 fi
 
 if [ "$(git config --list --local | grep user.email)" = "" ]
 then
-  echo 'WARNING: user.email not specified'
-  failed=true
+    warnings+=("WARNING: user.email not specified")
 fi
 
-if [ "$failed" = true ]
+if [ "$(ag graham 2>/dev/null)" != "" ]
 then
-  echo ""
-  echo "WW  W  WW  AAAA  RRRRRR  NNN  NN IIIIII NNN  NN  GGGG"
-  echo " WW W WW  AA  AA RR   RR NNNN NN   II   NNNN NN GG"
-  echo " WW W WW  AAAAAA RRRRRR  NN N NN   II   NN N NN GG  GGG"
-  echo "  WWWWW   AA  AA RR  RR  NN NNNN   II   NN NNNN GG   GG"
-  echo "  WW WW   AA  AA RR   RR NN  NNN IIIIII NN  NNN  GGGGG"
-  echo ""
+    warnings+=("WARNING: GRAHAM debug messages")
+fi
+
+if [ "${#warnings[@]}" != 0 ]
+then
+    echo ""
+    echo "WW  W  WW  AAAA  RRRRRR  NNN  NN IIIIII NNN  NN  GGGG"
+    echo " WW W WW  AA  AA RR   RR NNNN NN   II   NNNN NN GG"
+    echo " WW W WW  AAAAAA RRRRRR  NN N NN   II   NN N NN GG  GGG"
+    echo "  WWWWW   AA  AA RR  RR  NN NNNN   II   NN NNNN GG   GG"
+    echo "  WW WW   AA  AA RR   RR NN  NNN IIIIII NN  NNN  GGGGG"
+    echo ""
+    for w in "${warnings[@]}"
+    do
+        echo "$w"
+    done
+    echo ""
 fi
