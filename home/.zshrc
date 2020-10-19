@@ -2,16 +2,29 @@ source ~/.profile
 
 unsetopt CORRECT_ALL
 setopt PROMPT_SUBST
-althome=`readlink -f $HOME`
-function git_prompt_info() {
-    git_info=$(git describe --all --dirty=%f-%F{196}dirty 2>/dev/null)
-    if [[ ! -z "$git_info" ]]
-    then
-      git_info="[%F{130}$git_info%f]"
-    fi
-    curdir=`dirs | sed "s@$althome@~@g"`
-    echo "%F{135}%M%f @ %F{14}20%DT%*%f : %F{228}$curdir%f $git_info\n\$ "
-}
+althome=`readlink -f $HOME 2>/dev/null`
+if [[ "$althome" != "" ]]
+then
+    function git_prompt_info() {
+        git_info=$(git describe --all --dirty=%f-%F{196}dirty 2>/dev/null)
+        if [[ ! -z "$git_info" ]]
+        then
+          git_info="[%F{130}$git_info%f]"
+        fi
+        curdir=`dirs | sed "s@$althome@~@g"`
+        echo "%F{135}%M%f @ %F{14}20%DT%*%f : %F{228}$curdir%f $git_info\n\$ "
+    }
+else
+    function git_prompt_info() {
+        git_info=$(git describe --all --dirty=%f-%F{196}dirty 2>/dev/null)
+        if [[ ! -z "$git_info" ]]
+        then
+          git_info="[%F{130}$git_info%f]"
+        fi
+        curdir=`dirs`
+        echo "%F{135}%M%f @ %F{14}20%DT%*%f : %F{228}$curdir%f $git_info\n\$ "
+    }
+fi
 
 PS1=$'$(git_prompt_info)'
 
