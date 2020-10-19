@@ -155,6 +155,7 @@ try
     Plug 'peitalin/vim-jsx-typescript'
 
     Plug 'stephpy/vim-yaml'
+    Plug 'altercation/vim-colors-solarized'
 
     for source_file in globpath(expand('<sfile>:p:h'), 'more_plug*.vim', 0, 1)
         exec 'source ' . source_file
@@ -237,11 +238,9 @@ if has("gui_running")
     endif
 else
     set background=dark
-    let g:airline_theme='codedark'
-    let g:codedark_cterm_background='NONE'
-    let g:codedark_cterm_taboutside='NONE'
+    let g:airline_theme='solarized'
     try
-        colorscheme codedark
+        colorscheme solarized
     catch
         " whatever
     endtry

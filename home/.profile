@@ -16,6 +16,7 @@ alias tmux='tmux -f ~/.config/tmux/tmux.conf'
 alias gotest='go test -v -count=1 ./...'
 alias gopest='go test -v -count=1 -parallel 4 ./...'
 alias clear='clear ; tmux clear-history 2>/dev/null'
+alias display-message='tmux display-message'
 
 # editor stuff
 if hash nvim 2>/dev/null ; then
@@ -27,7 +28,7 @@ export MYVIMRC=~/.config/nvim/init.vim
 export MYGVIMRC=~/.config/nvim/ginit.vim
 alias vim='vim -u $MYVIMRC'
 alias gvim='vim -U $MYGVIMRC'
-export LSCOLORS=GxFxCxDxBxegedabagaced
+# SOLARIZED export LSCOLORS=GxFxCxDxBxegedabagaced
 
 export GOPATH=~/.local/go
 export CARGO_HOME=~/.local/rust/cargo
