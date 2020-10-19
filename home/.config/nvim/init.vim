@@ -134,6 +134,7 @@ try
     " \}
 
     Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
     " Set this. Airline will handle the rest.
     let g:airline#extensions#ale#enabled=1
     let g:airline_detect_spell=0
@@ -156,6 +157,7 @@ try
 
     Plug 'stephpy/vim-yaml'
     Plug 'altercation/vim-colors-solarized'
+    Plug 'flazz/vim-colorschemes'
 
     for source_file in globpath(expand('<sfile>:p:h'), 'more_plug*.vim', 0, 1)
         exec 'source ' . source_file
