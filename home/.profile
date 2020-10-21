@@ -24,17 +24,19 @@ if hash nvim 2>/dev/null ; then
 else
     export EDITOR=vim
 fi
+
 export MYVIMRC=~/.config/nvim/init.vim
 export MYGVIMRC=~/.config/nvim/ginit.vim
 alias vim='vim -u $MYVIMRC'
 alias gvim='vim -U $MYGVIMRC'
-# SOLARIZED export LSCOLORS=GxFxCxDxBxegedabagaced
+export LSCOLORS=GxFxCxDxBxegedabagaced
 
 export GOPATH=~/.local/go
 export CARGO_HOME=~/.local/rust/cargo
 export RUSTUP_HOME=~/.local/rust/rustup
 
 export XDG_CONFIG_HOME=~/.config
+
 if [ -s ~/.config/nvm/nvm.sh ]
 then
     # export NVM_DIR=~/.config/nvm

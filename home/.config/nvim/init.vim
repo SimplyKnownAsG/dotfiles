@@ -242,7 +242,7 @@ else
     set background=dark
     let g:airline_theme='solarized'
     try
-        colorscheme solarized
+        colorscheme happy
     catch
         " whatever
     endtry
