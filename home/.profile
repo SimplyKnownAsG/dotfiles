@@ -61,6 +61,11 @@ function clean-path() {
         export PATH=$(brew --prefix llvm)/bin:$PATH
     fi
 
+    if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ];
+    then
+        . $HOME/.nix-profile/etc/profile.d/nix.sh
+    fi
+
     # clean path, thanks https://unix.stackexchange.com/a/40755/26585
     export PATH=`printf %s "$PATH" | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 }
