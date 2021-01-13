@@ -17,6 +17,7 @@ hi Normal          ctermfg=15      ctermbg=0       guifg=#ffffff   guibg=#001b00
 hi ColorColumn                     ctermbg=22                      guibg=#004a00   cterm=NONE gui=NONE
 hi Cursor                          ctermbg=78                      guibg=#55cf89   cterm=NONE gui=NONE
 hi CursorLine                      ctermbg=78                      guibg=#55cf89   cterm=NONE gui=NONE
+hi CursorColumn    ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   cterm=NONE gui=NONE
 hi NonText         ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   cterm=NONE gui=NONE
 hi Conceal         ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   cterm=NONE gui=NONE
 hi Ignore          ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   cterm=NONE gui=NONE
@@ -34,7 +35,8 @@ hi Pmenu           ctermfg=78      ctermbg=22      guifg=#55cf89   guibg=#004a00
 hi PmenuSel        ctermfg=15      ctermbg=22      guifg=#ffffff   guibg=#004a00   cterm=NONE gui=NONE
 hi PmenuSbar       ctermfg=78      ctermbg=22      guifg=#55cf89   guibg=#004a00   cterm=NONE gui=NONE
 hi PmenuThumb      ctermfg=170     ctermbg=22      guifg=#c555cf   guibg=#004a00   cterm=NONE gui=NONE
-hi Comment         ctermfg=78      ctermbg=0       guifg=#55cf88   guibg=#001b00   cterm=NONE gui=NONE
+hi CursorLine      ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   cterm=NONE gui=NONE
+hi Comment         ctermfg=28      ctermbg=0       guifg=#238910   guibg=#001b00   cterm=NONE gui=NONE
 hi Todo            ctermfg=22      ctermbg=77      guifg=#004a00   guibg=#5fcf55   cterm=NONE gui=NONE
 hi Constant        ctermfg=173     ctermbg=0       guifg=#cf8855   guibg=#001b00   cterm=NONE gui=NONE
 hi Character       ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   cterm=NONE gui=NONE
@@ -57,8 +59,8 @@ hi DiffAdd         ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00
 hi diffAdded       ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00   cterm=NONE gui=NONE
 hi DiffDelete      ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=NONE gui=NONE
 hi diffRemoved     ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=NONE gui=NONE
-hi DiffChange      ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   cterm=NONE gui=NONE
-hi DiffText        ctermfg=15      ctermbg=0       guifg=#ffffff   guibg=#001b00   cterm=NONE gui=NONE
+hi DiffChange                      ctermbg=22                      guibg=#004a00   cterm=NONE gui=NONE
+hi DiffText        ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   cterm=NONE gui=NONE
 hi diffFile        ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   cterm=NONE gui=NONE
 hi gitcommitDiff   ctermfg=98      ctermbg=0       guifg=#8855cf   guibg=#001b00   cterm=NONE gui=NONE
 hi diffIndexLine   ctermfg=185     ctermbg=0       guifg=#cfc555   guibg=#001b00   cterm=NONE gui=NONE

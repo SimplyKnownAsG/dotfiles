@@ -34,6 +34,7 @@ bindkey "^R" history-incremental-search-backward
 bindkey "^E" end-of-line
 bindkey "^A" beginning-of-line
 
+setopt RM_STAR_SILENT           # do not prompt when using rm *
 setopt EXTENDED_HISTORY         # store time in history
 setopt HIST_EXPIRE_DUPS_FIRST   # try to keep unique events
 setopt HIST_IGNORE_DUPS         # ignore immediate duplicates

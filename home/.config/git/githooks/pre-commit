@@ -16,6 +16,11 @@ then
     warnings+=("WARNING: GRAHAM debug messages")
 fi
 
+# if hash aspell
+# then
+#     words=$(git diff HEAD | grep -e "^+[^+]" | aspell list --camel-case --extra-dicts=~/.config/nvim/spell/*| sort -u)
+# fi
+
 if [ "${#warnings[@]}" != 0 ]
 then
     echo ""

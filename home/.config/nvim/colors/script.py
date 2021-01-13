@@ -14,7 +14,7 @@ if not os.path.exists('data.json'):
 
 term_colors = np.array(
         [
-            (c['rgb']['r'],c['rgb']['g'],c['rgb']['b'])
+            (c['rgb']['r'], c['rgb']['g'], c['rgb']['b'])
             for c in json.loads(open('data.json', 'r').read())
         ]
 )
@@ -34,24 +34,25 @@ class Color(object):
 
 # http://colorizer.org/
 compliments = (
-        Color((  0,  74,   0), "background"),               #0
-        Color((178, 255, 148), "foreground"),               #1
-        Color((  0,  27,   0), "0,-50,25"),                 #2
-        Color(( 85, 207, 137), "75,-50,25"),                #3
-        Color((207,  85,  95), "red"),                      #4
-        Color((207, 136,  85), "orange"),                   #5
-        Color((207, 197,  85), "yellow"),                   #6
-        Color((156, 207,  85), "yellow green"),             #8
-        Color(( 95, 207,  85), "light green"),              #8
-        Color(( 85, 207, 136), "seafoam green"),            #9
-        Color(( 85, 207, 197), "tealish"),                  #10
-        Color(( 85, 156, 207), "blue purple"),              #11
-        Color(( 85,  95, 207), "purple blue"),              #12
-        Color((136,  85, 207), "purple"),                   #13
-        Color((197,  85, 207), "magenta"),                  #14
-        Color((207,  85, 156), "reddish pink"),             #15
+        Color((  0,  74,   0), "background"),               # 0
+        Color((178, 255, 148), "foreground (98,-50,50)"),   # 1
+        Color((  0,  27,   0), "0,-50,25"),                 # 2
+        Color(( 85, 207, 137), "75,-50,25"),                # 3
+        Color((207,  85,  95), "red"),                      # 4
+        Color((207, 136,  85), "orange"),                   # 5
+        Color((207, 197,  85), "yellow"),                   # 6
+        Color((156, 207,  85), "yellow green"),             # 8
+        Color(( 95, 207,  85), "light green"),              # 8
+        Color(( 85, 207, 136), "seafoam green"),            # 9
+        Color(( 85, 207, 197), "tealish"),                  # 10
+        Color(( 85, 156, 207), "blue purple"),              # 11
+        Color(( 85,  95, 207), "purple blue"),              # 12
+        Color((136,  85, 207), "purple"),                   # 13
+        Color((197,  85, 207), "magenta"),                  # 14
+        Color((207,  85, 156), "reddish pink"),             # 15
 
-        Color((255, 255, 255), "white"),                    #16
+        Color((255, 255, 255), "white"),                    # 16
+        Color(( 35, 137,  16), "50, -50, 50"),              # 17
 )
 
 def hi(names, *, fg=None, bg=None, style='NONE'):
@@ -111,17 +112,20 @@ let colors_name = "happy"
     f.write(hi('PmenuSbar', fg=compliments[3], bg=compliments[0]))      # could look crappy
     f.write(hi('PmenuThumb', fg=compliments[14], bg=compliments[0]))    # could look crappy
 
+    # selected line in ctrl-p
+    f.write(hi('CursorLine', fg=compliments[1], bg=compliments[2]))
+
     # "" Syntax highlighting
-    f.write(hi('Comment', fg=compliments[9], bg=compliments[2]))#, style='italic'
+    f.write(hi('Comment', fg=compliments[17], bg=compliments[2]))#, style='italic'
     f.write(hi('Todo', fg=compliments[0], bg=compliments[8])) # TODO:
     f.write(hi('Constant', fg=compliments[5], bg=compliments[2]))
     f.write(hi('Character', fg=compliments[14], bg=compliments[2]))
     f.write(hi('Delimeter', fg=compliments[1], bg=compliments[0]))
+    # f.write(hi('Number', fg=compliments[6], bg=compliments[2]))
+    # f.write(hi('String', fg=compliments[6], bg=compliments[2]))
     f.write(hi('NvimParenthesis', fg=compliments[1], bg=compliments[0]))
     f.write(hi('NvimComma', fg=compliments[1], bg=compliments[0]))
     f.write(hi('NvimColon', fg=compliments[1], bg=compliments[0]))
-    # f.write(hi('Number', fg=compliments[6], bg=compliments[2]))
-    # f.write(hi('String', fg=compliments[6], bg=compliments[2]))
     f.write(hi('Conditional', fg=compliments[14], bg=compliments[2]))
     f.write(hi('Operator', fg=compliments[4], bg=compliments[2]))
     f.write(hi('Special', fg=compliments[16], bg=compliments[2]))
@@ -137,8 +141,8 @@ let colors_name = "happy"
 
     f.write(hi(['DiffAdd', 'diffAdded'], fg=compliments[3], bg=compliments[2]))
     f.write(hi(['DiffDelete', 'diffRemoved'], fg=compliments[4], bg=compliments[2]))
-    f.write(hi(['DiffChange'], fg=compliments[14], bg=compliments[2]))
-    f.write(hi(['DiffText'], fg=compliments[16], bg=compliments[2]))
+    f.write(hi(['DiffChange'], fg=None, bg=compliments[0]))
+    f.write(hi(['DiffText'], fg=compliments[14], bg=compliments[2]))
 
     f.write(hi('diffFile', fg=compliments[1], bg=compliments[2]))
     f.write(hi('gitcommitDiff', fg=compliments[13], bg=compliments[2]))
