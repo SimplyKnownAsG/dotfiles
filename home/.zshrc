@@ -12,7 +12,7 @@ then
           git_info="%F{15}[%F{130}$git_info%F{15}]%f"
         fi
         curdir=`dirs | sed "s@$althome@~@g"`
-        echo "%F{93}%M%f %F{15}@%f %F{45}20%DT%*%f %F{15}:%f %F{228}$curdir%f $git_info\n%F{15}\$%f "
+        echo "%F{93}%M%f %F{15}@%f %F{45}20%DT%D{%H:%M:%S}%f %F{15}:%f %F{228}$curdir%f $git_info\n%F{15}\$%f "
     }
 else
     function git_prompt_info() {
@@ -22,7 +22,7 @@ else
           git_info="%F{15}[%F{130}$git_info%F{15}]%f"
         fi
         curdir=`dirs`
-        echo "%F{93}%M%f %F{15}@%f %F{45}20%DT%*%f %F{15}:%f %F{228}$curdir%f $git_info\n%F{15}\$%f "
+        echo "%F{93}%M%f %F{15}@%f %F{45}20%DT%D{%H:%M:%S}%f %F{15}:%f %F{228}$curdir%f $git_info\n%F{15}\$%f "
     }
 fi
 

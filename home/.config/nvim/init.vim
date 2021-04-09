@@ -47,6 +47,7 @@ try
 
     " performance issues
     let g:lsp_highlights_enabled = 0
+    let g:lsp_document_highlight_enabled = 0
     let g:lsp_textprop_enabled = 0
     let g:lsp_fold_enabled = 0
     set completeopt-=preview
@@ -119,6 +120,9 @@ try
 
     Plug 'ntpeters/vim-better-whitespace'
     nmap <leader>w :StripWhitespace<CR>
+
+    Plug 'ojroques/vim-oscyank'
+    autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
 
     " Plug 'w0rp/ale'
     " let g:ale_sign_error = 'EE'

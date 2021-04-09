@@ -1,6 +1,7 @@
 [user]
 [core]
     hooksPath=~/.config/git/githooks
+    push=nothing
 [alias]
     co = checkout
     st = status
