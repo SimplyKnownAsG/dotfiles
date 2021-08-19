@@ -57,11 +57,6 @@ function clean-path() {
         export PATH=$PATH:~/.gem/ruby/`ls -1 ~/.gem/ruby/ | sort -V | tail -n 1`/bin
     fi
 
-    if hash brew 2>/dev/null
-    then
-        export PATH=$(brew --prefix llvm)/bin:$PATH
-    fi
-
     if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ];
     then
         . $HOME/.nix-profile/etc/profile.d/nix.sh
@@ -72,3 +67,19 @@ function clean-path() {
 }
 
 clean-path
+
+function update-background() {
+    mkdir -p ~/Pictures/backgrounds
+    img_path=$(
+        curl https://apod.nasa.gov/apod/astropix.html |
+            tr '\n' ' ' |
+            sed -E 's/.*(IMG|img).*(SRC|src)="([^ ]*)".*/\3/g'
+        )
+    img_name=$(basename $img_path)
+    curl https://apod.nasa.gov/apod/$img_path > ~/Pictures/backgrounds/$img_name
+    osascript -e 'tell application "System Events"
+            tell every desktop
+                set picture to "'~/Pictures/backgrounds/$img_name'"
+            end tell
+        end tell'
+}

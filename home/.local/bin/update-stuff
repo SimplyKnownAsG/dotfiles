@@ -32,10 +32,7 @@ echo "updating kitty things"
 if command -v kitty
 then
     # https://sw.kovidgoyal.net/kitty/faq.html#i-get-errors-about-the-terminal-being-unknown-or-opening-the-terminal-failing-when-sshing-into-a-different-computer
-    echo "here 0"
     infocmp xterm-kitty > temp-xterm-kitty.temp
-    echo "here 1"
     tic -x -o ~/.config/kitty/terminfo/ temp-xterm-kitty.temp
-    echo "here 2"
     rm temp-xterm-kitty.temp
 fi

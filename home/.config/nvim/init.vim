@@ -160,6 +160,7 @@ try
     Plug 'stephpy/vim-yaml'
     Plug 'altercation/vim-colors-solarized'
     Plug 'flazz/vim-colorschemes'
+    Plug 'sotte/presenting.vim'
 
     for source_file in globpath(expand('<sfile>:p:h'), 'more_plug*.vim', 0, 1)
         exec 'source ' . source_file
