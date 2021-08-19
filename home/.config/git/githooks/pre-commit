@@ -11,9 +11,14 @@ then
     warnings+=("WARNING: user.email not specified")
 fi
 
-if [ "$(ag graham 2>/dev/null)" != "" ]
+if [ "$(git grep -i graham 2>/dev/null)" != "" ]
 then
     warnings+=("WARNING: GRAHAM debug messages")
+fi
+
+if [ "$(git grep -i maharg 2>/dev/null)" != "" ]
+then
+    warnings+=("WARNING: MAHARG debug messages")
 fi
 
 # if hash aspell

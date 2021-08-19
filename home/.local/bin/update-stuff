@@ -20,6 +20,8 @@ $EDITOR +PlugUpgrade -c qa
 echo "updating vim plugins"
 $EDITOR +PlugUpdate -c qa
 
+# echo "Installing some coc-plugins..."
+# $EDITOR +CocInstall coc-java coc-json coc-go coc-typescript -c qa
 
 echo "updating tmux"
 if [ ! -d ~/.config/tmux/plugins/tpm ] ; then

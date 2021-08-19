@@ -44,6 +44,10 @@ def main():
 
     HOME = args.home
 
+    if not os.path.exists(HOME):
+        print(f'creating missing home directory: {HOME}')
+        os.makedirs(HOME)
+
     links = []
 
     dotfile_map = discover_dotfiles(args.dot_dir_root)

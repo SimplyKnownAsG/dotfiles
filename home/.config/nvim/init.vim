@@ -50,11 +50,13 @@ try
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     nmap <leader>gh <Plug>(coc-type-definition)
+    nmap <leader>rn <Plug>(coc-rename)
+    nmap <leader>lr <Plug>(coc-references)
     " nmap <leader>ph <Plug>()
     nmap <leader>gd <Plug>(coc-definition)
     " nmap <leader>pd <Plug>()
     nmap <leader>fi <Plug>(coc-fix-current)
-    nmap <leader>df <Plug>(coc-format-selected)
+    " nmap <leader>df <Plug>(coc-format-selected)
     " nmap <leader>dd <Plug>(coc-definition)
     " nmap <leader>dn <Plug>(coc-definition)
 
@@ -100,14 +102,14 @@ try
     "Plug 'prabirshrestha/async.vim'
     "}}}
 
-    Plug 'rhysd/vim-clang-format'
-    let g:clang_format#detect_style_file=1 " use .clang-format
-    let g:clang_format#auto_format_on_insert_leave=0
-    if filereadable('.clang-format')
-        let g:clang_format#auto_format=1 " format on save
-    else
-        let g:clang_format#auto_format=0 " nope
-    endif
+    " Plug 'rhysd/vim-clang-format'
+    " let g:clang_format#detect_style_file=1 " use .clang-format
+    " let g:clang_format#auto_format_on_insert_leave=0
+    " if filereadable('.clang-format')
+    "     let g:clang_format#auto_format=1 " format on save
+    " else
+    "     let g:clang_format#auto_format=0 " nope
+    " endif
 
     Plug 'mattn/vim-goimports'
     Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
@@ -175,11 +177,18 @@ try
     " Plug 'rafi/awesome-vim-colorschemes'
     Plug 'sotte/presenting.vim'
 
+    Plug 'google/vim-maktaba'
+    Plug 'google/vim-codefmt'
+    Plug 'google/vim-glaive'
+    nmap <leader>df :FormatCode<CR>
+
     for source_file in globpath(expand('<sfile>:p:h'), 'more_plug*.vim', 0, 1)
         exec 'source ' . source_file
     endfor
 
     call plug#end()
+
+    call glaive#Install()
 catch
     " don't really care
     echo "Caught error: " v:exception
