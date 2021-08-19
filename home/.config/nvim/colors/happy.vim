@@ -17,7 +17,6 @@ hi Normal          ctermfg=15      ctermbg=0       guifg=#ffffff   guibg=#001b00
 hi ColorColumn                     ctermbg=22                      guibg=#004a00   cterm=NONE gui=NONE
 hi Cursor                          ctermbg=78                      guibg=#55cf89   cterm=NONE gui=NONE
 hi CursorLine                      ctermbg=78                      guibg=#55cf89   cterm=NONE gui=NONE
-hi CursorColumn    ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   cterm=NONE gui=NONE
 hi NonText         ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   cterm=NONE gui=NONE
 hi Conceal         ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   cterm=NONE gui=NONE
 hi Ignore          ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   cterm=NONE gui=NONE
@@ -49,18 +48,25 @@ hi Operator        ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00
 hi Special         ctermfg=15      ctermbg=0       guifg=#ffffff   guibg=#001b00   cterm=NONE gui=NONE
 hi PreProc         ctermfg=173     ctermbg=0       guifg=#cf8855   guibg=#001b00   cterm=bold gui=bold
 hi Statement       ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=bold gui=bold
-hi Identifier      ctermfg=185     ctermbg=0       guifg=#cfc555   guibg=#001b00   cterm=bold gui=bold
+hi Identifier      ctermfg=98      ctermbg=0       guifg=#8855cf   guibg=#001b00   cterm=bold gui=bold
 hi Type            ctermfg=185     ctermbg=0       guifg=#cfc555   guibg=#001b00   cterm=bold gui=bold
 hi Error           ctermfg=15      ctermbg=167     guifg=#ffffff   guibg=#cf555f   cterm=NONE gui=NONE
 hi ErrorMsg        ctermfg=15      ctermbg=167     guifg=#ffffff   guibg=#cf555f   cterm=NONE gui=NONE
 hi WarningMsg      ctermfg=15      ctermbg=173     guifg=#ffffff   guibg=#cf8855   cterm=NONE gui=NONE
-hi Directory       ctermfg=80      ctermbg=0       guifg=#55cfc5   guibg=#001b00   cterm=NONE gui=NONE
+hi Title           ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   cterm=bold gui=bold
+hi markdownIdDeclaration ctermfg=80      ctermbg=0       guifg=#55cfc5   guibg=#001b00   cterm=bold gui=bold
+hi markdownUrl     ctermfg=80      ctermbg=0       guifg=#55cfc5   guibg=#001b00   cterm=bold gui=bold
+hi graphqlStructure ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=bold gui=bold
+hi graphqlType     ctermfg=185     ctermbg=0       guifg=#cfc555   guibg=#001b00   cterm=bold gui=bold
+hi yamlKey         ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=bold gui=bold
+hi yamlBlockMappingKey ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=bold gui=bold
+hi Directory       ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   cterm=NONE gui=NONE
 hi DiffAdd         ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00   cterm=NONE gui=NONE
 hi diffAdded       ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00   cterm=NONE gui=NONE
 hi DiffDelete      ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=NONE gui=NONE
 hi diffRemoved     ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=NONE gui=NONE
 hi DiffChange                      ctermbg=22                      guibg=#004a00   cterm=NONE gui=NONE
-hi DiffText        ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   cterm=NONE gui=NONE
+hi DiffText        ctermfg=80      ctermbg=0       guifg=#55cfc5   guibg=#001b00   cterm=NONE gui=NONE
 hi diffFile        ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   cterm=NONE gui=NONE
 hi gitcommitDiff   ctermfg=98      ctermbg=0       guifg=#8855cf   guibg=#001b00   cterm=NONE gui=NONE
 hi diffIndexLine   ctermfg=185     ctermbg=0       guifg=#cfc555   guibg=#001b00   cterm=NONE gui=NONE

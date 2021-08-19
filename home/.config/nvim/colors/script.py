@@ -63,7 +63,7 @@ def hi(names, *, fg=None, bg=None, style='NONE'):
     ctermbg = (f'ctermbg={bg.ansi}' if bg else '').ljust(15)
     guifg = (f'guifg=#{fg.get_rgb()}' if fg else '').ljust(15)
     guibg = (f'guibg=#{bg.get_rgb()}' if bg else '').ljust(15)
-    style = f'cterm={style} gui={style}'
+    style = f'cterm={style} gui={style}' if style is not None else ''
 
     lines = []
     for name in names:
@@ -131,24 +131,33 @@ let colors_name = "happy"
     f.write(hi('Special', fg=compliments[16], bg=compliments[2]))
     f.write(hi('PreProc', fg=compliments[5], bg=compliments[2], style='bold'))
     f.write(hi('Statement', fg=compliments[4], bg=compliments[2], style='bold'))
-    f.write(hi('Identifier', fg=compliments[6], bg=compliments[2], style='bold'))
+    f.write(hi('Identifier', fg=compliments[13], bg=compliments[2], style='bold'))
     f.write(hi('Type', fg=compliments[6], bg=compliments[2], style='bold'))
     f.write(hi('Error', fg=compliments[16], bg=compliments[4]))
     f.write(hi('ErrorMsg', fg=compliments[16], bg=compliments[4]))
     f.write(hi('WarningMsg', fg=compliments[16], bg=compliments[5]))
 
-    f.write(hi('Directory', fg=compliments[10], bg=compliments[2]))
+    f.write(hi('Title', fg=compliments[14], bg=compliments[2], style='bold'))
+    f.write(hi('markdownIdDeclaration', fg=compliments[10], bg=compliments[2], style='bold'))
+    f.write(hi('markdownUrl', fg=compliments[10], bg=compliments[2], style='bold'))
+
+    f.write(hi('graphqlStructure', fg=compliments[4], bg=compliments[2], style='bold'))
+    f.write(hi('graphqlType', fg=compliments[6], bg=compliments[2], style='bold'))
+
+    f.write(hi('yamlKey', fg=compliments[4], bg=compliments[2], style='bold'))
+    f.write(hi('yamlBlockMappingKey', fg=compliments[4], bg=compliments[2], style='bold'))
+
+    f.write(hi('Directory', fg=compliments[14], bg=compliments[2]))
 
     f.write(hi(['DiffAdd', 'diffAdded'], fg=compliments[3], bg=compliments[2]))
     f.write(hi(['DiffDelete', 'diffRemoved'], fg=compliments[4], bg=compliments[2]))
     f.write(hi(['DiffChange'], fg=None, bg=compliments[0]))
-    f.write(hi(['DiffText'], fg=compliments[14], bg=compliments[2]))
+    f.write(hi(['DiffText'], fg=compliments[10], bg=compliments[2]))
 
     f.write(hi('diffFile', fg=compliments[1], bg=compliments[2]))
     f.write(hi('gitcommitDiff', fg=compliments[13], bg=compliments[2]))
     f.write(hi('diffIndexLine', fg=compliments[6], bg=compliments[2]))
     f.write(hi('diffLine', fg=compliments[14], bg=compliments[2]))
-
 
     f.write(hi('RedrawDebugNormal', fg=compliments[2], bg=compliments[1]))
     f.write(hi('RedrawDebugClear', fg=compliments[2], bg=compliments[6]))

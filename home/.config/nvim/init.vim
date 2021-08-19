@@ -18,6 +18,18 @@ try
     Plug 'tpope/vim-unimpaired'
     Plug 'tpope/vim-obsession'
     Plug 'tpope/vim-sleuth'
+    Plug 'tpope/vim-markdown'
+    let g:markdown_fenced_languages = [
+                \ 'html',
+                \ 'python',
+                \ 'bash=sh',
+                \ 'go',
+                \ 'typescript',
+                \ 'json',
+                \ 'yaml',
+                \ 'graphql',
+                \ 'diff'
+                \ ]
 
     Plug 'chrisbra/improvedft'
 
@@ -160,6 +172,7 @@ try
     Plug 'stephpy/vim-yaml'
     Plug 'altercation/vim-colors-solarized'
     Plug 'flazz/vim-colorschemes'
+    " Plug 'rafi/awesome-vim-colorschemes'
     Plug 'sotte/presenting.vim'
 
     for source_file in globpath(expand('<sfile>:p:h'), 'more_plug*.vim', 0, 1)
@@ -242,20 +255,13 @@ let g:tex_verbspell=0
 
 autocmd FileType qf wincmd J | vertical resize 10
 
-" au FileType java call SetWorkspaceFolders()
-
-" function! SetWorkspaceFolders() abort
-"     " Only set g:WorkspaceFolders if it is not already set
-"     if exists("g:WorkspaceFolders") | return | endif
-
-"     if executable("findup")
-"         let l:ws_dir = trim(system("cd '" . expand("%:h") . "' && findup packageInfo"))
-"         " Bemol conveniently generates a '$WS_DIR/.bemol/ws_root_folders' file, so let's leverage it
-"         let l:folders_file = l:ws_dir . "/.bemol/ws_root_folders"
-"         if filereadable(l:folders_file)
-"             let l:ws_folders = readfile(l:folders_file)
-"             let g:WorkspaceFolders = filter(l:ws_folders, "isdirectory(v:val)")
-"         endif
-"     endif
-" endfunction
+function! SynStack ()
+    for i1 in synstack(line("."), col("."))
+        let i2 = synIDtrans(i1)
+        let n1 = synIDattr(i1, "name")
+        let n2 = synIDattr(i2, "name")
+        echo n1 "->" n2
+    endfor
+endfunction
+map SS :call SynStack()<CR>
 
