@@ -35,7 +35,7 @@ class Color(object):
 # http://colorizer.org/
 compliments = (
         Color((  0,  74,   0), "background"),               # 0
-        Color((178, 255, 148), "foreground (98,-50,50)"),   # 1
+        Color((178, 255, 148), "bright green"),             # 1
         Color((  0,  27,   0), "0,-50,25"),                 # 2
         Color(( 85, 207, 137), "75,-50,25"),                # 3
         Color((207,  85,  95), "red"),                      # 4
@@ -55,7 +55,7 @@ compliments = (
         Color(( 35, 137,  16), "50, -50, 50"),              # 17
 )
 
-def hi(names, *, fg=None, bg=None, style='NONE'):
+def hi(names, *, fg=None, bg=None, style=None):
     if isinstance(names, str):
         names = [names]
 
@@ -90,13 +90,15 @@ let colors_name = "happy"
 ''')
     f.write(hi('Normal', fg=compliments[16], bg=compliments[2]))
     f.write(hi('ColorColumn', bg=compliments[0]))
+
     f.write(hi('Cursor', bg=compliments[3]))
-    f.write(hi('CursorLine', bg=compliments[3]))
+    f.write(hi('CursorLineNr', fg=compliments[3], bg=compliments[2]))
+    f.write(hi('CursorLine', fg=compliments[1], bg=compliments[2]))
+    f.write(hi('LineNr', fg=compliments[17], bg=compliments[2]))
+
     f.write(hi('NonText', fg=compliments[0], bg=compliments[2]))
     f.write(hi('Conceal', fg=compliments[0], bg=compliments[2]))
     f.write(hi('Ignore', fg=compliments[0], bg=compliments[2]))
-    f.write(hi('LineNr', fg=compliments[0], bg=compliments[2]))
-    f.write(hi('CursorLineNr', fg=compliments[3], bg=compliments[2]))
     f.write(hi('SignColumn', fg=compliments[1], bg=compliments[2]))
     f.write(hi('VertSplit', fg=compliments[0], bg=compliments[2]))
     f.write(hi('MatchParen', fg=compliments[0], bg=compliments[1]))
@@ -112,11 +114,10 @@ let colors_name = "happy"
     f.write(hi('PmenuSbar', fg=compliments[3], bg=compliments[0]))      # could look crappy
     f.write(hi('PmenuThumb', fg=compliments[14], bg=compliments[0]))    # could look crappy
 
-    # selected line in ctrl-p
-    f.write(hi('CursorLine', fg=compliments[1], bg=compliments[2]))
 
     # "" Syntax highlighting
-    f.write(hi('Comment', fg=compliments[17], bg=compliments[2]))#, style='italic'
+    f.write(hi('Comment', fg=compliments[17], bg=compliments[2], style='italic'))
+    f.write(hi('SpecialComment', fg=compliments[1], bg=compliments[2], style='italic'))
     f.write(hi('Todo', fg=compliments[0], bg=compliments[8])) # TODO:
     f.write(hi('Constant', fg=compliments[5], bg=compliments[2]))
     f.write(hi('Character', fg=compliments[14], bg=compliments[2]))
@@ -127,11 +128,13 @@ let colors_name = "happy"
     f.write(hi('NvimComma', fg=compliments[1], bg=compliments[0]))
     f.write(hi('NvimColon', fg=compliments[1], bg=compliments[0]))
     f.write(hi('Conditional', fg=compliments[14], bg=compliments[2]))
+    f.write(hi('Label', fg=compliments[14], bg=compliments[2]))
     f.write(hi('Operator', fg=compliments[4], bg=compliments[2]))
     f.write(hi('Special', fg=compliments[16], bg=compliments[2]))
     f.write(hi('PreProc', fg=compliments[5], bg=compliments[2], style='bold'))
     f.write(hi('Statement', fg=compliments[4], bg=compliments[2], style='bold'))
-    f.write(hi('Identifier', fg=compliments[13], bg=compliments[2], style='bold'))
+    f.write(hi('Identifier', fg=compliments[15], bg=compliments[2], style='bold'))
+    f.write(hi('StorageClass', fg=compliments[15], bg=compliments[2], style='bold'))
     f.write(hi('Type', fg=compliments[6], bg=compliments[2], style='bold'))
     f.write(hi('Error', fg=compliments[16], bg=compliments[4]))
     f.write(hi('ErrorMsg', fg=compliments[16], bg=compliments[4]))
@@ -155,7 +158,7 @@ let colors_name = "happy"
     f.write(hi(['DiffText'], fg=compliments[10], bg=compliments[2]))
 
     f.write(hi('diffFile', fg=compliments[1], bg=compliments[2]))
-    f.write(hi('gitcommitDiff', fg=compliments[13], bg=compliments[2]))
+    f.write(hi('gitcommitDiff', fg=compliments[15], bg=compliments[2]))
     f.write(hi('diffIndexLine', fg=compliments[6], bg=compliments[2]))
     f.write(hi('diffLine', fg=compliments[14], bg=compliments[2]))
 
@@ -164,6 +167,13 @@ let colors_name = "happy"
     f.write(hi('RedrawDebugComposed', fg=compliments[2], bg=compliments[4]))
     f.write(hi('RedrawDebugRecompose', fg=compliments[2], bg=compliments[1]))
 
-    f.write(hi('ExtraWhitespace', bg=compliments[0]))
+    f.write(hi('ExtraWhitespace', fg=compliments[14], bg=compliments[0], style='underline'))
 
     f.write(hi('NvimInternalError', fg=compliments[2], bg=compliments[4]))
+
+#     f.write(hi('airline_a', fg=compliments[1], bg=compliments[2]))
+#     f.write(hi('airline_b', fg=compliments[1], bg=compliments[2]))
+#     f.write(hi('airline_c', fg=compliments[1], bg=compliments[2]))
+#     f.write(hi('airline_x', fg=compliments[1], bg=compliments[2]))
+#     f.write(hi('airline_y', fg=compliments[1], bg=compliments[2]))
+#     f.write(hi('airline_z', fg=compliments[1], bg=compliments[2]))

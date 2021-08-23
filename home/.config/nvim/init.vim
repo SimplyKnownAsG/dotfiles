@@ -44,10 +44,6 @@ try
     let g:qfenter_keymap.hopen = ['<C-s>']
     let g:qfenter_keymap.topen = ['<C-t>']
 
-    Plug 'Shougo/vimproc.vim'
-
-    Plug 'SimplyKnownAsG/vim-code-dark'
-
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     nmap <leader>gh <Plug>(coc-type-definition)
     nmap <leader>rn <Plug>(coc-rename)
@@ -74,45 +70,7 @@ try
         return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
 
-    "{{{ vim-lsp stuff
-    "" performance issues
-    "let g:lsp_highlights_enabled = 0
-    "let g:lsp_document_highlight_enabled = 0
-    "let g:lsp_textprop_enabled = 0
-    "let g:lsp_fold_enabled = 0
-    "set completeopt-=preview
-
-    "Plug 'prabirshrestha/vim-lsp'
-
-    "Plug 'mattn/vim-lsp-settings'
-    "nmap <leader>gh :LspDeclaration<CR>
-    "nmap <leader>ph :LspPeekDeclaration<CR>
-    "nmap <leader>gd :LspDefinition<CR>
-    "nmap <leader>pd :LspPeekDefinition<CR>
-    "nmap <leader>fi :LspCodeAction<CR>
-    "nmap <leader>df :LspDocumentFormatSync<CR>
-    "nmap <leader>dd :LspDocumentDiagnostics<CR>
-    "nmap <leader>dn :LspNextDiagnostic<CR>
-
-    "Plug 'prabirshrestha/asyncomplete.vim'
-    "inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-    "inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    "inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
-    "Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    "Plug 'prabirshrestha/async.vim'
-    "}}}
-
-    " Plug 'rhysd/vim-clang-format'
-    " let g:clang_format#detect_style_file=1 " use .clang-format
-    " let g:clang_format#auto_format_on_insert_leave=0
-    " if filereadable('.clang-format')
-    "     let g:clang_format#auto_format=1 " format on save
-    " else
-    "     let g:clang_format#auto_format=0 " nope
-    " endif
-
     Plug 'mattn/vim-goimports'
-    Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
     Plug 'majutsushi/tagbar'
     let g:tagbar_sort=0 " sort by order in file
@@ -165,16 +123,13 @@ try
     Plug 'MattesGroeger/vim-bookmarks'
     let g:bookmark_disable_ctrlp = 1
 
-    " Plug 'lervag/vimtex'
     Plug 'jparise/vim-graphql'
     let g:typescript_indent_disable = 1
     Plug 'leafgarland/typescript-vim'
     Plug 'peitalin/vim-jsx-typescript'
 
     Plug 'stephpy/vim-yaml'
-    Plug 'altercation/vim-colors-solarized'
     Plug 'flazz/vim-colorschemes'
-    " Plug 'rafi/awesome-vim-colorschemes'
     Plug 'sotte/presenting.vim'
 
     Plug 'google/vim-maktaba'
@@ -253,12 +208,8 @@ set grepprg=ag\ --vimgrep
 set grepformat=%f:%l:%c:%m
 
 set background=dark
-let g:airline_theme='solarized'
-try
-    colorscheme happy
-catch
-    " whatever
-endtry
+let g:airline_theme='violet'
+colorscheme happy
 
 let g:tex_verbspell=0
 
