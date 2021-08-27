@@ -52,6 +52,7 @@ try
     nmap <leader>gd <Plug>(coc-definition)
     " nmap <leader>pd <Plug>()
     nmap <leader>fi <Plug>(coc-fix-current)
+    nmap <leader>ca :CocAction<CR>
     " nmap <leader>df <Plug>(coc-format-selected)
     " nmap <leader>dd <Plug>(coc-definition)
     " nmap <leader>dn <Plug>(coc-definition)
@@ -225,3 +226,4 @@ function! SynStack ()
 endfunction
 map SS :call SynStack()<CR>
 
+au BufRead,BufNewFile *.devenv set filetype=sh

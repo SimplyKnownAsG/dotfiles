@@ -25,8 +25,8 @@ hi Ignore          ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00
 hi SignColumn      ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   
 hi VertSplit       ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
 hi MatchParen      ctermfg=22      ctermbg=156     guifg=#004a00   guibg=#b2ff94   
-hi Search          ctermfg=0       ctermbg=185     guifg=#001b00   guibg=#cfc555   
-hi IncSearch       ctermfg=0       ctermbg=15      guifg=#001b00   guibg=#ffffff   
+hi Search          ctermfg=0       ctermbg=169     guifg=#001b00   guibg=#cf559c   
+hi IncSearch       ctermfg=169     ctermbg=0       guifg=#cf559c   guibg=#001b00   cterm=underline gui=underline
 hi TabLine         ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
 hi TabLineFill     ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
 hi TabLineSel      ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00   

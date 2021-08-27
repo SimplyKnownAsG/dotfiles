@@ -6,3 +6,5 @@ Session.vim
 .vim/
 .factorypath
 .project
+.classpath
+.settings/

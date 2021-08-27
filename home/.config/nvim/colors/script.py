@@ -102,8 +102,8 @@ let colors_name = "happy"
     f.write(hi('SignColumn', fg=compliments[1], bg=compliments[2]))
     f.write(hi('VertSplit', fg=compliments[0], bg=compliments[2]))
     f.write(hi('MatchParen', fg=compliments[0], bg=compliments[1]))
-    f.write(hi('Search', fg=compliments[2], bg=compliments[6]))
-    f.write(hi('IncSearch', fg=compliments[2], bg=compliments[16]))
+    f.write(hi('Search', fg=compliments[2], bg=compliments[15]))
+    f.write(hi('IncSearch', bg=compliments[2], fg=compliments[15], style='underline'))
 
     f.write(hi('TabLine', fg=compliments[0], bg=compliments[2]))
     f.write(hi('TabLineFill', fg=compliments[0], bg=compliments[2]))
