@@ -1,4 +1,4 @@
-source ~/.profile
+source ~/.config/shell/rc
 
 unsetopt CORRECT_ALL
 setopt PROMPT_SUBST

@@ -4,5 +4,5 @@
 if [ "${G_DOT_FILES}" != "loaded" ]
 then
     export G_DOT_FILES="loaded"
-    source ~/.profile
+    source ~/.config/shell/rc
 fi
