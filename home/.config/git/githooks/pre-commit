@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 warnings=()
 if [ "$(git config --list --local | grep user.name)" = "" ]
