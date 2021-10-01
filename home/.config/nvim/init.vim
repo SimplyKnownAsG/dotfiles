@@ -11,6 +11,7 @@ try
 
     Plug 'tpope/vim-fugitive'
     nmap <leader>nd <C-W><C-O>:grep "<<<<"<CR>:Gvdiff<CR><CR>
+    nmap <leader>gg <C-W><C-O>:Ggrep<Space>
 
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-surround'
@@ -111,7 +112,8 @@ try
     nmap <leader>w :StripWhitespace<CR>
 
     Plug 'ojroques/vim-oscyank'
-    autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
+    let g:oscyank_term='kitty'
+    autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
 
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -164,17 +166,12 @@ noremap zC zM
 
 " Find all, open quickfix
 function! FindAll(include_test, pattern)
-    let friendly_pattern = substitute(substitute(a:pattern, '\\<', '\\b', "g"), '\\>', '\\b', "g")
-    execute "grep! \"" . friendly_pattern . "\""
-    if !a:include_test
-        let new_results = []
-        for qresult in getqflist()
-            if bufname(qresult.bufnr) !~ 'TEST'
-                call add(new_results, qresult)
-            endif
-        endfor
-        call setqflist(new_results)
+    if a:include_test
+        let l:files = systemlist('git ls-files')
+    else
+        let l:files = systemlist('git ls-files | grep -Pv "(Test|\btest\b)"')
     endif
+    execute "vimgrep /" . a:pattern . "/g " . join(l:files, ' ')
     copen
     wincmd p
 endfunction

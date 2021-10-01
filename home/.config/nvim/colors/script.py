@@ -32,47 +32,51 @@ class Color(object):
     def get_rgb(self):
         return ''.join('{:02x}'.format(n) for n in self.rgb)
 
+
 # http://colorizer.org/
 compliments = (
-        Color((  0,  74,   0), "background"),               # 0
-        Color((178, 255, 148), "bright green"),             # 1
-        Color((  0,  27,   0), "0,-50,25"),                 # 2
-        Color(( 85, 207, 137), "75,-50,25"),                # 3
+        Color((  0,  74,   0), "green"),                    # 0
+        Color((178, 255, 148), "bright_green"),             # 1
+        Color((  0,  27,   0), "dark_green"),               # 2
+        Color(( 85, 207, 137), "bright_green2"),              # 3
         Color((207,  85,  95), "red"),                      # 4
         Color((207, 136,  85), "orange"),                   # 5
         Color((207, 197,  85), "yellow"),                   # 6
-        Color((156, 207,  85), "yellow green"),             # 8
-        Color(( 95, 207,  85), "light green"),              # 8
-        Color(( 85, 207, 136), "seafoam green"),            # 9
+        Color((156, 207,  85), "yellow_green"),             # 8
+        Color(( 95, 207,  85), "light_green"),              # 8
+        Color(( 85, 207, 136), "seafoam_green"),            # 9
         Color(( 85, 207, 197), "tealish"),                  # 10
-        Color(( 85, 156, 207), "blue purple"),              # 11
-        Color(( 85,  95, 207), "purple blue"),              # 12
+        Color(( 85, 156, 207), "blue_purple"),              # 11
+        Color(( 85,  95, 207), "purple_blue"),              # 12
         Color((136,  85, 207), "purple"),                   # 13
         Color((197,  85, 207), "magenta"),                  # 14
-        Color((207,  85, 156), "reddish pink"),             # 15
+        Color((207,  85, 156), "reddish_pink"),             # 15
 
         Color((255, 255, 255), "white"),                    # 16
-        Color(( 35, 137,  16), "50, -50, 50"),              # 17
+        Color(( 35, 137,  16), "mid_green"),                # 17
 )
+
+the_colors = {i: c for i, c in enumerate(compliments)}
+the_colors.update({c.name: c for c in compliments})
 
 def hi(names, *, fg=None, bg=None, style=None):
     if isinstance(names, str):
         names = [names]
 
-    ctermfg = (f'ctermfg={fg.ansi}' if fg else '').ljust(15)
-    ctermbg = (f'ctermbg={bg.ansi}' if bg else '').ljust(15)
-    guifg = (f'guifg=#{fg.get_rgb()}' if fg else '').ljust(15)
-    guibg = (f'guibg=#{bg.get_rgb()}' if bg else '').ljust(15)
+    ctermfg = (f"ctermfg='.s:{fg.name}.ansi.'" if fg else '').ljust(35)
+    ctermbg = (f"ctermbg='.s:{bg.name}.ansi.'" if bg else '').ljust(35)
+    guifg = (f"guifg='.s:{fg.name}.rgb.'" if fg else '').ljust(35)
+    guibg = (f"guibg='.s:{bg.name}.rgb.'" if bg else '').ljust(35)
     style = f'cterm={style} gui={style}' if style is not None else ''
 
     lines = []
     for name in names:
-        lines.append(f"hi {name.ljust(15)} {ctermfg} {ctermbg} {guifg} {guibg} {style}\n")
+        lines.append(f"exec 'hi {name.ljust(15)} {ctermfg} {ctermbg} {guifg} {guibg} {style}'\n")
 
-    return ''.join(lines)
+    return ''.join(lines).replace('dark_green', 'background').replace('white', 'foreground')
 
 with open('happy.vim', 'w') as f:
-    f.write('''set background=dark
+    f.write('''
 hi clear
 
 if has('termguicolors')
@@ -86,94 +90,113 @@ endif
 " syn match happyPunctuation /[\[(){}\]+*,=_\-!@""#$%^&*<>?\\/]/
 
 let colors_name = "happy"
-" General colors
+
+" the colors
 ''')
-    f.write(hi('Normal', fg=compliments[16], bg=compliments[2]))
-    f.write(hi('ColorColumn', bg=compliments[0]))
+    for k, color in the_colors.items():
+        if isinstance(k, str):
+            f.write(f'let s:{color.name} = {{\'ansi\': {color.ansi}, \'rgb\': \'#{color.get_rgb()}\'}}\n')
 
-    f.write(hi('Cursor', bg=compliments[3]))
-    f.write(hi('CursorLineNr', fg=compliments[3], bg=compliments[2]))
-    f.write(hi('CursorLine', fg=compliments[1], bg=compliments[2]))
-    f.write(hi('LineNr', fg=compliments[17], bg=compliments[2]))
+    f.write('''
 
-    f.write(hi('NonText', fg=compliments[0], bg=compliments[2]))
-    f.write(hi('Conceal', fg=compliments[0], bg=compliments[2]))
-    f.write(hi('Ignore', fg=compliments[0], bg=compliments[2]))
-    f.write(hi('SignColumn', fg=compliments[1], bg=compliments[2]))
-    f.write(hi('VertSplit', fg=compliments[0], bg=compliments[2]))
-    f.write(hi('MatchParen', fg=compliments[0], bg=compliments[1]))
-    f.write(hi('Search', fg=compliments[2], bg=compliments[15]))
-    f.write(hi('IncSearch', bg=compliments[2], fg=compliments[15], style='underline'))
+if &background == 'dark'
+    let s:foreground=s:white
+    let s:background=s:dark_green
+else
+    let s:foreground=s:dark_green
+    let s:background=s:bright_green
+endif
 
-    f.write(hi('TabLine', fg=compliments[0], bg=compliments[2]))
-    f.write(hi('TabLineFill', fg=compliments[0], bg=compliments[2]))
-    f.write(hi('TabLineSel', fg=compliments[3], bg=compliments[2]))
 
-    f.write(hi('Pmenu', fg=compliments[3], bg=compliments[0]))
-    f.write(hi('PmenuSel', fg=compliments[16], bg=compliments[0]))
-    f.write(hi('PmenuSbar', fg=compliments[3], bg=compliments[0]))      # could look crappy
-    f.write(hi('PmenuThumb', fg=compliments[14], bg=compliments[0]))    # could look crappy
+" highlighting
+''')
+
+    f.write(hi('Normal', fg=the_colors['white'], bg=the_colors['dark_green']))
+    f.write(hi('ColorColumn', bg=the_colors['green']))
+
+    f.write(hi('Cursor', bg=the_colors['bright_green']))
+    f.write(hi('CursorLineNr', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+    f.write(hi('CursorLine', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+    f.write(hi('LineNr', fg=the_colors['mid_green'], bg=the_colors['dark_green']))
+
+    f.write(hi('NonText', fg=the_colors['green'], bg=the_colors['dark_green']))
+    f.write(hi('Conceal', fg=the_colors['green'], bg=the_colors['dark_green']))
+    f.write(hi('Ignore', fg=the_colors['green'], bg=the_colors['dark_green']))
+    f.write(hi('SignColumn', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+    f.write(hi('VertSplit', fg=the_colors['green'], bg=the_colors['dark_green']))
+    f.write(hi('MatchParen', fg=the_colors['green'], bg=the_colors['bright_green']))
+    f.write(hi('Search', fg=the_colors['dark_green'], bg=the_colors['reddish_pink']))
+    f.write(hi('IncSearch', bg=the_colors['dark_green'], fg=the_colors['reddish_pink'], style='underline'))
+
+    f.write(hi('TabLine', fg=the_colors['green'], bg=the_colors['dark_green']))
+    f.write(hi('TabLineFill', fg=the_colors['green'], bg=the_colors['dark_green']))
+    f.write(hi('TabLineSel', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+
+    f.write(hi('Pmenu', fg=the_colors['bright_green'], bg=the_colors['green']))
+    f.write(hi('PmenuSel', fg=the_colors['white'], bg=the_colors['green']))
+    f.write(hi('PmenuSbar', fg=the_colors['bright_green'], bg=the_colors['green']))      # could look crappy
+    f.write(hi('PmenuThumb', fg=the_colors['magenta'], bg=the_colors['green']))    # could look crappy
 
 
     # "" Syntax highlighting
-    f.write(hi('Comment', fg=compliments[17], bg=compliments[2], style='italic'))
-    f.write(hi('SpecialComment', fg=compliments[1], bg=compliments[2], style='italic'))
-    f.write(hi('Todo', fg=compliments[0], bg=compliments[8])) # TODO:
-    f.write(hi('Constant', fg=compliments[5], bg=compliments[2]))
-    f.write(hi('Character', fg=compliments[14], bg=compliments[2]))
-    f.write(hi('Delimeter', fg=compliments[1], bg=compliments[0]))
-    # f.write(hi('Number', fg=compliments[6], bg=compliments[2]))
-    # f.write(hi('String', fg=compliments[6], bg=compliments[2]))
-    f.write(hi('NvimParenthesis', fg=compliments[1], bg=compliments[0]))
-    f.write(hi('NvimComma', fg=compliments[1], bg=compliments[0]))
-    f.write(hi('NvimColon', fg=compliments[1], bg=compliments[0]))
-    f.write(hi('Conditional', fg=compliments[14], bg=compliments[2]))
-    f.write(hi('Label', fg=compliments[14], bg=compliments[2]))
-    f.write(hi('Operator', fg=compliments[4], bg=compliments[2]))
-    f.write(hi('Special', fg=compliments[16], bg=compliments[2]))
-    f.write(hi('PreProc', fg=compliments[5], bg=compliments[2], style='bold'))
-    f.write(hi('Statement', fg=compliments[4], bg=compliments[2], style='bold'))
-    f.write(hi('Identifier', fg=compliments[15], bg=compliments[2], style='bold'))
-    f.write(hi('StorageClass', fg=compliments[15], bg=compliments[2], style='bold'))
-    f.write(hi('Type', fg=compliments[6], bg=compliments[2], style='bold'))
-    f.write(hi('Error', fg=compliments[16], bg=compliments[4]))
-    f.write(hi('ErrorMsg', fg=compliments[16], bg=compliments[4]))
-    f.write(hi('WarningMsg', fg=compliments[16], bg=compliments[5]))
+    f.write(hi('Comment', fg=the_colors['mid_green'], bg=the_colors['dark_green'], style='italic'))
+    f.write(hi('SpecialComment', fg=the_colors['bright_green'], bg=the_colors['dark_green'], style='italic'))
+    f.write(hi('Todo', fg=the_colors['green'], bg=the_colors['light_green'])) # TODO:
+    f.write(hi('Constant', fg=the_colors['orange'], bg=the_colors['dark_green']))
+    f.write(hi('Character', fg=the_colors['magenta'], bg=the_colors['dark_green']))
+    f.write(hi('Delimeter', fg=the_colors['bright_green'], bg=the_colors['green']))
+    # f.write(hi('Number', fg=the_colors['yellow'], bg=the_colors['dark_green']))
+    # f.write(hi('String', fg=the_colors['yellow'], bg=the_colors['dark_green']))
+    f.write(hi('NvimParenthesis', fg=the_colors['bright_green'], bg=the_colors['green']))
+    f.write(hi('NvimComma', fg=the_colors['bright_green'], bg=the_colors['green']))
+    f.write(hi('NvimColon', fg=the_colors['bright_green'], bg=the_colors['green']))
+    f.write(hi('Conditional', fg=the_colors['magenta'], bg=the_colors['dark_green']))
+    f.write(hi('Label', fg=the_colors['magenta'], bg=the_colors['dark_green']))
+    f.write(hi('Operator', fg=the_colors['red'], bg=the_colors['dark_green']))
+    f.write(hi('Special', fg=the_colors['white'], bg=the_colors['dark_green']))
+    f.write(hi('PreProc', fg=the_colors['orange'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('Statement', fg=the_colors['red'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('Identifier', fg=the_colors['reddish_pink'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('StorageClass', fg=the_colors['reddish_pink'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('Type', fg=the_colors['yellow'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('Error', fg=the_colors['white'], bg=the_colors['red']))
+    f.write(hi('ErrorMsg', fg=the_colors['white'], bg=the_colors['red']))
+    f.write(hi('WarningMsg', fg=the_colors['white'], bg=the_colors['orange']))
 
-    f.write(hi('Title', fg=compliments[14], bg=compliments[2], style='bold'))
-    f.write(hi('markdownIdDeclaration', fg=compliments[10], bg=compliments[2], style='bold'))
-    f.write(hi('markdownUrl', fg=compliments[10], bg=compliments[2], style='bold'))
+    f.write(hi('Title', fg=the_colors['magenta'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('markdownIdDeclaration', fg=the_colors['tealish'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('markdownUrl', fg=the_colors['tealish'], bg=the_colors['dark_green'], style='bold'))
 
-    f.write(hi('graphqlStructure', fg=compliments[4], bg=compliments[2], style='bold'))
-    f.write(hi('graphqlType', fg=compliments[6], bg=compliments[2], style='bold'))
+    f.write(hi('graphqlStructure', fg=the_colors['red'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('graphqlType', fg=the_colors['yellow'], bg=the_colors['dark_green'], style='bold'))
 
-    f.write(hi('yamlKey', fg=compliments[4], bg=compliments[2], style='bold'))
-    f.write(hi('yamlBlockMappingKey', fg=compliments[4], bg=compliments[2], style='bold'))
+    f.write(hi('yamlKey', fg=the_colors['red'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('yamlBlockMappingKey', fg=the_colors['red'], bg=the_colors['dark_green'], style='bold'))
 
-    f.write(hi('Directory', fg=compliments[14], bg=compliments[2]))
+    f.write(hi('Directory', fg=the_colors['magenta'], bg=the_colors['dark_green']))
 
-    f.write(hi(['DiffAdd', 'diffAdded'], fg=compliments[3], bg=compliments[2]))
-    f.write(hi(['DiffDelete', 'diffRemoved'], fg=compliments[4], bg=compliments[2]))
-    f.write(hi(['DiffChange'], fg=None, bg=compliments[0]))
-    f.write(hi(['DiffText'], fg=compliments[10], bg=compliments[2]))
+    f.write(hi(['DiffAdd', 'diffAdded'], fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+    f.write(hi(['DiffDelete', 'diffRemoved'], fg=the_colors['red'], bg=the_colors['dark_green']))
+    f.write(hi(['DiffChange'], fg=None, bg=the_colors['green']))
+    f.write(hi(['DiffText'], fg=the_colors['tealish'], bg=the_colors['dark_green']))
 
-    f.write(hi('diffFile', fg=compliments[1], bg=compliments[2]))
-    f.write(hi('gitcommitDiff', fg=compliments[15], bg=compliments[2]))
-    f.write(hi('diffIndexLine', fg=compliments[6], bg=compliments[2]))
-    f.write(hi('diffLine', fg=compliments[14], bg=compliments[2]))
+    f.write(hi('diffFile', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+    f.write(hi('gitcommitDiff', fg=the_colors['reddish_pink'], bg=the_colors['dark_green']))
+    f.write(hi('diffIndexLine', fg=the_colors['yellow'], bg=the_colors['dark_green']))
+    f.write(hi('diffLine', fg=the_colors['magenta'], bg=the_colors['dark_green']))
 
-    f.write(hi('RedrawDebugNormal', fg=compliments[2], bg=compliments[1]))
-    f.write(hi('RedrawDebugClear', fg=compliments[2], bg=compliments[6]))
-    f.write(hi('RedrawDebugComposed', fg=compliments[2], bg=compliments[4]))
-    f.write(hi('RedrawDebugRecompose', fg=compliments[2], bg=compliments[1]))
+    f.write(hi('RedrawDebugNormal', fg=the_colors['dark_green'], bg=the_colors['bright_green']))
+    f.write(hi('RedrawDebugClear', fg=the_colors['dark_green'], bg=the_colors['yellow']))
+    f.write(hi('RedrawDebugComposed', fg=the_colors['dark_green'], bg=the_colors['red']))
+    f.write(hi('RedrawDebugRecompose', fg=the_colors['dark_green'], bg=the_colors['bright_green']))
 
-    f.write(hi('ExtraWhitespace', fg=compliments[14], bg=compliments[0], style='underline'))
+    f.write(hi('ExtraWhitespace', fg=the_colors['magenta'], bg=the_colors['green'], style='underline'))
 
-    f.write(hi('NvimInternalError', fg=compliments[2], bg=compliments[4]))
+    f.write(hi('NvimInternalError', fg=the_colors['dark_green'], bg=the_colors['red']))
 
-#     f.write(hi('airline_a', fg=compliments[1], bg=compliments[2]))
-#     f.write(hi('airline_b', fg=compliments[1], bg=compliments[2]))
-#     f.write(hi('airline_c', fg=compliments[1], bg=compliments[2]))
-#     f.write(hi('airline_x', fg=compliments[1], bg=compliments[2]))
-#     f.write(hi('airline_y', fg=compliments[1], bg=compliments[2]))
-#     f.write(hi('airline_z', fg=compliments[1], bg=compliments[2]))
+#     f.write(hi('airline_a', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+#     f.write(hi('airline_b', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+#     f.write(hi('airline_c', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+#     f.write(hi('airline_x', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+#     f.write(hi('airline_y', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+#     f.write(hi('airline_z', fg=the_colors['bright_green'], bg=the_colors['dark_green']))

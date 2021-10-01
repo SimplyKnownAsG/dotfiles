@@ -8,3 +8,5 @@ Session.vim
 .project
 .classpath
 .settings/
+lombok.config
+annotation-generated-src/

@@ -1,4 +1,4 @@
-set background=dark
+
 hi clear
 
 if has('termguicolors')
@@ -12,70 +12,101 @@ endif
 " syn match happyPunctuation /[\[(){}\]+*,=_\-!@""#$%^&*<>?\/]/
 
 let colors_name = "happy"
-" General colors
-hi Normal          ctermfg=15      ctermbg=0       guifg=#ffffff   guibg=#001b00   
-hi ColorColumn                     ctermbg=22                      guibg=#004a00   
-hi Cursor                          ctermbg=78                      guibg=#55cf89   
-hi CursorLineNr    ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00   
-hi CursorLine      ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   
-hi LineNr          ctermfg=28      ctermbg=0       guifg=#238910   guibg=#001b00   
-hi NonText         ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
-hi Conceal         ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
-hi Ignore          ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
-hi SignColumn      ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   
-hi VertSplit       ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
-hi MatchParen      ctermfg=22      ctermbg=156     guifg=#004a00   guibg=#b2ff94   
-hi Search          ctermfg=0       ctermbg=169     guifg=#001b00   guibg=#cf559c   
-hi IncSearch       ctermfg=169     ctermbg=0       guifg=#cf559c   guibg=#001b00   cterm=underline gui=underline
-hi TabLine         ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
-hi TabLineFill     ctermfg=22      ctermbg=0       guifg=#004a00   guibg=#001b00   
-hi TabLineSel      ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00   
-hi Pmenu           ctermfg=78      ctermbg=22      guifg=#55cf89   guibg=#004a00   
-hi PmenuSel        ctermfg=15      ctermbg=22      guifg=#ffffff   guibg=#004a00   
-hi PmenuSbar       ctermfg=78      ctermbg=22      guifg=#55cf89   guibg=#004a00   
-hi PmenuThumb      ctermfg=170     ctermbg=22      guifg=#c555cf   guibg=#004a00   
-hi Comment         ctermfg=28      ctermbg=0       guifg=#238910   guibg=#001b00   cterm=italic gui=italic
-hi SpecialComment  ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   cterm=italic gui=italic
-hi Todo            ctermfg=22      ctermbg=77      guifg=#004a00   guibg=#5fcf55   
-hi Constant        ctermfg=173     ctermbg=0       guifg=#cf8855   guibg=#001b00   
-hi Character       ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   
-hi Delimeter       ctermfg=156     ctermbg=22      guifg=#b2ff94   guibg=#004a00   
-hi NvimParenthesis ctermfg=156     ctermbg=22      guifg=#b2ff94   guibg=#004a00   
-hi NvimComma       ctermfg=156     ctermbg=22      guifg=#b2ff94   guibg=#004a00   
-hi NvimColon       ctermfg=156     ctermbg=22      guifg=#b2ff94   guibg=#004a00   
-hi Conditional     ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   
-hi Label           ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   
-hi Operator        ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   
-hi Special         ctermfg=15      ctermbg=0       guifg=#ffffff   guibg=#001b00   
-hi PreProc         ctermfg=173     ctermbg=0       guifg=#cf8855   guibg=#001b00   cterm=bold gui=bold
-hi Statement       ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=bold gui=bold
-hi Identifier      ctermfg=169     ctermbg=0       guifg=#cf559c   guibg=#001b00   cterm=bold gui=bold
-hi StorageClass    ctermfg=169     ctermbg=0       guifg=#cf559c   guibg=#001b00   cterm=bold gui=bold
-hi Type            ctermfg=185     ctermbg=0       guifg=#cfc555   guibg=#001b00   cterm=bold gui=bold
-hi Error           ctermfg=15      ctermbg=167     guifg=#ffffff   guibg=#cf555f   
-hi ErrorMsg        ctermfg=15      ctermbg=167     guifg=#ffffff   guibg=#cf555f   
-hi WarningMsg      ctermfg=15      ctermbg=173     guifg=#ffffff   guibg=#cf8855   
-hi Title           ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   cterm=bold gui=bold
-hi markdownIdDeclaration ctermfg=80      ctermbg=0       guifg=#55cfc5   guibg=#001b00   cterm=bold gui=bold
-hi markdownUrl     ctermfg=80      ctermbg=0       guifg=#55cfc5   guibg=#001b00   cterm=bold gui=bold
-hi graphqlStructure ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=bold gui=bold
-hi graphqlType     ctermfg=185     ctermbg=0       guifg=#cfc555   guibg=#001b00   cterm=bold gui=bold
-hi yamlKey         ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=bold gui=bold
-hi yamlBlockMappingKey ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   cterm=bold gui=bold
-hi Directory       ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   
-hi DiffAdd         ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00   
-hi diffAdded       ctermfg=78      ctermbg=0       guifg=#55cf89   guibg=#001b00   
-hi DiffDelete      ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   
-hi diffRemoved     ctermfg=167     ctermbg=0       guifg=#cf555f   guibg=#001b00   
-hi DiffChange                      ctermbg=22                      guibg=#004a00   
-hi DiffText        ctermfg=80      ctermbg=0       guifg=#55cfc5   guibg=#001b00   
-hi diffFile        ctermfg=156     ctermbg=0       guifg=#b2ff94   guibg=#001b00   
-hi gitcommitDiff   ctermfg=169     ctermbg=0       guifg=#cf559c   guibg=#001b00   
-hi diffIndexLine   ctermfg=185     ctermbg=0       guifg=#cfc555   guibg=#001b00   
-hi diffLine        ctermfg=170     ctermbg=0       guifg=#c555cf   guibg=#001b00   
-hi RedrawDebugNormal ctermfg=0       ctermbg=156     guifg=#001b00   guibg=#b2ff94   
-hi RedrawDebugClear ctermfg=0       ctermbg=185     guifg=#001b00   guibg=#cfc555   
-hi RedrawDebugComposed ctermfg=0       ctermbg=167     guifg=#001b00   guibg=#cf555f   
-hi RedrawDebugRecompose ctermfg=0       ctermbg=156     guifg=#001b00   guibg=#b2ff94   
-hi ExtraWhitespace ctermfg=170     ctermbg=22      guifg=#c555cf   guibg=#004a00   cterm=underline gui=underline
-hi NvimInternalError ctermfg=0       ctermbg=167     guifg=#001b00   guibg=#cf555f   
+
+" the colors
+let s:green = {'ansi': 22, 'rgb': '#004a00'}
+let s:bright_green = {'ansi': 156, 'rgb': '#b2ff94'}
+let s:dark_green = {'ansi': 0, 'rgb': '#001b00'}
+let s:bright_green2 = {'ansi': 78, 'rgb': '#55cf89'}
+let s:red = {'ansi': 167, 'rgb': '#cf555f'}
+let s:orange = {'ansi': 173, 'rgb': '#cf8855'}
+let s:yellow = {'ansi': 185, 'rgb': '#cfc555'}
+let s:yellow_green = {'ansi': 149, 'rgb': '#9ccf55'}
+let s:light_green = {'ansi': 77, 'rgb': '#5fcf55'}
+let s:seafoam_green = {'ansi': 78, 'rgb': '#55cf88'}
+let s:tealish = {'ansi': 80, 'rgb': '#55cfc5'}
+let s:blue_purple = {'ansi': 74, 'rgb': '#559ccf'}
+let s:purple_blue = {'ansi': 62, 'rgb': '#555fcf'}
+let s:purple = {'ansi': 98, 'rgb': '#8855cf'}
+let s:magenta = {'ansi': 170, 'rgb': '#c555cf'}
+let s:reddish_pink = {'ansi': 169, 'rgb': '#cf559c'}
+let s:white = {'ansi': 15, 'rgb': '#ffffff'}
+let s:mid_green = {'ansi': 28, 'rgb': '#238910'}
+
+
+if &background == 'dark'
+    let s:foreground=s:white
+    let s:background=s:dark_green
+else
+    let s:foreground=s:dark_green
+    let s:background=s:bright_green
+endif
+
+
+" highlighting
+exec 'hi Normal          ctermfg='.s:foreground.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:foreground.rgb.'               guibg='.s:background.rgb.'          '
+exec 'hi ColorColumn                                         ctermbg='.s:green.ansi.'                                                guibg='.s:green.rgb.'               '
+exec 'hi Cursor                                              ctermbg='.s:bright_green.ansi.'                                         guibg='.s:bright_green.rgb.'        '
+exec 'hi CursorLineNr    ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          '
+exec 'hi CursorLine      ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          '
+exec 'hi LineNr          ctermfg='.s:mid_green.ansi.'        ctermbg='.s:background.ansi.'       guifg='.s:mid_green.rgb.'           guibg='.s:background.rgb.'          '
+exec 'hi NonText         ctermfg='.s:green.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:green.rgb.'               guibg='.s:background.rgb.'          '
+exec 'hi Conceal         ctermfg='.s:green.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:green.rgb.'               guibg='.s:background.rgb.'          '
+exec 'hi Ignore          ctermfg='.s:green.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:green.rgb.'               guibg='.s:background.rgb.'          '
+exec 'hi SignColumn      ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          '
+exec 'hi VertSplit       ctermfg='.s:green.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:green.rgb.'               guibg='.s:background.rgb.'          '
+exec 'hi MatchParen      ctermfg='.s:green.ansi.'            ctermbg='.s:bright_green.ansi.'     guifg='.s:green.rgb.'               guibg='.s:bright_green.rgb.'        '
+exec 'hi Search          ctermfg='.s:background.ansi.'       ctermbg='.s:reddish_pink.ansi.'     guifg='.s:background.rgb.'          guibg='.s:reddish_pink.rgb.'        '
+exec 'hi IncSearch       ctermfg='.s:reddish_pink.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:reddish_pink.rgb.'        guibg='.s:background.rgb.'          cterm=underline gui=underline'
+exec 'hi TabLine         ctermfg='.s:green.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:green.rgb.'               guibg='.s:background.rgb.'          '
+exec 'hi TabLineFill     ctermfg='.s:green.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:green.rgb.'               guibg='.s:background.rgb.'          '
+exec 'hi TabLineSel      ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          '
+exec 'hi Pmenu           ctermfg='.s:bright_green.ansi.'     ctermbg='.s:green.ansi.'            guifg='.s:bright_green.rgb.'        guibg='.s:green.rgb.'               '
+exec 'hi PmenuSel        ctermfg='.s:foreground.ansi.'            ctermbg='.s:green.ansi.'            guifg='.s:foreground.rgb.'               guibg='.s:green.rgb.'               '
+exec 'hi PmenuSbar       ctermfg='.s:bright_green.ansi.'     ctermbg='.s:green.ansi.'            guifg='.s:bright_green.rgb.'        guibg='.s:green.rgb.'               '
+exec 'hi PmenuThumb      ctermfg='.s:magenta.ansi.'          ctermbg='.s:green.ansi.'            guifg='.s:magenta.rgb.'             guibg='.s:green.rgb.'               '
+exec 'hi Comment         ctermfg='.s:mid_green.ansi.'        ctermbg='.s:background.ansi.'       guifg='.s:mid_green.rgb.'           guibg='.s:background.rgb.'          cterm=italic gui=italic'
+exec 'hi SpecialComment  ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          cterm=italic gui=italic'
+exec 'hi Todo            ctermfg='.s:green.ansi.'            ctermbg='.s:light_green.ansi.'      guifg='.s:green.rgb.'               guibg='.s:light_green.rgb.'         '
+exec 'hi Constant        ctermfg='.s:orange.ansi.'           ctermbg='.s:background.ansi.'       guifg='.s:orange.rgb.'              guibg='.s:background.rgb.'          '
+exec 'hi Character       ctermfg='.s:magenta.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:magenta.rgb.'             guibg='.s:background.rgb.'          '
+exec 'hi Delimeter       ctermfg='.s:bright_green.ansi.'     ctermbg='.s:green.ansi.'            guifg='.s:bright_green.rgb.'        guibg='.s:green.rgb.'               '
+exec 'hi NvimParenthesis ctermfg='.s:bright_green.ansi.'     ctermbg='.s:green.ansi.'            guifg='.s:bright_green.rgb.'        guibg='.s:green.rgb.'               '
+exec 'hi NvimComma       ctermfg='.s:bright_green.ansi.'     ctermbg='.s:green.ansi.'            guifg='.s:bright_green.rgb.'        guibg='.s:green.rgb.'               '
+exec 'hi NvimColon       ctermfg='.s:bright_green.ansi.'     ctermbg='.s:green.ansi.'            guifg='.s:bright_green.rgb.'        guibg='.s:green.rgb.'               '
+exec 'hi Conditional     ctermfg='.s:magenta.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:magenta.rgb.'             guibg='.s:background.rgb.'          '
+exec 'hi Label           ctermfg='.s:magenta.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:magenta.rgb.'             guibg='.s:background.rgb.'          '
+exec 'hi Operator        ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          '
+exec 'hi Special         ctermfg='.s:foreground.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:foreground.rgb.'               guibg='.s:background.rgb.'          '
+exec 'hi PreProc         ctermfg='.s:orange.ansi.'           ctermbg='.s:background.ansi.'       guifg='.s:orange.rgb.'              guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi Statement       ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi Identifier      ctermfg='.s:reddish_pink.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:reddish_pink.rgb.'        guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi StorageClass    ctermfg='.s:reddish_pink.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:reddish_pink.rgb.'        guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi Type            ctermfg='.s:yellow.ansi.'           ctermbg='.s:background.ansi.'       guifg='.s:yellow.rgb.'              guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi Error           ctermfg='.s:foreground.ansi.'            ctermbg='.s:red.ansi.'              guifg='.s:foreground.rgb.'               guibg='.s:red.rgb.'                 '
+exec 'hi ErrorMsg        ctermfg='.s:foreground.ansi.'            ctermbg='.s:red.ansi.'              guifg='.s:foreground.rgb.'               guibg='.s:red.rgb.'                 '
+exec 'hi WarningMsg      ctermfg='.s:foreground.ansi.'            ctermbg='.s:orange.ansi.'           guifg='.s:foreground.rgb.'               guibg='.s:orange.rgb.'              '
+exec 'hi Title           ctermfg='.s:magenta.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:magenta.rgb.'             guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi markdownIdDeclaration ctermfg='.s:tealish.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:tealish.rgb.'             guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi markdownUrl     ctermfg='.s:tealish.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:tealish.rgb.'             guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi graphqlStructure ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi graphqlType     ctermfg='.s:yellow.ansi.'           ctermbg='.s:background.ansi.'       guifg='.s:yellow.rgb.'              guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi yamlKey         ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi yamlBlockMappingKey ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          cterm=bold gui=bold'
+exec 'hi Directory       ctermfg='.s:magenta.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:magenta.rgb.'             guibg='.s:background.rgb.'          '
+exec 'hi DiffAdd         ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          '
+exec 'hi diffAdded       ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          '
+exec 'hi DiffDelete      ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          '
+exec 'hi diffRemoved     ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          '
+exec 'hi DiffChange                                          ctermbg='.s:green.ansi.'                                                guibg='.s:green.rgb.'               '
+exec 'hi DiffText        ctermfg='.s:tealish.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:tealish.rgb.'             guibg='.s:background.rgb.'          '
+exec 'hi diffFile        ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          '
+exec 'hi gitcommitDiff   ctermfg='.s:reddish_pink.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:reddish_pink.rgb.'        guibg='.s:background.rgb.'          '
+exec 'hi diffIndexLine   ctermfg='.s:yellow.ansi.'           ctermbg='.s:background.ansi.'       guifg='.s:yellow.rgb.'              guibg='.s:background.rgb.'          '
+exec 'hi diffLine        ctermfg='.s:magenta.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:magenta.rgb.'             guibg='.s:background.rgb.'          '
+exec 'hi RedrawDebugNormal ctermfg='.s:background.ansi.'       ctermbg='.s:bright_green.ansi.'     guifg='.s:background.rgb.'          guibg='.s:bright_green.rgb.'        '
+exec 'hi RedrawDebugClear ctermfg='.s:background.ansi.'       ctermbg='.s:yellow.ansi.'           guifg='.s:background.rgb.'          guibg='.s:yellow.rgb.'              '
+exec 'hi RedrawDebugComposed ctermfg='.s:background.ansi.'       ctermbg='.s:red.ansi.'              guifg='.s:background.rgb.'          guibg='.s:red.rgb.'                 '
+exec 'hi RedrawDebugRecompose ctermfg='.s:background.ansi.'       ctermbg='.s:bright_green.ansi.'     guifg='.s:background.rgb.'          guibg='.s:bright_green.rgb.'        '
+exec 'hi ExtraWhitespace ctermfg='.s:magenta.ansi.'          ctermbg='.s:green.ansi.'            guifg='.s:magenta.rgb.'             guibg='.s:green.rgb.'               cterm=underline gui=underline'
+exec 'hi NvimInternalError ctermfg='.s:background.ansi.'       ctermbg='.s:red.ansi.'              guifg='.s:background.rgb.'          guibg='.s:red.rgb.'                 '
