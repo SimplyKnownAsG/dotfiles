@@ -147,7 +147,7 @@ try
     call glaive#Install()
 catch
     " don't really care
-    echo "Caught error: " v:exception
+    echoerr "Caught error: " v:exception
 endtry
 
 filetype plugin indent on

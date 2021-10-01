@@ -84,7 +84,7 @@ def resolve_duplicates(copy, dotfile_map):
         Combinable('.config/nvim/ginit.vim', comment_char='"', reverse=True),
         Combinable('.bashrc'),
         Combinable('.zshrc'),
-        Combinable('.profile'),
+        Combinable('.config/shell/rc'), # shared run commands
     ]
 
     unhandled = []
@@ -230,6 +230,8 @@ class Combinable(object):
 
         try:
             conf_file = None
+
+            mkdirs(dry, os.path.dirname(self.destpath))
 
             if not dry:
                 if os.path.exists(self.destpath):
