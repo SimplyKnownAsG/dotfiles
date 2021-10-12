@@ -140,6 +140,8 @@ try
     Plug 'google/vim-glaive'
     nmap <leader>df :FormatCode<CR>
 
+    Plug 'prettier/vim-prettier'
+
     for source_file in globpath(expand('<sfile>:p:h'), 'more_plug*.vim', 0, 1)
         exec 'source ' . source_file
     endfor
