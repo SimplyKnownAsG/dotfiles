@@ -68,6 +68,21 @@ function clean-path() {
     export PATH=`printf %s "$PATH" | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 }
 
+function aws-list-all-resources() {
+    if [ -z "$1" ]
+    then
+        echo "must provide profile name"
+    fi
+
+    for stack in $(aws --profile $1 cloudformation list-stacks | jq -rc '.StackSummaries[].StackName')
+    do
+        echo "======================================================"
+        echo $stack
+        aws --profile $1 cloudformation describe-stack-resources --stack-name $stack \
+            | jq -rc '.StackResources[]|[.ResourceType, .LogicalResourceId, .PhysicalResourceId]'
+    done
+}
+
 clean-path
 
 function update-background() {
