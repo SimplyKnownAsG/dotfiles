@@ -82,6 +82,7 @@ def resolve_duplicates(copy, dotfile_map):
         Combinable('.vimrc', comment_char='"', reverse=True),
         Combinable('.config/nvim/init.vim', comment_char='"', reverse=True),
         Combinable('.config/nvim/ginit.vim', comment_char='"', reverse=True),
+        Combinable('.profile'),
         Combinable('.bashrc'),
         Combinable('.zshrc'),
         Combinable('.config/shell/rc'), # shared run commands
