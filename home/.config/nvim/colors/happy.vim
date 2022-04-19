@@ -39,7 +39,7 @@ if &background == 'dark'
     let s:background=s:dark_green
 else
     let s:foreground=s:dark_green
-    let s:background=s:bright_green
+    let s:background=s:white
 endif
 
 
@@ -62,7 +62,7 @@ exec 'hi TabLine         ctermfg='.s:green.ansi.'            ctermbg='.s:backgro
 exec 'hi TabLineFill     ctermfg='.s:green.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:green.rgb.'               guibg='.s:background.rgb.'          '
 exec 'hi TabLineSel      ctermfg='.s:bright_green.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:bright_green.rgb.'        guibg='.s:background.rgb.'          '
 exec 'hi Pmenu           ctermfg='.s:bright_green.ansi.'     ctermbg='.s:green.ansi.'            guifg='.s:bright_green.rgb.'        guibg='.s:green.rgb.'               '
-exec 'hi PmenuSel        ctermfg='.s:foreground.ansi.'            ctermbg='.s:green.ansi.'            guifg='.s:foreground.rgb.'               guibg='.s:green.rgb.'               '
+exec 'hi PmenuSel        ctermfg='.s:magenta.ansi.'          ctermbg='.s:green.ansi.'            guifg='.s:magenta.rgb.'             guibg='.s:green.rgb.'               cterm=bold gui=bold'
 exec 'hi PmenuSbar       ctermfg='.s:bright_green.ansi.'     ctermbg='.s:green.ansi.'            guifg='.s:bright_green.rgb.'        guibg='.s:green.rgb.'               '
 exec 'hi PmenuThumb      ctermfg='.s:magenta.ansi.'          ctermbg='.s:green.ansi.'            guifg='.s:magenta.rgb.'             guibg='.s:green.rgb.'               '
 exec 'hi Comment         ctermfg='.s:mid_green.ansi.'        ctermbg='.s:background.ansi.'       guifg='.s:mid_green.rgb.'           guibg='.s:background.rgb.'          cterm=italic gui=italic'
@@ -108,5 +108,5 @@ exec 'hi RedrawDebugNormal ctermfg='.s:background.ansi.'       ctermbg='.s:brigh
 exec 'hi RedrawDebugClear ctermfg='.s:background.ansi.'       ctermbg='.s:yellow.ansi.'           guifg='.s:background.rgb.'          guibg='.s:yellow.rgb.'              '
 exec 'hi RedrawDebugComposed ctermfg='.s:background.ansi.'       ctermbg='.s:red.ansi.'              guifg='.s:background.rgb.'          guibg='.s:red.rgb.'                 '
 exec 'hi RedrawDebugRecompose ctermfg='.s:background.ansi.'       ctermbg='.s:bright_green.ansi.'     guifg='.s:background.rgb.'          guibg='.s:bright_green.rgb.'        '
-exec 'hi ExtraWhitespace ctermfg='.s:magenta.ansi.'          ctermbg='.s:green.ansi.'            guifg='.s:magenta.rgb.'             guibg='.s:green.rgb.'               cterm=underline gui=underline'
+exec 'hi ExtraWhitespace ctermfg='.s:magenta.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:magenta.rgb.'             guibg='.s:background.rgb.'          cterm=underline gui=underline'
 exec 'hi NvimInternalError ctermfg='.s:background.ansi.'       ctermbg='.s:red.ansi.'              guifg='.s:background.rgb.'          guibg='.s:red.rgb.'                 '

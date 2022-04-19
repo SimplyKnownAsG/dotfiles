@@ -104,7 +104,7 @@ if &background == 'dark'
     let s:background=s:dark_green
 else
     let s:foreground=s:dark_green
-    let s:background=s:bright_green
+    let s:background=s:white
 endif
 
 
@@ -133,7 +133,7 @@ endif
     f.write(hi('TabLineSel', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
 
     f.write(hi('Pmenu', fg=the_colors['bright_green'], bg=the_colors['green']))
-    f.write(hi('PmenuSel', fg=the_colors['white'], bg=the_colors['green']))
+    f.write(hi('PmenuSel', fg=the_colors['magenta'], bg=the_colors['green'], style='bold'))
     f.write(hi('PmenuSbar', fg=the_colors['bright_green'], bg=the_colors['green']))      # could look crappy
     f.write(hi('PmenuThumb', fg=the_colors['magenta'], bg=the_colors['green']))    # could look crappy
 
@@ -190,7 +190,7 @@ endif
     f.write(hi('RedrawDebugComposed', fg=the_colors['dark_green'], bg=the_colors['red']))
     f.write(hi('RedrawDebugRecompose', fg=the_colors['dark_green'], bg=the_colors['bright_green']))
 
-    f.write(hi('ExtraWhitespace', fg=the_colors['magenta'], bg=the_colors['green'], style='underline'))
+    f.write(hi('ExtraWhitespace', fg=the_colors['magenta'], bg=the_colors['dark_green'], style='underline'))
 
     f.write(hi('NvimInternalError', fg=the_colors['dark_green'], bg=the_colors['red']))
 
