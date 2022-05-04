@@ -2,33 +2,14 @@
 
 echo "updating vim"
 
-if [ ! -d ~/.config/vim-plug ] ; then
-    echo "creating vim-plug dir, first time install"
-    mkdir -p ~/.config/vim-plug
-fi
+git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+     ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-
-if [ ! -f ~/.config/vim-plug/plug.vim ] ; then
-    echo "downloading plug.vim, first time install"
-    curl -fL https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
-        > ~/.config/vim-plug/plug.vim
-fi
-
-echo "upgrading vim-plug"
-$EDITOR +PlugUpgrade -c qa
-
-echo "updating vim plugins"
-$EDITOR +PlugUpdate -c qa
+echo "upgrading vim-packer"
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # echo "Installing some coc-plugins..."
 # $EDITOR +CocInstall coc-java coc-json coc-go coc-typescript -c qa
-
-echo "updating tmux"
-if [ ! -d ~/.config/tmux/plugins/tpm ] ; then
-    echo "downloading tpm, first time install"
-    git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-    tmux source ~/.config/tmux/tmux.conf
-fi
 
 echo "updating kitty things"
 if command -v kitty
@@ -38,3 +19,17 @@ then
     tic -x -o ~/.config/kitty/terminfo/ temp-xterm-kitty.temp
     rm temp-xterm-kitty.temp
 fi
+
+echo "Installing java"
+nix build nixpkgs#jdk8 -o ~/.local/lib/jdk8
+nix build nixpkgs#jdk11 -o ~/.local/lib/jdk11
+nix build nixpkgs#jdk17 -o ~/.local/lib/jdk17
+
+if [[ ! -f ~/.local/bin/jdtls ]]
+then
+    echo 'installing jdtls'
+    curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
+fi
+
+echo 'updating jdtls'
+jdtls --update
