@@ -73,7 +73,7 @@ def hi(names, *, fg=None, bg=None, style=None):
     for name in names:
         lines.append(f"exec 'hi {name.ljust(15)} {ctermfg} {ctermbg} {guifg} {guibg} {style}'\n")
 
-    return ''.join(lines).replace('dark_green', 'background').replace('white', 'foreground')
+    return ''.join(lines).replace('dark_green', 'background').replace('white', 'foreground').replace('bright_green', 'highlight')
 
 with open('happy.vim', 'w') as f:
     f.write('''
@@ -102,9 +102,11 @@ let colors_name = "happy"
 if &background == 'dark'
     let s:foreground=s:white
     let s:background=s:dark_green
+    let s:highlight=s:bright_green
 else
     let s:foreground=s:dark_green
     let s:background=s:white
+    let s:highlight=s:yellow_green
 endif
 
 
@@ -132,15 +134,15 @@ endif
     f.write(hi('TabLineFill', fg=the_colors['green'], bg=the_colors['dark_green']))
     f.write(hi('TabLineSel', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
 
-    f.write(hi('Pmenu', fg=the_colors['bright_green'], bg=the_colors['green']))
-    f.write(hi('PmenuSel', fg=the_colors['magenta'], bg=the_colors['green'], style='bold'))
-    f.write(hi('PmenuSbar', fg=the_colors['bright_green'], bg=the_colors['green']))      # could look crappy
-    f.write(hi('PmenuThumb', fg=the_colors['magenta'], bg=the_colors['green']))    # could look crappy
+    f.write(hi('Pmenu', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
+    f.write(hi('PmenuSel', fg=the_colors['magenta'], bg=the_colors['dark_green'], style='bold'))
+    f.write(hi('PmenuSbar', fg=the_colors['bright_green'], bg=the_colors['dark_green']))      # could look crappy
+    f.write(hi('PmenuThumb', fg=the_colors['magenta'], bg=the_colors['dark_green']))    # could look crappy
 
 
     # "" Syntax highlighting
     f.write(hi('Comment', fg=the_colors['mid_green'], bg=the_colors['dark_green'], style='italic'))
-    f.write(hi('SpecialComment', fg=the_colors['bright_green'], bg=the_colors['dark_green'], style='italic'))
+    f.write(hi('SpecialComment', fg=the_colors['bright_green'], bg=the_colors['dark_green'], style='bold'))
     f.write(hi('Todo', fg=the_colors['green'], bg=the_colors['light_green'])) # TODO:
     f.write(hi('Constant', fg=the_colors['orange'], bg=the_colors['dark_green']))
     f.write(hi('Character', fg=the_colors['magenta'], bg=the_colors['dark_green']))
