@@ -15,5 +15,9 @@
     filetype = diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD --
 [rev-parse]
     short = 8
-[credential]
-    helper = manager
+[pull]
+    rebase = true
+[fetch]
+    prune = true
+[diff]
+    colorMoved = zebra
