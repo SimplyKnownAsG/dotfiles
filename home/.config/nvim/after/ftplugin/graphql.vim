@@ -1,3 +1,2 @@
-setlocal tabstop=4
-setlocal shiftwidth=4
+nmap <leader>df :Prettier<CR>
 setlocal expandtab
