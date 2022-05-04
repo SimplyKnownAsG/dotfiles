@@ -17,7 +17,10 @@ alias u3='cd ../../..'
 alias tmux='tmux -f ~/.config/tmux/tmux.conf'
 alias gotest='go test -v -count=1 ./...'
 alias gopest='go test -v -count=1 -parallel 4 ./...'
-alias clear='clear ; tmux clear-history 2>/dev/null'
+clear() {
+    # https://github.com/kovidgoyal/kitty/issues/268#issuecomment-419342337
+    printf '\033[2J\033[3J\033[1;1H'
+}
 alias display-message='tmux display-message'
 
 # editor stuff
@@ -32,6 +35,10 @@ export MYGVIMRC=~/.config/nvim/ginit.vim
 alias vim='vim -u $MYVIMRC'
 alias gvim='vim -U $MYGVIMRC'
 export LSCOLORS=GxFxCxDxBxegedabagaced
+
+function sync-date() {
+    sudo date -s "$(curl --head www.google.com 2>&1 | sed '/Date/!d ; s/^Date://')"
+}
 
 export GOPATH=~/.local/go
 export NPM_CONFIG_USERCONFIG=~/.config/npm/config
