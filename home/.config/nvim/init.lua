@@ -1,11 +1,9 @@
 function map(mode, shortcut, command, opts)
-    --for mode in modes:gmatch(".") do
-        vim.api.nvim_set_keymap(
-            mode,
-            shortcut,
-            command,
-            opts or {})
-    --end
+    vim.api.nvim_set_keymap(
+        mode,
+        shortcut,
+        command,
+        opts or {})
 end
 
 vim.g.mapleader = ' '
@@ -29,6 +27,12 @@ function configure_plugins()
         use 'wbthomason/packer.nvim'
 
         use 'neovim/nvim-lspconfig'
+        -- use 'hrsh7th/cmp-nvim-lsp'
+        -- use 'hrsh7th/cmp-buffer'
+        -- use 'hrsh7th/cmp-path'
+        -- use 'hrsh7th/cmp-cmdline'
+        -- use 'hrsh7th/nvim-cmp'
+
         use 'mfussenegger/nvim-jdtls'
 
         use 'tpope/vim-fugitive'
@@ -39,6 +43,7 @@ function configure_plugins()
         use 'tpope/vim-obsession'
         use 'tpope/vim-sleuth'
         use 'tpope/vim-markdown'
+        vim.g.markdown_folding = 1
 	vim.g.markdown_fenced_languages = {
             'html',
             'python',
@@ -54,7 +59,9 @@ function configure_plugins()
         use 'chrisbra/improvedft'
 
         use 'ctrlpvim/ctrlp.vim'
-        vim.g.ctrlp_user_command = {'.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard'}
+        vim.g.ctrlp_map = '<leader>ff' -- find file
+        vim.g.ctrlp_user_command = {'ag -g ""'}
+        vim.g.ctrlp_working_path_mode = 0
 
         -- use 'yssl/QFEnter'
         -- vim.g.qfenter_keymap = {}
@@ -107,13 +114,13 @@ function configure_plugins()
         vim.g.oscyank_term='kitty'
         -- autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
 
-        use 'vim-airline/vim-airline'
-        use 'vim-airline/vim-airline-themes'
-        -- Set this. Airline will handle the rest.
-        vim.g.airline_detect_spell=0
-        -- vim.g.airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
-        vim.g.airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
-        vim.g.airline_theme = 'violet'
+        -- use 'vim-airline/vim-airline'
+        -- use 'vim-airline/vim-airline-themes'
+        -- -- Set this. Airline will handle the rest.
+        -- vim.g.airline_detect_spell=0
+        -- -- vim.g.airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
+        -- vim.g.airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
+        -- vim.g.airline_theme = 'violet'
 
         use 'MattesGroeger/vim-bookmarks'
         vim.g.bookmark_disable_ctrlp = 1
@@ -136,10 +143,7 @@ function configure_plugins()
         mapleader('n', 'df', ':FormatCode<CR>')
 
         use 'prettier/vim-prettier'
-
-        -- for source_file in globpath(expand('<sfile>:p:h'), 'more_plug*.vim', 0, 1)
-        --     exec 'source ' . source_file
-        -- endfor
+        -- use { 'ssh://git.amazon.com:2222/pkg/Vim-code-browse' }
     end)
 end
 
@@ -165,9 +169,9 @@ vim.cmd([[
 " Find all, open quickfix
 function! FindAll(include_test, pattern)
     if a:include_test
-        let l:files = systemlist('git ls-files')
+        let l:files = systemlist('ag -g ""')
     else
-        let l:files = systemlist('git ls-files | grep -Pv "(Test|\btest\b)"')
+        let l:files = systemlist('ag -g "" | grep -Pv "(Test|\btest\b)"')
     endif
     execute "vimgrep /" . a:pattern . "/g " . join(l:files, ' ')
     copen
@@ -212,12 +216,42 @@ map SS :call SynStack()<CR>
 au BufRead,BufNewFile *.devenv set filetype=sh
 ]])
 
+local function t(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+vim.opt.completeopt = 'menuone,noselect,noinsert'
+
+-- vim.g.smart_tab = function()
+function _G.smart_tab()
+    if (vim.fn.pumvisible() == 1)
+    then
+        return t'<C-n>'
+    end
+
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+
+    if (col == 0)
+    then
+        return t'<TAB>'
+    end
+
+    local char = vim.api.nvim_get_current_line():sub(col, col)
+    if (char == '.' or char:match('%w'))
+    then
+        -- return vim.lsp.buf.completion()
+        return t'<C-x><C-o>'
+    end
+
+    return t'<TAB>'
+end
+
 vim.g.on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
+    opts = {noremap=true}
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -227,4 +261,7 @@ vim.g.on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<TAB>', 'v:lua.smart_tab()', {expr=true, noremap=true})
+    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<S-TAB>', 'pumvisible() ? "<C-p>" : "<S-TAB>"', {noremap=true, expr=true})
 end
