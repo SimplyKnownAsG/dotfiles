@@ -1,1 +1,3 @@
-nmap <leader>df :Prettier<CR>
+require('lspconfig').tsserver.setup {
+  on_attach = on_attach
+}
