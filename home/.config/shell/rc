@@ -1,11 +1,13 @@
 # vi: ft=sh
 
-# alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+set -o vi
+PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
 
-# some more ls aliases
-alias ls="ls -F $(ls --help 2>&1 | grep -qo -- --color && echo "--color=auto" || echo \-G)"
+alias grep='grep --color=auto'
+
+alias :q='exit'
+alias bk='cd ${OLDPWD}'
+alias ls="ls -F --color=auto"
 alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -14,96 +16,21 @@ alias py3='python3'
 alias up='cd ..'
 alias u2='cd ../..'
 alias u3='cd ../../..'
-alias tmux='tmux -f ~/.config/tmux/tmux.conf'
 alias gotest='go test -v -count=1 ./...'
 alias gopest='go test -v -count=1 -parallel 4 ./...'
 clear() {
     # https://github.com/kovidgoyal/kitty/issues/268#issuecomment-419342337
     printf '\033[2J\033[3J\033[1;1H'
 }
-alias display-message='tmux display-message'
 
-# editor stuff
-if hash nvim 2>/dev/null ; then
-    export EDITOR=nvim
-else
-    export EDITOR=vim
-fi
-
-export MYVIMRC=~/.config/nvim/init.vim
-export MYGVIMRC=~/.config/nvim/ginit.vim
-alias vim='vim -u $MYVIMRC'
-alias gvim='vim -U $MYGVIMRC'
-export LSCOLORS=GxFxCxDxBxegedabagaced
+alias aws-cfn-list-all='aws cloudformation list-stacks | jq -r ".StackSummaries[].StackName" | xargs -I@ -P4 sh -c "aws cloudformation list-stack-resources --stack-name @ > @.list"'
 
 function sync-date() {
     sudo date -s "$(curl --head www.google.com 2>&1 | sed '/Date/!d ; s/^Date://')"
 }
 
-export GOPATH=~/.local/go
-export NPM_CONFIG_USERCONFIG=~/.config/npm/config
-export CARGO_HOME=~/.local/rust/cargo
-export RUSTUP_HOME=~/.local/rust/rustup
-
-export XDG_CONFIG_HOME=~/.config
-
-if [ -s ~/.config/nvm/nvm.sh ]
-then
-    # export NVM_DIR=~/.config/nvm
-    # source $NVM_DIR/nvm.sh --no-use
-    source ~/.config/nvm/nvm.sh --no-use
-fi
-
 function clean-path() {
-    for d in ~/.local/rust/cargo/bin ~/.local/npm/bin ~/.local/go/bin ~/.local/bin ~/.local/usr/bin
-    do
-        if [ -d $d ]; then
-            export PATH=$d:$PATH
-        fi
-    done
-
-    if [ -d ~/.gem/ruby/ ] ; then
-        export PATH=$PATH:~/.gem/ruby/`ls -1 ~/.gem/ruby/ | sort -V | tail -n 1`/bin
-    fi
-
-    if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ];
-    then
-        . $HOME/.nix-profile/etc/profile.d/nix.sh
-    fi
-
-    # clean path, thanks https://unix.stackexchange.com/a/40755/26585
     export PATH=`printf %s "$PATH" | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 }
 
-function aws-list-all-resources() {
-    if [ -z "$1" ]
-    then
-        echo "must provide profile name"
-    fi
-
-    for stack in $(aws --profile $1 cloudformation list-stacks | jq -rc '.StackSummaries[].StackName')
-    do
-        echo "======================================================"
-        echo $stack
-        aws --profile $1 cloudformation describe-stack-resources --stack-name $stack \
-            | jq -rc '.StackResources[]|[.ResourceType, .LogicalResourceId, .PhysicalResourceId]'
-    done
-}
-
 clean-path
-
-function update-background() {
-    mkdir -p ~/Pictures/backgrounds
-    img_path=$(
-        curl https://apod.nasa.gov/apod/astropix.html |
-            tr '\n' ' ' |
-            sed -E 's/.*(IMG|img).*(SRC|src)="([^ ]*)".*/\3/g'
-        )
-    img_name=$(basename $img_path)
-    curl https://apod.nasa.gov/apod/$img_path > ~/Pictures/backgrounds/$img_name
-    osascript -e 'tell application "System Events"
-            tell every desktop
-                set picture to "'~/Pictures/backgrounds/$img_name'"
-            end tell
-        end tell'
-}

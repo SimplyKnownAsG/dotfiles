@@ -60,7 +60,7 @@ function configure_plugins()
 
         use 'ctrlpvim/ctrlp.vim'
         vim.g.ctrlp_map = '<leader>ff' -- find file
-        vim.g.ctrlp_user_command = {'ag -g ""'}
+        vim.g.ctrlp_user_command = 'ag -g ""'
         vim.g.ctrlp_working_path_mode = 0
 
         -- use 'yssl/QFEnter'
@@ -112,7 +112,9 @@ function configure_plugins()
 
         use 'ojroques/vim-oscyank'
         vim.g.oscyank_term='kitty'
-        -- autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+        vim.cmd([[
+            autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+        ]])
 
         -- use 'vim-airline/vim-airline'
         -- use 'vim-airline/vim-airline-themes'
@@ -130,8 +132,6 @@ function configure_plugins()
         use 'leafgarland/typescript-vim'
         use 'peitalin/vim-jsx-typescript'
 
-        use 'tfnico/vim-gradle'
-
         use 'stephpy/vim-yaml'
         use 'flazz/vim-colorschemes'
         use 'sotte/presenting.vim'
@@ -139,13 +139,17 @@ function configure_plugins()
         use 'google/vim-maktaba'
         use 'google/vim-codefmt'
         use 'google/vim-glaive'
-        vim.cmd('call glaive#Install()')
         mapleader('n', 'df', ':FormatCode<CR>')
 
         use 'prettier/vim-prettier'
-        -- use { 'ssh://git.amazon.com:2222/pkg/Vim-code-browse' }
+        use { 'malmgg@git.amazon.com:pkg/Vim-code-browse' }
+
     end)
 end
+
+vim.api.nvim_set_option("clipboard","unnamed")
+
+vim.cmd('call glaive#Install()')
 
 configure_plugins()
 
