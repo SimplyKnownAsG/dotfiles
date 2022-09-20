@@ -11,7 +11,7 @@ vim.g.maplocalleader = ' '
 map('n', ' ', '<Nop>', {noremap=true})
 
 function nmap(shortcut, command)
-  map('n', shortcut, command)
+    map('n', shortcut, command)
 end
 
 function mapleader(mode, shortcut, command, opts)
@@ -20,6 +20,25 @@ end
 
 mapleader('n', '<CR>', ':source $MYVIMRC<CR>')
 
+-- {{{ toggle quickfix
+function toggle_list(list_name, open_cmd, close_cmd)
+    local list_exists = false
+    for _, win in pairs(vim.fn.getwininfo()) do
+        if win[list_name] == 1 then
+            list_exists = true
+        end
+    end
+    if list_exists == true then
+        vim.cmd(close_cmd)
+    else
+        vim.cmd(open_cmd)
+    end
+end
+
+mapleader('n', 'tq', '<cmd>lua toggle_list("quickfix", "copen | wincmd p", "cclose")<CR>')
+mapleader('n', 'tl', '<cmd>lua toggle_list("loclist", "lopen | wincmd p", "lclose")<CR>')
+-- }}}
+
 function configure_plugins()
     local packer = require('packer')
     packer.startup(function()
@@ -27,11 +46,6 @@ function configure_plugins()
         use 'wbthomason/packer.nvim'
 
         use 'neovim/nvim-lspconfig'
-        -- use 'hrsh7th/cmp-nvim-lsp'
-        -- use 'hrsh7th/cmp-buffer'
-        -- use 'hrsh7th/cmp-path'
-        -- use 'hrsh7th/cmp-cmdline'
-        -- use 'hrsh7th/nvim-cmp'
 
         use 'mfussenegger/nvim-jdtls'
 
@@ -44,7 +58,7 @@ function configure_plugins()
         use 'tpope/vim-sleuth'
         use 'tpope/vim-markdown'
         vim.g.markdown_folding = 1
-	vim.g.markdown_fenced_languages = {
+        vim.g.markdown_fenced_languages = {
             'html',
             'python',
             'bash=sh',
@@ -60,16 +74,8 @@ function configure_plugins()
 
         use 'ctrlpvim/ctrlp.vim'
         vim.g.ctrlp_map = '<leader>ff' -- find file
-        vim.g.ctrlp_user_command = 'ag -g ""'
+        vim.g.ctrlp_user_command = 'ag --hidden --ignore .git -g ""'
         vim.g.ctrlp_working_path_mode = 0
-
-        -- use 'yssl/QFEnter'
-        -- vim.g.qfenter_keymap = {}
-        -- vim.g.qfenter_keymap.cnext_keep = {'<C-n>'}
-        -- vim.g.qfenter_keymap.cprev_keep = {'<C-p>'}
-        -- vim.g.qfenter_keymap.vopen = {'<C-v>'}
-        -- vim.g.qfenter_keymap.hopen = {'<C-s>'}
-        -- vim.g.qfenter_keymap.topen = {'<C-t>'}
 
         use 'mattn/vim-goimports'
 
@@ -131,6 +137,8 @@ function configure_plugins()
         vim.g.typescript_indent_disable = 1
         use 'leafgarland/typescript-vim'
         use 'peitalin/vim-jsx-typescript'
+
+        use 'LnL7/vim-nix'
 
         use 'stephpy/vim-yaml'
         use 'flazz/vim-colorschemes'
@@ -250,6 +258,17 @@ function _G.smart_tab()
     return t'<TAB>'
 end
 
+function graham_setloclist()
+    vim.diagnostic.setloclist()
+    vim.cmd('wincmd p')
+end
+
+function graham_setqflist()
+    vim.diagnostic.setqflist()
+    vim.cmd('wincmd p')
+end
+
+
 vim.g.on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -268,4 +287,7 @@ vim.g.on_attach = function(client, bufnr)
 
     vim.api.nvim_buf_set_keymap(bufnr, 'i', '<TAB>', 'v:lua.smart_tab()', {expr=true, noremap=true})
     vim.api.nvim_buf_set_keymap(bufnr, 'i', '<S-TAB>', 'pumvisible() ? "<C-p>" : "<S-TAB>"', {noremap=true, expr=true})
+
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>cl', '<cmd>lua graham_setloclist()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>cq', '<cmd>lua graham_setqflist()<CR>', opts)
 end

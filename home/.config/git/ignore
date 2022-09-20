@@ -11,3 +11,4 @@ Session.vim
 lombok.config
 annotation-generated-src/
 /?/
+.bemol
