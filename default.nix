@@ -30,11 +30,27 @@
     LSCOLORS = "GxFxCxDxBxegedabagaced";
   };
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
+
   home.shellAliases = {
     ls = "ls --color=auto";
     ll = "ls -alhF";
     up = "cd ..";
     u2 = "cd ../..";
+    u3 = "cd ../../..";
+    grep = "grep --color=auto";
+    ":q" = "exit";
+    bk = ''cd ''${OLDPWD}'';
+    py = "python2";
+    py3 = "python3";
+    gotest = "go test -v -count=1 ./...";
+    gopest = "go test -v -count=1 -parallel 4 ./...";
+    aws-cfn-list-all = ''aws cloudformation list-stacks | jq -r ".StackSummaries[].StackName" |
+                xargs -I@ -P4 sh -c "aws cloudformation list-stack-resources --stack-name @ > @.list"'';
+    # https://github.com/kovidgoyal/kitty/issues/268#issuecomment-419342337
+    clear = ''printf '\033[2J\033[3J\033[1;1H' '';
   };
 
   home.file.".config/git/config".source = ./dot/config/git/config;
@@ -42,7 +58,6 @@
   home.file.".config/git/ignore".source = ./dot/config/git/ignore;
   home.file.".config/kitty/kitty.conf".source = ./dot/config/kitty/kitty.conf;
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
-  home.file.".config/nixpkgs/home.nix".source = ./dot/config/nixpkgs/home.nix;
   home.file.".config/npm/config".source = ./dot/config/npm/config;
   home.file.".config/nvim/.gitignore".source = ./dot/config/nvim/.gitignore;
   home.file.".config/nvim/after/ftplugin/gitcommit.vim".source = ./dot/config/nvim/after/ftplugin/gitcommit.vim;
@@ -55,7 +70,6 @@
   home.file.".config/nvim/ftplugin/markdown.vim".source = ./dot/config/nvim/ftplugin/markdown.vim;
   home.file.".config/nvim/ftplugin/typescript.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/init.lua".source = ./dot/config/nvim/init.lua;
-  home.file.".config/shell/rc".source = ./dot/config/shell/rc;
   home.file.".config/tmux/tmux.conf".source = ./dot/config/tmux/tmux.conf;
   home.file.".local/bin/cloudformation-dep-graph".source = ./dot/local/bin/cloudformation-dep-graph;
   home.file.".local/bin/git-config-github".source = ./dot/local/bin/git-config-github;
@@ -82,11 +96,12 @@
   targets.genericLinux.enable = true;
   programs.bash = {
     enable = true;
-    profileExtra = ''
-        export PATH=$HOME/.local/bin:$PATH
-    '';
+    sessionVariables = {
+      PS1 = ''\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '';
+    };
     initExtra = ''
-        . "$HOME/.config/shell/rc"
+      set -o vi
+      PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
     '';
   };
 }
