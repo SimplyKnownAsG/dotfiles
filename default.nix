@@ -85,7 +85,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "22.05";
+  home.stateVersion = "22.11";
 
   fonts.fontconfig.enable = true;
 
@@ -94,11 +94,9 @@
 
   # get .desktop files picked up with XDG_DATA_DIRS
   targets.genericLinux.enable = true;
+
   programs.bash = {
     enable = true;
-    sessionVariables = {
-      PS1 = ''\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '';
-    };
     initExtra = ''
       set -o vi
       PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
