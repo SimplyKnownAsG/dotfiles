@@ -55,7 +55,6 @@
   home.file.".config/nvim/ftplugin/markdown.vim".source = ./dot/config/nvim/ftplugin/markdown.vim;
   home.file.".config/nvim/ftplugin/typescript.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/init.lua".source = ./dot/config/nvim/init.lua;
-  home.file.".config/nvim/ycm_extra_conf.py".source = ./dot/config/nvim/ycm_extra_conf.py;
   home.file.".config/shell/rc".source = ./dot/config/shell/rc;
   home.file.".config/tmux/tmux.conf".source = ./dot/config/tmux/tmux.conf;
   home.file.".local/bin/cloudformation-dep-graph".source = ./dot/local/bin/cloudformation-dep-graph;
