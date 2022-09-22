@@ -19,6 +19,8 @@ function mapleader(mode, shortcut, command, opts)
 end
 
 mapleader('n', '<CR>', ':source $MYVIMRC<CR>')
+nmap('<TAB>', ':tabn<CR>')
+nmap('<S-TAB>', ':tabp<CR>')
 
 -- {{{ toggle quickfix
 function toggle_list(list_name, open_cmd, close_cmd)
