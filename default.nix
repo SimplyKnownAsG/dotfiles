@@ -1,4 +1,4 @@
-{ config, pkgs, nixpkgs, ... }:
+{ config, pkgs, nixpkgs, lib, ... }:
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -59,11 +59,9 @@
   home.file.".config/kitty/kitty.conf".source = ./dot/config/kitty/kitty.conf;
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
   home.file.".config/npm/config".source = ./dot/config/npm/config;
-  home.file.".config/nvim/.gitignore".source = ./dot/config/nvim/.gitignore;
   home.file.".config/nvim/after/ftplugin/gitcommit.vim".source = ./dot/config/nvim/after/ftplugin/gitcommit.vim;
   home.file.".config/nvim/after/ftplugin/graphql.vim".source = ./dot/config/nvim/after/ftplugin/graphql.vim;
   home.file.".config/nvim/after/ftplugin/qf.vim".source = ./dot/config/nvim/after/ftplugin/qf.vim;
-  home.file.".config/nvim/colors/.gitignore".source = ./dot/config/nvim/colors/.gitignore;
   home.file.".config/nvim/colors/happy.vim".source = ./dot/config/nvim/colors/happy.vim;
   home.file.".config/nvim/colors/script.py".source = ./dot/config/nvim/colors/script.py;
   home.file.".config/nvim/ftplugin/go.vim".source = ./dot/config/nvim/ftplugin/go.vim;
