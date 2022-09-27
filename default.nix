@@ -95,6 +95,7 @@
 
   programs.bash = {
     enable = true;
+    historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
     initExtra = ''
       set -o vi
       PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
