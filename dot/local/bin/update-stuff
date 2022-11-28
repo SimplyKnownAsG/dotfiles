@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
 
-echo "updating vim"
-
-git clone --depth 1 https://github.com/wbthomason/packer.nvim \
-     ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-echo "upgrading vim-packer"
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-
-# echo "Installing some coc-plugins..."
-# $EDITOR +CocInstall coc-java coc-json coc-go coc-typescript -c qa
-
 echo "updating kitty things"
 if command -v kitty
 then
@@ -19,11 +8,6 @@ then
     tic -x -o ~/.config/kitty/terminfo/ temp-xterm-kitty.temp
     rm temp-xterm-kitty.temp
 fi
-
-echo "Installing java"
-nix build nixpkgs#jdk8 -o ~/.local/lib/jdk8
-nix build nixpkgs#jdk11 -o ~/.local/lib/jdk11
-nix build nixpkgs#jdk17 -o ~/.local/lib/jdk17
 
 if [[ ! -f ~/.local/bin/jdtls ]]
 then
