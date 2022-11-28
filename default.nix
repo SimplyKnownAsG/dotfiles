@@ -1,26 +1,37 @@
 { config, pkgs, nixpkgs, lib, ... }:
 {
+  fonts.fontconfig.enable = true;
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.packages = with pkgs; [
+    bashInteractive
+    ctags
     git
-    neovim
+    jq
     mesa
-    kitty
     ncurses
-    cascadia-code
+    neovim
     silver-searcher
     tree
-    ctags
+
+    cascadia-code
 
     slack
-    signal-desktop
 
     nodejs
     nodePackages.typescript-language-server
 
     python3
-  ] ++ (with python3Packages; [
+  ]
+  ++ (
+    if pkgs.stdenv.hostPlatform.isDarwin
+    then
+      [ ]
+    else
+      [ pkgs.signal-desktop ]
+  )
+  ++ (with python3Packages; [
     numpy
     pip
   ]);
@@ -56,7 +67,6 @@
   home.file.".config/git/config".source = ./dot/config/git/config;
   home.file.".config/git/githooks/pre-commit".source = ./dot/config/git/githooks/pre-commit;
   home.file.".config/git/ignore".source = ./dot/config/git/ignore;
-  home.file.".config/kitty/kitty.conf".source = ./dot/config/kitty/kitty.conf;
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
   home.file.".config/npm/config".source = ./dot/config/npm/config;
   home.file.".config/nvim/after/ftplugin/gitcommit.vim".source = ./dot/config/nvim/after/ftplugin/gitcommit.vim;
@@ -85,20 +95,72 @@
   # changes in each release.
   home.stateVersion = "22.11";
 
-  fonts.fontconfig.enable = true;
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
   # get .desktop files picked up with XDG_DATA_DIRS
-  targets.genericLinux.enable = true;
+  targets.genericLinux.enable = !pkgs.stdenv.hostPlatform.isDarwin;
 
-  programs.bash = {
-    enable = true;
-    historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
-    initExtra = ''
-      set -o vi
-      PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
-    '';
+  programs = {
+    bash = {
+      enable = true;
+      historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
+      # enableCompletion = !pkgs.stdenv.hostPlatform.isDarwin;
+      enableCompletion = true;
+      initExtra = ''
+        set -o vi
+        PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
+      '';
+    };
+
+    kitty = {
+      enable = true;
+      settings = {
+        shell = pkgs.bashInteractive.outPath + pkgs.bashInteractive.shellPath + " --login";
+        copy_on_select = "yes";
+        macos_option_as_alt = "yes";
+        macos_thicken_font = "0.1";
+
+        # OSC52 override to be "normal"
+        clipboard_control = "write-clipboard write-primary no-append";
+
+        font_family = "Cascadia Code PL";
+        font_size = "10.0";
+        enabled_layouts = "splits";
+        "scrollback_pager" = "less -i --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
+        "scrollback_lines" = "2000";
+
+        # size in megabyes
+        "scrollback_pager_history_size" = "50";
+
+        "allow_remote_control" = "yes";
+      };
+      keybindings = {
+        "ctrl+shift+equal" = "change_font_size all +1.0";
+        "ctrl+shift+plus" = "change_font_size all +1.0";
+        "ctrl+shift+kp_add" = "change_font_size all +1.0";
+
+        "ctrl+shift+minus" = "change_font_size all -1.0";
+        "ctrl+shift+kp_subtract" = "change_font_size all -1.0";
+
+        "alt+shift+\\" = "launch --location=vsplit --cwd=current";
+        "alt+shift+minus" = "launch --location=hsplit --cwd=current";
+
+        "alt+left"    = "neighboring_window left";
+        "alt+h"       = "neighboring_window left";
+        "alt+right"   = "neighboring_window right";
+        "alt+l"       = "neighboring_window right";
+        "alt+up"      = "neighboring_window up";
+        "alt+k"       = "neighboring_window up";
+        "alt+down"    = "neighboring_window down";
+        "alt+j"       = "neighboring_window down";
+
+        "alt+shift+h" = "resize_window narrower";
+        "alt+shift+l" = "resize_window wider";
+        "alt+shift+k" = "resize_window taller";
+        "alt+shift+j" = "resize_window shorter";
+      };
+    };
+
   };
 }

@@ -41,6 +41,25 @@ mapleader('n', 'tq', '<cmd>lua toggle_list("quickfix", "copen | wincmd p", "cclo
 mapleader('n', 'tl', '<cmd>lua toggle_list("loclist", "lopen | wincmd p", "lclose")<CR>')
 -- }}}
 
+
+-- {{{ bootstrap packer
+local bootstrap_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return require('packer').sync
+  end
+  return function()
+      -- do nothing
+  end
+end
+
+local sync_packer = bootstrap_packer()
+-- }}}
+
+
 function configure_plugins()
     local packer = require('packer')
     packer.startup(function()
@@ -154,14 +173,14 @@ function configure_plugins()
         use 'prettier/vim-prettier'
         use { 'malmgg@git.amazon.com:pkg/Vim-code-browse' }
 
+        sync_packer()
     end)
 end
 
 vim.api.nvim_set_option("clipboard","unnamed")
 
-vim.cmd('call glaive#Install()')
-
 configure_plugins()
+vim.cmd('call glaive#Install()')
 
 vim.cmd('filetype plugin indent on')
 
