@@ -105,7 +105,6 @@
     bash = {
       enable = true;
       historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
-      # enableCompletion = !pkgs.stdenv.hostPlatform.isDarwin;
       enableCompletion = true;
       initExtra = ''
         set -o vi

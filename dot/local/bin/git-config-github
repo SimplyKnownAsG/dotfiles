@@ -2,5 +2,11 @@
 
 git config user.name "g"
 git config user.email "gtmalmgren@gmail.com"
-git config core.autocrlf input
+
+if [[ $1 == "amend" ]]
+then
+    git commit --amend --reset-author
+else
+    echo "if just 1 commit, rerun with 'amend' argument to commit"
+fi
 
