@@ -5,9 +5,10 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.packages = with pkgs; [
+    nix
+
     bashInteractive
     ctags
-    git
     jq
     mesa
     ncurses
@@ -64,9 +65,6 @@
     clear = ''printf '\033[2J\033[3J\033[1;1H' '';
   };
 
-  home.file.".config/git/config".source = ./dot/config/git/config;
-  home.file.".config/git/githooks/pre-commit".source = ./dot/config/git/githooks/pre-commit;
-  home.file.".config/git/ignore".source = ./dot/config/git/ignore;
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
   home.file.".config/npm/config".source = ./dot/config/npm/config;
   home.file.".config/nvim/after/ftplugin/gitcommit.vim".source = ./dot/config/nvim/after/ftplugin/gitcommit.vim;
@@ -95,13 +93,63 @@
   # changes in each release.
   home.stateVersion = "22.11";
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
-  # get .desktop files picked up with XDG_DATA_DIRS
   targets.genericLinux.enable = !pkgs.stdenv.hostPlatform.isDarwin;
 
   programs = {
+    # Let Home Manager install and manage itself.
+    home-manager = {
+      enable = true;
+    };
+
+    git = {
+      enable = true;
+      lfs.enable = true;
+      ignores = [
+        ".*.swp"
+        "build"
+        "*.pyc"
+        "__pycache__/"
+        "Session.vim"
+        ".vim/"
+        ".factorypath"
+        ".project"
+        ".classpath"
+        ".settings/"
+        "lombok.config"
+        "annotation-generated-src/"
+        "/?/"
+      ];
+      aliases = {
+        co = ''checkout'';
+        st = ''status'';
+        hist = ''log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short'';
+        sed = ''!f() { git ls-files -z | xargs -0 sed -i "$1"; }; f'';
+        squash = ''!f() { git reset --hard $1 && git merge --squash HEAD@{1} && git commit ; }; f'';
+        grep = ''grep -n'';
+        br = ''branch'';
+        cl = ''clean -fxd'';
+        filetype = ''diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD --'';
+      };
+      extraConfig = {
+        core = {
+          push = "nothing";
+          autocrlf = "input";
+        };
+        pull = {
+          rebase = "true";
+        };
+        fetch = {
+          prune = "true";
+        };
+        diff = {
+          colorMoved = "zebra";
+        };
+      };
+      hooks = {
+        pre-commit = ./dot/config/git/githooks/pre-commit;
+      };
+    };
+
     bash = {
       enable = true;
       historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
