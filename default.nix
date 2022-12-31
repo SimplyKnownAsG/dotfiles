@@ -8,6 +8,9 @@
     nix
 
     bashInteractive
+    zsh
+    zsh-vi-mode
+
     ctags
     jq
     mesa
@@ -161,10 +164,35 @@
       '';
     };
 
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      initExtra = ''
+        source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
+        althome=$(readlink -f $HOME 2>/dev/null)
+
+
+        [[ "$althome" != "" ]] \
+          && readlink_dirs_home() { dirs | sed "s@$althome@~@g" } \
+          || readlink_dirs_home() { dirs }
+
+        precmd() {
+            git_info=$(git describe --all --dirty=-%F{196}dirty 2>/dev/null)
+            if [[ ! -z "$git_info" ]]
+            then
+              git_info="%F{15}[%F{130}$git_info%F{15}]%f"
+            fi
+            curdir=$(readlink_dirs_home)
+            PS1="%F{93}%M%f %F{15}@%f %F{45}20%DT%D{%H:%M:%S}%f %F{15}:%f %F{228}$curdir%f $git_info"$'\n'"%F{15}\$%f "
+        }
+      '';
+    };
+
     kitty = {
       enable = true;
       settings = {
-        shell = pkgs.bashInteractive.outPath + pkgs.bashInteractive.shellPath + " --login";
+        shell = pkgs.zsh.outPath + pkgs.zsh.shellPath + " --login";
         copy_on_select = "yes";
         macos_option_as_alt = "yes";
         macos_thicken_font = "0.1";
