@@ -134,6 +134,7 @@
         core = {
           push = "nothing";
           autocrlf = "input";
+          commentchar = ";";
         };
         pull = {
           rebase = "true";
