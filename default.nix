@@ -5,28 +5,22 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.packages = with pkgs; [
-    nix
-
-    bashInteractive
-    zsh
-    zsh-vi-mode
-
+    cascadia-code
     ctags
     jq
     mesa
     ncurses
     neovim
-    silver-searcher
-    tree
-
-    cascadia-code
-
-    slack
-
-    nodejs
+    nix
     nodePackages.typescript-language-server
-
+    nodejs
     python3
+    silver-searcher
+    slack
+    tree
+    wezterm
+    zsh
+    zsh-vi-mode
   ]
   ++ (
     if pkgs.stdenv.hostPlatform.isDarwin
