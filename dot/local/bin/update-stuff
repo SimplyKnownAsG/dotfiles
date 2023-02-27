@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-echo "updating kitty things"
-if command -v kitty
-then
-    # https://sw.kovidgoyal.net/kitty/faq.html#i-get-errors-about-the-terminal-being-unknown-or-opening-the-terminal-failing-when-sshing-into-a-different-computer
-    infocmp xterm-kitty > temp-xterm-kitty.temp
-    tic -x -o ~/.config/kitty/terminfo/ temp-xterm-kitty.temp
-    rm temp-xterm-kitty.temp
-fi
-
 if [[ ! -f ~/.local/bin/jdtls ]]
 then
     echo 'installing jdtls'

@@ -19,8 +19,10 @@ function mapleader(mode, shortcut, command, opts)
 end
 
 mapleader('n', '<CR>', ':source $MYVIMRC<CR>')
-nmap('<TAB>', ':tabn<CR>')
-nmap('<S-TAB>', ':tabp<CR>')
+nmap('<C-l>', ':tabn<CR>')
+nmap('<C-h>', ':tabp<CR>')
+
+local fd_command = 'fd -t f -t l --exclude=Session.vim --exclude=.git'
 
 -- {{{ toggle quickfix
 function toggle_list(list_name, open_cmd, close_cmd)
@@ -95,10 +97,8 @@ function configure_plugins()
 
         use 'ctrlpvim/ctrlp.vim'
         vim.g.ctrlp_map = '<leader>ff' -- find file
-        vim.g.ctrlp_user_command = 'ag --hidden --ignore .git -g ""'
+        vim.g.ctrlp_user_command = fd_command
         vim.g.ctrlp_working_path_mode = 0
-
-        use 'mattn/vim-goimports'
 
         use 'majutsushi/tagbar'
         vim.g.tagbar_sort=0 -- sort by order in file
@@ -178,6 +178,7 @@ function configure_plugins()
 end
 
 vim.api.nvim_set_option("clipboard","unnamed")
+vim.api.nvim_set_option("mouse","")
 
 configure_plugins()
 vim.cmd('call glaive#Install()')
@@ -202,9 +203,9 @@ vim.cmd([[
 " Find all, open quickfix
 function! FindAll(include_test, pattern)
     if a:include_test
-        let l:files = systemlist('ag -g ""')
+        let l:files = systemlist(']] .. fd_command .. [[')
     else
-        let l:files = systemlist('ag -g "" | grep -Pv "(Test|\btest\b)"')
+        let l:files = systemlist(']] .. fd_command .. [[ | grep -Pv "(Test[^a-z]|\btest\b)"')
     endif
     execute "vimgrep /" . a:pattern . "/g " . join(l:files, ' ')
     copen
@@ -227,7 +228,7 @@ vim.opt.autowriteall = true
 vim.opt.syntax = 'on'
 vim.opt.expandtab = true
 
-vim.opt.grepprg = 'ag --vimgrep'
+vim.opt.grepprg = 'rg --vimgrep'
 vim.opt.grepformat = '%f:%l:%c:%m'
 
 vim.opt.background = 'dark'

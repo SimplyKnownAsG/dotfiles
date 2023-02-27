@@ -1,13 +1,34 @@
 { config, pkgs, nixpkgs, lib, ... }:
+let
+  subDirDo = ''
+    subdir-do() {
+      echo "=== $@ ==="
+      for d in */
+      do
+        (
+          cd $d
+          echo ">>> entering $d"
+          sh -c "$@"
+          echo "<<< exiting $d"
+        )
+      done
+    }
+    '';
+in
 {
   fonts.fontconfig.enable = true;
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.packages = with pkgs; [
+    # silver-searcher
+    bashInteractive
     cascadia-code
     ctags
+    fd
+    ion-cli
     jq
+    lolcat
     mesa
     ncurses
     neovim
@@ -15,6 +36,7 @@
     nodePackages.typescript-language-server
     nodejs
     python3
+    ripgrep
     silver-searcher
     slack
     tree
@@ -57,7 +79,7 @@
     gotest = "go test -v -count=1 ./...";
     gopest = "go test -v -count=1 -parallel 4 ./...";
     aws-cfn-list-all = ''aws cloudformation list-stacks | jq -r ".StackSummaries[].StackName" |
-                xargs -I@ -P4 sh -c "aws cloudformation list-stack-resources --stack-name @ > @.list"'';
+                xargs -I@ -P4 sh -c "aws cloudformation get-template --stack-name @ > @.json"'';
     # https://github.com/kovidgoyal/kitty/issues/268#issuecomment-419342337
     clear = ''printf '\033[2J\033[3J\033[1;1H' '';
   };
@@ -73,7 +95,6 @@
   home.file.".config/nvim/ftplugin/markdown.vim".source = ./dot/config/nvim/ftplugin/markdown.vim;
   home.file.".config/nvim/ftplugin/typescript.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/init.lua".source = ./dot/config/nvim/init.lua;
-  home.file.".config/tmux/tmux.conf".source = ./dot/config/tmux/tmux.conf;
   home.file.".local/bin/cloudformation-dep-graph".source = ./dot/local/bin/cloudformation-dep-graph;
   home.file.".local/bin/git-config-github".source = ./dot/local/bin/git-config-github;
   home.file.".local/bin/gkill".source = ./dot/local/bin/gkill;
@@ -91,6 +112,10 @@
   home.stateVersion = "22.11";
 
   targets.genericLinux.enable = !pkgs.stdenv.hostPlatform.isDarwin;
+
+  xdg = {
+    enable = true;
+  };
 
   programs = {
     # Let Home Manager install and manage itself.
@@ -155,21 +180,40 @@
       initExtra = ''
         set -o vi
         PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
-      '';
+      '' + subDirDo;
     };
 
     zsh = {
       enable = true;
       enableCompletion = true;
       initExtra = ''
+        setopt rmstarsilent
+
+        up-line-or-local-history() {
+            zle set-local-history 1
+            zle up-line-or-history
+            zle set-local-history 0
+        }
+        zle -N up-line-or-local-history
+        down-line-or-local-history() {
+            zle set-local-history 1
+            zle down-line-or-history
+            zle set-local-history 0
+        }
+        zle -N down-line-or-local-history
+
+        bindkey '^[[A' up-line-or-local-history     # Cursor up
+        bindkey '^[[B' down-line-or-local-history   # Cursor down
+        bindkey '^[[1;5A' up-line-or-history        # [CTRL] + Cursor up
+        bindkey '^[[1;5B' down-line-or-history      # [CTRL] + Cursor down
+
         source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
         althome=$(readlink -f $HOME 2>/dev/null)
 
-
         [[ "$althome" != "" ]] \
-          && readlink_dirs_home() { dirs | sed "s@$althome@~@g" } \
-          || readlink_dirs_home() { dirs }
+          && ps1_home_tilde_fix() { dirs | sed "s@$althome@~@g" } \
+          || ps1_home_tilde_fix() { dirs }
 
         precmd() {
             git_info=$(git describe --all --dirty=-%F{196}dirty 2>/dev/null)
@@ -177,10 +221,10 @@
             then
               git_info="%F{15}[%F{130}$git_info%F{15}]%f"
             fi
-            curdir=$(readlink_dirs_home)
+            curdir=$(ps1_home_tilde_fix)
             PS1="%F{93}%M%f %F{15}@%f %F{45}20%DT%D{%H:%M:%S}%f %F{15}:%f %F{228}$curdir%f $git_info"$'\n'"%F{15}\$%f "
         }
-      '';
+      '' + subDirDo;
     };
 
     kitty = {
