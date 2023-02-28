@@ -42,10 +42,15 @@ end)
 
 return {
   default_prog = { 'zsh', '-l' },
-  font = wezterm.font 'Cascadia Code PL',
+  font = wezterm.font {
+    family = 'Cascadia Code PL',
+    weight = 'Medium',
+  },
   font_size = 10,
   window_decorations = "RESIZE",
-  color_scheme = 'deep',
+  color_scheme = 'Builtin Dark',
+  default_cwd = wezterm.home_dir,
+  tab_bar_at_bottom = true,
 
   keys = {
     -- create splits
@@ -58,6 +63,13 @@ return {
       key = '|',
       mods = 'SHIFT|ALT',
       action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
+    },
+
+    -- override tab default directory
+    {
+      key = 'T',
+      mods = 'CTRL|SHIFT',
+      action = act.SpawnCommandInNewTab { domain = 'CurrentPaneDomain', cwd=wezterm.home_dir, },
     },
 
     -- resize
