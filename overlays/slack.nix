@@ -19,14 +19,7 @@ final: prev:
       echo "${prev.lib.getExe prev.slack} --enable-features=WebRTCPipeWireCapturer \"\$@\"" >> $out/bin/slack
       chmod +x $out/bin/slack
 
-      # ls -l $out/
-      # ls -l $out/share/
-      ls -l $out/share/
-      ls -l $out/share/applications/slack.desktop
-      # chown -R $USER $out/share/applications
       chmod +w $out/share/applications/slack.desktop
-      # ls -l $out/share/
-      # ls -l $out/share/applications/slack.desktop
       rm -f $out/share/applications/slack.desktop
 
       sed 's/^Exec=.*slack\>/Exec=slack/g' \
