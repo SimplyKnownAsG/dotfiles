@@ -1,52 +1,6 @@
 { config, pkgs, nixpkgs, lib, ... }:
 let
-  subDirDo = ''
-    subdir-do() {
-      echo "=== $@ ==="
-      for d in */
-      do
-        (
-          cd $d
-          echo ">>> entering $d"
-          sh -c "$@"
-          echo "<<< exiting $d"
-        )
-      done
-    }
-
-    wz-tab() {
-      python3 -c 'if True: # prevent indentation error
-        import argparse
-        import json
-        from os.path import expanduser
-        from base64 import b64encode
-        parser = argparse.ArgumentParser()
-        parser.add_argument("cmd", help="command", choices=("open-tab", "set-tab-title"))
-        parser.add_argument("title", help="the title")
-        parser.add_argument("--verbose", "-v", help="be chatty", action="store_true")
-        parser.add_argument("--cwd", help="the title", default=expanduser("~"))
-        args = parser.parse_args()
-        cmd_context = {
-          "cmd": args.cmd,
-          "title": args.title,
-          "cwd": args.cwd
-        }
-        payload = f"SetUserVar=hacky-user-command={b64encode(json.dumps(cmd_context).encode()).decode()}"
-        if args.verbose:
-          print(f"cmd_context: {cmd_context}")
-          print(f"payload: {payload}")
-        print(f"\033]1337;{payload}\007", end="")
-      ' "$@"
-    }
-
-    wz-open-tab() {
-      wz-tab open-tab "$@"
-    }
-
-    wz-set-tab-title() {
-      wz-tab set-tab-title "$@"
-    }
-    '';
+  subDirDo = builtins.readFile ./shell-functions.sh;
 in
 {
   fonts.fontconfig.enable = true;
@@ -59,6 +13,7 @@ in
     cascadia-code
     ctags
     fd
+    figlet # for presenting.vim
     ion-cli
     jq
     lolcat
@@ -281,6 +236,8 @@ in
         "scrollback_pager_history_size" = "50";
 
         "allow_remote_control" = "yes";
+
+        inactive_text_alpha = "0.75";
       };
       keybindings = {
         "ctrl+shift+equal" = "change_font_size all +1.0";
