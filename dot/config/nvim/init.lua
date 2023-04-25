@@ -246,9 +246,14 @@ function! SynStack ()
     endfor
 endfunction
 map SS :call SynStack()<CR>
-
-au BufRead,BufNewFile *.devenv set filetype=sh
 ]])
+
+vim.filetype.add({
+    extension = {
+        devenv = 'sh',
+        log = 'log',
+    },
+})
 
 local function t(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
