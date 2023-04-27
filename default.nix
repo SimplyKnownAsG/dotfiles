@@ -70,8 +70,6 @@ in
                 xargs -I@ -P4 sh -c "aws cloudformation get-template --stack-name @ > @.json"'';
     # https://github.com/kovidgoyal/kitty/issues/268#issuecomment-419342337
     clear = ''printf '\033[2J\033[3J\033[1;1H' '';
-    dark  = "kitty +kitten themes --config-file-name intermediate-theme.conf Default";
-    light = "kitty +kitten themes --config-file-name intermediate-theme.conf '1984 Light'";
   };
 
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;

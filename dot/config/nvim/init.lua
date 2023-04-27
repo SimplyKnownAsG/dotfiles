@@ -231,7 +231,8 @@ vim.opt.expandtab = true
 vim.opt.grepprg = 'rg --vimgrep'
 vim.opt.grepformat = '%f:%l:%c:%m'
 
-vim.opt.background = 'dark'
+pcall(require, "background")
+
 vim.cmd([[
 colorscheme happy
 

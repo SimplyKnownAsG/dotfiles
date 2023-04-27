@@ -101,3 +101,12 @@ timeit.sh() {
     timeit.sh-summary
 }
 
+dark() {
+    kitty +kitten themes --config-file-name intermediate-theme.conf Default
+    echo "vim.opt.background='dark'" > ~/.config/nvim/background.lua
+}
+
+light() {
+    kitty +kitten themes --config-file-name intermediate-theme.conf '1984 Light'
+    echo "vim.opt.background='light'" > ~/.config/nvim/background.lua
+}
