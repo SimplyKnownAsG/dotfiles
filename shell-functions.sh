@@ -104,9 +104,11 @@ timeit.sh() {
 dark() {
     kitty +kitten themes --config-file-name intermediate-theme.conf Default
     echo "vim.opt.background='dark'" > ~/.config/nvim/background.lua
+    gsettings set org.gnome.desktop.interface gtk-theme Yaru-magenta-dark
 }
 
 light() {
     kitty +kitten themes --config-file-name intermediate-theme.conf '1984 Light'
     echo "vim.opt.background='light'" > ~/.config/nvim/background.lua
+    gsettings set org.gnome.desktop.interface gtk-theme Yaru-magenta
 }

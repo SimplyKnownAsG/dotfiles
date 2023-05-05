@@ -204,14 +204,15 @@ in
           && ps1_home_tilde_fix() { dirs | sed "s@$althome@~@g" } \
           || ps1_home_tilde_fix() { dirs }
 
+        PS1=": "
         precmd() {
-            git_info=$(git describe --all --dirty=-%F{196}dirty 2>/dev/null)
+            local git_info=$(git describe --all --dirty='-\e[0;31mdirty' 2>/dev/null)
             if [[ ! -z "$git_info" ]]
             then
-              git_info="%F{15}[%F{130}$git_info%F{15}]%f"
+              git_info=" [\\e[0;33m$git_info\\e[0m]"
             fi
             curdir=$(ps1_home_tilde_fix)
-            PS1="%F{93}%M%f %F{15}@%f %F{45}20%DT%D{%H:%M:%S}%f %F{15}:%f %F{228}$curdir%f $git_info"$'\n'"%F{15}\$%f "
+            printf '\e[0;32m%s\e[0m : \e[0;35m%s\e[0m%b\n' "$(date --rfc-3339=s)" "$(ps1_home_tilde_fix)" "$git_info"
         }
       '' + subDirDo;
     };
