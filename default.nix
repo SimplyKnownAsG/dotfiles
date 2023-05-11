@@ -23,7 +23,14 @@ in
     nix
     nodePackages.typescript-language-server
     nodejs
-    python3
+    (
+      python3.withPackages (p: with p; [
+        numpy
+        matplotlib
+        tabulate
+        scipy
+      ])
+    )
     ripgrep
     silver-searcher
     slack
@@ -31,6 +38,7 @@ in
     wezterm
     zsh
     zsh-vi-mode
+    xclip
   ]
   ++ (
     if pkgs.stdenv.hostPlatform.isDarwin
@@ -38,11 +46,7 @@ in
       [ ]
     else
       [ pkgs.signal-desktop ]
-  )
-  ++ (with python3Packages; [
-    numpy
-    pip
-  ]);
+  );
 
   home.sessionVariables = {
     EDITOR = "nvim";

@@ -100,7 +100,7 @@ exec 'hi DiffAdd         ctermfg='.s:highlight.ansi.'     ctermbg='.s:background
 exec 'hi diffAdded       ctermfg='.s:highlight.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:highlight.rgb.'        guibg='.s:background.rgb.'          '
 exec 'hi DiffDelete      ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          '
 exec 'hi diffRemoved     ctermfg='.s:red.ansi.'              ctermbg='.s:background.ansi.'       guifg='.s:red.rgb.'                 guibg='.s:background.rgb.'          '
-exec 'hi DiffChange                                          ctermbg='.s:green.ansi.'                                                guibg='.s:green.rgb.'               '
+exec 'hi DiffChange      ctermfg='.s:foreground.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:foreground.rgb.'               guibg='.s:background.rgb.'          '
 exec 'hi DiffText        ctermfg='.s:tealish.ansi.'          ctermbg='.s:background.ansi.'       guifg='.s:tealish.rgb.'             guibg='.s:background.rgb.'          '
 exec 'hi diffFile        ctermfg='.s:highlight.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:highlight.rgb.'        guibg='.s:background.rgb.'          '
 exec 'hi gitcommitDiff   ctermfg='.s:reddish_pink.ansi.'     ctermbg='.s:background.ansi.'       guifg='.s:reddish_pink.rgb.'        guibg='.s:background.rgb.'          '

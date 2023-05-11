@@ -179,7 +179,7 @@ endif
 
     f.write(hi(['DiffAdd', 'diffAdded'], fg=the_colors['bright_green'], bg=the_colors['dark_green']))
     f.write(hi(['DiffDelete', 'diffRemoved'], fg=the_colors['red'], bg=the_colors['dark_green']))
-    f.write(hi(['DiffChange'], fg=None, bg=the_colors['green']))
+    f.write(hi(['DiffChange'], fg=the_colors['white'], bg=the_colors['dark_green']))
     f.write(hi(['DiffText'], fg=the_colors['tealish'], bg=the_colors['dark_green']))
 
     f.write(hi('diffFile', fg=the_colors['bright_green'], bg=the_colors['dark_green']))
