@@ -105,6 +105,7 @@ dark() {
     kitty +kitten themes --config-file-name intermediate-theme.conf Default
     echo "vim.opt.background='dark'" > ~/.config/nvim/background.lua
     gsettings set org.gnome.desktop.interface gtk-theme Yaru-magenta-dark
+    gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 }
 alias night=dark
 
@@ -112,5 +113,6 @@ light() {
     kitty +kitten themes --config-file-name intermediate-theme.conf '1984 Light'
     echo "vim.opt.background='light'" > ~/.config/nvim/background.lua
     gsettings set org.gnome.desktop.interface gtk-theme Yaru-magenta
+    gsettings set org.gnome.desktop.interface color-scheme prefer-light
 }
 alias day=light
