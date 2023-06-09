@@ -18,8 +18,8 @@ in
     jq
     lolcat
     mesa
-    ncurses
     neovim
+    ncurses
     nix
     nodePackages.typescript-language-server
     nodejs
