@@ -137,10 +137,12 @@ function configure_plugins()
         use 'ntpeters/vim-better-whitespace'
         mapleader('n', 'w', ':StripWhitespace<CR>')
 
+        use 'kamykn/spelunker.vim'
+        vim.g.enable_spelunker_vim = 0
         use 'ojroques/vim-oscyank'
         vim.g.oscyank_term='kitty'
         vim.cmd([[
-            autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+            autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankRegister "' | endif
         ]])
 
         -- use 'vim-airline/vim-airline'
@@ -164,6 +166,7 @@ function configure_plugins()
         use 'stephpy/vim-yaml'
         use 'flazz/vim-colorschemes'
         use 'sotte/presenting.vim'
+        use 'jbyuki/venn.nvim' -- diagram
 
         use 'google/vim-maktaba'
         use 'google/vim-codefmt'
