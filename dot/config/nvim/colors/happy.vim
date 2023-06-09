@@ -46,6 +46,7 @@ endif
 
 
 " highlighting
+exec 'hi SpelunkerSpellBad ctermbg=224 gui=undercurl guisp=Red'
 exec 'hi Normal          ctermfg='.s:foreground.ansi.'            ctermbg='.s:background.ansi.'       guifg='.s:foreground.rgb.'               guibg='.s:background.rgb.'          '
 exec 'hi ColorColumn                                         ctermbg='.s:green.ansi.'                                                guibg='.s:green.rgb.'               '
 exec 'hi Cursor                                              ctermbg='.s:highlight.ansi.'                                         guibg='.s:highlight.rgb.'        '
