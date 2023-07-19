@@ -48,6 +48,12 @@ in
       [ pkgs.signal-desktop ]
   );
 
+  home.activation = {
+    nodejs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      ${pkgs.nodejs}/bin/npm config set prefix "$HOME/.npm-global"
+    '';
+  };
+
   home.sessionVariables = {
     EDITOR = "nvim";
     LSCOLORS = "GxFxCxDxBxegedabagaced";
@@ -55,6 +61,7 @@ in
 
   home.sessionPath = [
     "$HOME/.local/bin"
+    "$HOME/.npm-global/bin"
   ];
 
   home.shellAliases = {
