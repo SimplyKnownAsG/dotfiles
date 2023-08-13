@@ -94,6 +94,7 @@ in
   home.file.".config/nvim/ftplugin/log.vim".source = ./dot/config/nvim/ftplugin/log.vim;
   home.file.".config/nvim/ftplugin/markdown.vim".source = ./dot/config/nvim/ftplugin/markdown.vim;
   home.file.".config/nvim/ftplugin/typescript.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
+  home.file.".config/nvim/ftplugin/typescriptreact.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/init.lua".source = ./dot/config/nvim/init.lua;
   home.file.".local/bin/cloudformation-dep-graph".source = ./dot/local/bin/cloudformation-dep-graph;
   home.file.".local/bin/git-config-github".source = ./dot/local/bin/git-config-github;
@@ -239,7 +240,6 @@ in
         # OSC52 override to be "normal"
         clipboard_control = "write-clipboard write-primary no-append";
 
-        font_family = "Cascadia Code PL";
         font_size = "10.0";
         enabled_layouts = "splits";
         "scrollback_pager" = "less -i --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
