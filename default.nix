@@ -231,58 +231,5 @@ in
       '' + shellFunctions;
     };
 
-    kitty = {
-      enable = true;
-      settings = {
-        shell = pkgs.zsh.outPath + pkgs.zsh.shellPath + " --login";
-        copy_on_select = "yes";
-        macos_option_as_alt = "yes";
-        macos_thicken_font = "0.1";
-
-        # OSC52 override to be "normal"
-        clipboard_control = "write-clipboard write-primary no-append";
-
-        font_size = "10.0";
-        enabled_layouts = "splits";
-        "scrollback_pager" = "less -i --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
-        "scrollback_lines" = "2000";
-
-        # size in megabyes
-        "scrollback_pager_history_size" = "50";
-
-        "allow_remote_control" = "yes";
-
-        inactive_text_alpha = "0.75";
-      };
-      keybindings = {
-        "ctrl+shift+equal" = "change_font_size all +1.0";
-        "ctrl+shift+plus" = "change_font_size all +1.0";
-        "ctrl+shift+kp_add" = "change_font_size all +1.0";
-
-        "ctrl+shift+minus" = "change_font_size all -1.0";
-        "ctrl+shift+kp_subtract" = "change_font_size all -1.0";
-
-        "alt+shift+\\" = "launch --location=vsplit --cwd=current";
-        "alt+shift+minus" = "launch --location=hsplit --cwd=current";
-
-        "alt+left"    = "neighboring_window left";
-        "alt+h"       = "neighboring_window left";
-        "alt+right"   = "neighboring_window right";
-        "alt+l"       = "neighboring_window right";
-        "alt+up"      = "neighboring_window up";
-        "alt+k"       = "neighboring_window up";
-        "alt+down"    = "neighboring_window down";
-        "alt+j"       = "neighboring_window down";
-
-        "alt+shift+h" = "resize_window narrower";
-        "alt+shift+l" = "resize_window wider";
-        "alt+shift+k" = "resize_window taller";
-        "alt+shift+j" = "resize_window shorter";
-      };
-      extraConfig = ''
-        include intermediate-theme.conf
-      '';
-    };
-
   };
 }

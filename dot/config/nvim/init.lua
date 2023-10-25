@@ -140,7 +140,6 @@ function configure_plugins()
         use 'kamykn/spelunker.vim'
         vim.g.enable_spelunker_vim = 0
         use 'ojroques/vim-oscyank'
-        vim.g.oscyank_term='kitty'
         vim.cmd([[
             autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankRegister "' | endif
         ]])
