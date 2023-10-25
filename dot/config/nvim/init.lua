@@ -197,6 +197,7 @@ vim.opt.ruler = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.wrap = false
+vim.opt.textwidth = 120
 
 map('', '<C-Tab>', '<C-W>w', {noremap=true})
 map('', 'zO', 'zR', {noremap=true})
@@ -322,3 +323,25 @@ vim.g.on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>cl', '<cmd>lua graham_setloclist()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>cq', '<cmd>lua graham_setqflist()<CR>', opts)
 end
+
+-- https://vi.stackexchange.com/a/39800/22825
+-- gq uses lsp format now?
+vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function(args)
+        -- disable LSP usage for `gq` cause it doesn't work on comments.
+        vim.bo[args.buf].formatexpr = nil
+        -- disable @lsp highlight groups
+        for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+            vim.api.nvim_set_hl(0, group, {})
+        end
+    end,
+})
+
+-- local generalSettingsGroup = vim.api.nvim_create_augroup('Textwidth', { clear = true })
+-- vim.api.nvim_create_autocmd('FileType', {
+--     pattern = { '*.ts', '*.tsx', '*.js', '*.jsx' },
+--     callback = function()
+--         vim.opt.textwidth = 120
+--     end,
+--     group = generalSettingsGroup,
+-- })

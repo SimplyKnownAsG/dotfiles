@@ -1,6 +1,6 @@
 { config, pkgs, nixpkgs, lib, ... }:
 let
-  subDirDo = builtins.readFile ./shell-functions.sh;
+  shellFunctions = builtins.readFile ./shell-functions.sh;
 in
 {
   fonts.fontconfig.enable = true;
@@ -37,7 +37,6 @@ in
     tree
     wezterm
     zsh
-    zsh-vi-mode
     xclip
   ]
   ++ (
@@ -179,9 +178,11 @@ in
       historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
       enableCompletion = true;
       initExtra = ''
+        bindkey -v
         set -o vi
+        bindkey '^R' history-incremental-search-backward
         PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
-      '' + subDirDo;
+      '' + shellFunctions;
     };
 
     zsh = {
@@ -189,6 +190,9 @@ in
       enableCompletion = true;
       initExtra = ''
         setopt rmstarsilent
+        bindkey -v
+        set -o vi
+        bindkey '^R' history-incremental-search-backward
 
         up-line-or-local-history() {
             zle set-local-history 1
@@ -208,8 +212,6 @@ in
         bindkey '^[[1;5A' up-line-or-history        # [CTRL] + Cursor up
         bindkey '^[[1;5B' down-line-or-history      # [CTRL] + Cursor down
 
-        source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-
         althome=$(readlink -f $HOME 2>/dev/null)
 
         [[ "$althome" != "" ]] \
@@ -226,7 +228,7 @@ in
             curdir=$(ps1_home_tilde_fix)
             printf '\e[0;32m%s\e[0m : \e[0;35m%s\e[0m%b\n' "$(date --rfc-3339=s)" "$(ps1_home_tilde_fix)" "$git_info"
         }
-      '' + subDirDo;
+      '' + shellFunctions;
     };
 
     kitty = {

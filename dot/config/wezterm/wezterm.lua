@@ -1,13 +1,13 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
 
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-  local tab_title = tab.tab_title
-  if tab_title ~= nil and #tab_title > 0 then
-    return tab_title
-  end
-  return tab.active_pane.title
-end)
+-- wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+--   local tab_title = tab.tab_title
+--   if tab_title ~= nil and #tab_title > 0 then
+--     return tab_title
+--   end
+--   return tab.active_pane.title
+-- end)
 
 local hacky_user_commands = {
   ['set-tab-title'] = function(window, pane, cmd_context)
@@ -40,6 +40,15 @@ wezterm.on('user-var-changed', function(window, pane, name, value)
   end
 end)
 
+local color_scheme = {
+  color_scheme = "Builtin Dark"
+}
+
+local ok, mod = pcall(require, 'color-scheme')
+if mod then
+  color_scheme.color_scheme = mod.color_scheme
+end
+
 return {
   default_prog = { 'zsh', '-l' },
   font = wezterm.font {
@@ -48,9 +57,18 @@ return {
   },
   font_size = 10,
   window_decorations = "RESIZE",
-  color_scheme = 'Builtin Dark',
+  color_scheme = color_scheme.color_scheme,
   default_cwd = wezterm.home_dir,
   tab_bar_at_bottom = true,
+  -- hide_tab_bar_if_only_one_tab = true,
+  scrollback_lines = 20000,
+
+  window_padding = {
+    left = 0,
+    right = 0,
+    top = 0,
+    bottom = 0,
+  },
 
   keys = {
     -- create splits
