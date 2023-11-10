@@ -38,6 +38,7 @@ in
     wezterm
     zsh
     xclip
+    jdt-language-server
   ]
   ++ (
     if pkgs.stdenv.hostPlatform.isDarwin
@@ -99,7 +100,6 @@ in
   home.file.".local/bin/git-config-github".source = ./dot/local/bin/git-config-github;
   home.file.".local/bin/gkill".source = ./dot/local/bin/gkill;
   home.file.".local/bin/list-colors".source = ./dot/local/bin/list-colors;
-  home.file.".local/bin/update-stuff".source = ./dot/local/bin/update-stuff;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
