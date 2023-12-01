@@ -33,7 +33,6 @@ in
     )
     ripgrep
     silver-searcher
-    slack
     tree
     wezterm
     zsh
@@ -96,6 +95,7 @@ in
   home.file.".config/nvim/ftplugin/typescript.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/ftplugin/typescriptreact.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/init.lua".source = ./dot/config/nvim/init.lua;
+  home.file.".config/wezterm/wezterm.lua".source = ./dot/config/wezterm/wezterm.lua;
   home.file.".local/bin/cloudformation-dep-graph".source = ./dot/local/bin/cloudformation-dep-graph;
   home.file.".local/bin/git-config-github".source = ./dot/local/bin/git-config-github;
   home.file.".local/bin/gkill".source = ./dot/local/bin/gkill;
@@ -178,9 +178,7 @@ in
       historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
       enableCompletion = true;
       initExtra = ''
-        bindkey -v
         set -o vi
-        bindkey '^R' history-incremental-search-backward
         PS1='\[\e[38;5;135m\]\u\[\e[0m\]@\[\e[38;5;14m\]\h\[\e[0m\]:\[\e[38;5;228m\]\w\[\e[0m\]\n\$ '
       '' + shellFunctions;
     };
