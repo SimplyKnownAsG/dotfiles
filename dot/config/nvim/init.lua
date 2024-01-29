@@ -22,7 +22,7 @@ mapleader('n', '<CR>', ':source $MYVIMRC<CR>')
 nmap('<C-l>', ':tabn<CR>')
 nmap('<C-h>', ':tabp<CR>')
 
-local fd_command = 'fd -t f -t l --exclude=Session.vim --exclude=.git'
+local fd_command = 'fd -t f --exclude=Session.vim'
 
 -- {{{ toggle quickfix
 function toggle_list(list_name, open_cmd, close_cmd)
@@ -216,11 +216,64 @@ function! FindAll(include_test, pattern)
 endfunction
 ]])
 
-mapleader('n', 'fA', ':call FindAll(1, @/)<CR><CR>')
-mapleader('n', 'fa', ':call FindAll(0, @/)<CR><CR>')
+function find_all_ish(include_test)
+    local mode = vim.api.nvim_get_mode()["mode"]
+    local pattern = ""
+    local cmd = {
+        "ag",
+        "--vimgrep",
+        "--ignore", "Session.vim",
+        "-s"
+    }
 
-mapleader('v', 'fA', [["vy\|/<C-R>v<CR>:call FindAll(1, @v)<CR><CR>]])
-mapleader('v', 'fa', [["vy\|/<C-R>v<CR>:call FindAll(0, @v)<CR><CR>]])
+    if mode == "n" then
+        cmd[#cmd+1] = "-w" -- only match full words
+        pattern = vim.fn.expand("<cword>")
+    elseif mode == "v" then
+        local vstart = vim.fn.getpos("v")
+        local vend = vim.fn.getpos(".")
+        local line_start = vstart[2]
+        local line_end = vend[2]
+
+        if line_start ~= line_end then
+            vim.api.nvim_err_writeln('ERROR: query cannot span multiple lines!')
+            return
+        end
+
+        local the_line = vim.fn.getline(line_start)
+
+        pattern = string.sub(vim.fn.getline(line_start), math.min(vstart[3], vend[3]), math.max(vstart[3], vend[3]))
+    end
+
+    if pattern == nil or pattern == "" then
+        vim.api.nvim_err_writeln("ERROR: couldn't find the pattern to search with mode: " .. mode)
+        return
+    end
+
+    if not include_test then
+        cmd[#cmd+1] = '--ignore'
+        cmd[#cmd+1] = '*Test.*'
+        cmd[#cmd+1] = '--ignore'
+        cmd[#cmd+1] = '*.test.*'
+        cmd[#cmd+1] = '--ignore'
+        cmd[#cmd+1] = '*-test-*'
+    end
+
+    cmd[#cmd+1] = pattern
+
+    local lines = vim.fn.systemlist(cmd)
+    vim.fn.setqflist({}, 'r', {title=table.concat(cmd, " "); lines = lines})
+    vim.cmd.copen()
+end
+
+local find_all = function() find_all_ish(true) end
+local find_all_no_test = function() find_all_ish(false) end
+
+mapleader('n', 'fA', '<cmd>lua find_all_ish(true)<CR>')
+mapleader('n', 'fa', '<cmd>lua find_all_ish(false)<CR>')
+
+mapleader('v', 'fA', '<cmd>lua find_all_ish(true)<CR>')
+mapleader('v', 'fa', '<cmd>lua find_all_ish(false)<CR>')
 
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
@@ -231,7 +284,7 @@ vim.opt.autowriteall = true
 vim.opt.syntax = 'on'
 vim.opt.expandtab = true
 
-vim.opt.grepprg = 'rg --vimgrep'
+vim.opt.grepprg = 'ag --vimgrep'
 vim.opt.grepformat = '%f:%l:%c:%m'
 
 pcall(require, "background")
