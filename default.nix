@@ -38,14 +38,7 @@ in
     zsh
     xclip
     jdt-language-server
-  ]
-  ++ (
-    if pkgs.stdenv.hostPlatform.isDarwin
-    then
-      [ ]
-    else
-      [ pkgs.signal-desktop ]
-  );
+  ];
 
   home.activation = {
     nodejs = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -80,6 +73,7 @@ in
                 xargs -I@ -P4 sh -c "aws cloudformation get-template --stack-name @ > @.json"'';
     # https://github.com/kovidgoyal/kitty/issues/268#issuecomment-419342337
     clear = ''printf '\033[2J\033[3J\033[1;1H' '';
+    clip = "xclip -sel clip";
   };
 
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
