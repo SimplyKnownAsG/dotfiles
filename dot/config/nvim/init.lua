@@ -22,7 +22,7 @@ mapleader('n', '<CR>', ':source $MYVIMRC<CR>')
 nmap('<C-l>', ':tabn<CR>')
 nmap('<C-h>', ':tabp<CR>')
 
-local fd_command = 'fd -t f --exclude=Session.vim --exclude=*.class'
+local fd_command = 'fd -t f --exclude=Session.vim --exclude="*.class"'
 
 -- {{{ toggle quickfix
 function toggle_list(list_name, open_cmd, close_cmd)
