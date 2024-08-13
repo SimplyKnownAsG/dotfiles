@@ -63,12 +63,12 @@ timeit.sh() {
                   ", p99: " pstat(count, values, 99) \
                   ", p100: " pstat(count, values, 100)
             }
-        '
-        echo "total: " $(( $tot_stop - $tot_start ))
+        ' >> /dev/stderr
+        echo "total: " $(( $tot_stop - $tot_start )) >> /dev/stderr
         rm -f $temp_file
     }
 
-    trap "echo 'User requested exit'; timeit.sh-summary ; return" SIGINT SIGTERM
+    trap "echo 'User requested exit' ; timeit.sh-summary ; return" SIGINT SIGTERM
 
     SAMPLE_COUNT=10000
 
