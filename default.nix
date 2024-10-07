@@ -11,6 +11,7 @@ in
     # silver-searcher
     bashInteractive
     cascadia-code
+    open-dyslexic
     ctags
     fd
     figlet # for presenting.vim
@@ -25,6 +26,7 @@ in
     nodejs
     (
       python3.withPackages (p: with p; [
+        pip
         numpy
         matplotlib
         tabulate
@@ -37,6 +39,7 @@ in
     wezterm
     zsh
     xclip
+    graphviz
     jdt-language-server
   ];
 

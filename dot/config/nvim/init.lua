@@ -161,8 +161,10 @@ function configure_plugins()
         use 'peitalin/vim-jsx-typescript'
 
         use 'LnL7/vim-nix'
+        use 'udalov/kotlin-vim'
 
         use 'stephpy/vim-yaml'
+        use 'aklt/plantuml-syntax'
         use 'flazz/vim-colorschemes'
         use 'sotte/presenting.vim'
         use 'jbyuki/venn.nvim' -- diagram
