@@ -41,6 +41,8 @@ in
     xclip
     graphviz
     jdt-language-server
+    plantuml
+    vscode
   ];
 
   home.activation = {
