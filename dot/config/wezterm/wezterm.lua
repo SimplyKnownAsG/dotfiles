@@ -49,6 +49,13 @@ if mod then
   color_scheme.color_scheme = mod.color_scheme
 end
 
+local ssh_domains = {}
+
+local ok, work_ssh_domains = pcall(require, 'work_ssh_domains')
+if work_ssh_domains then
+  ssh_domains = work_ssh_domains
+end
+
 return {
   default_prog = { 'zsh', '-l' },
   font = wezterm.font {
@@ -56,12 +63,16 @@ return {
     weight = 'Medium',
   },
   font_size = 10,
-  window_decorations = "RESIZE",
   color_scheme = color_scheme.color_scheme,
-  default_cwd = wezterm.home_dir,
-  tab_bar_at_bottom = true,
-  -- hide_tab_bar_if_only_one_tab = true,
   scrollback_lines = 20000,
+  default_cwd = wezterm.home_dir,
+
+  window_decorations = "INTEGRATED_BUTTONS|RESIZE",
+  hide_tab_bar_if_only_one_tab = false,
+  use_fancy_tab_bar = true,
+  tab_bar_at_bottom = true,
+
+  front_end = 'WebGpu',
 
   window_padding = {
     left = 0,
@@ -115,5 +126,6 @@ return {
 
     { mods = 'ALT', key = 'DownArrow', action = act.ActivatePaneDirection 'Down' },
     { mods = 'ALT', key = 'j', action = act.ActivatePaneDirection 'Down' },
-  }
+  },
+  ssh_domains = ssh_domains,
 }
