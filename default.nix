@@ -1,9 +1,13 @@
-{ config, pkgs, nixpkgs, lib, ... }:
+{ config, pkgs, nixpkgs, lib, nixgl, ... }:
 let
   shellFunctions = builtins.readFile ./shell-functions.sh;
 in
 {
   fonts.fontconfig.enable = true;
+
+  nixGL.packages = nixgl.packages;
+  nixGL.defaultWrapper = "mesa";
+  nixGL.installScripts = [ "mesa" ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -36,7 +40,7 @@ in
     ripgrep
     silver-searcher
     tree
-    wezterm
+    (config.lib.nixGL.wrap wezterm)
     zsh
     xclip
     graphviz
