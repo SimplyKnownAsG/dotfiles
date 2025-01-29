@@ -102,7 +102,7 @@ timeit.sh() {
 }
 
 dark() {
-    echo "return { color_scheme = 'Builtin Dark' }" > ~/.config/wezterm/color-scheme.lua
+    echo "return { color_scheme = 'Builtin Dark' }" > ~/.config/wezterm/color_scheme.lua
     echo "vim.opt.background='dark'" > ~/.config/nvim/background.lua
     gsettings set org.gnome.desktop.interface gtk-theme Yaru-magenta-dark
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark
@@ -110,7 +110,7 @@ dark() {
 alias night=dark
 
 light() {
-    echo "return { color_scheme = 'Builtin Light' }" > ~/.config/wezterm/color-scheme.lua
+    echo "return { color_scheme = 'Builtin Light' }" > ~/.config/wezterm/color_scheme.lua
     echo "vim.opt.background='light'" > ~/.config/nvim/background.lua
     gsettings set org.gnome.desktop.interface gtk-theme Yaru-magenta
     gsettings set org.gnome.desktop.interface color-scheme prefer-light

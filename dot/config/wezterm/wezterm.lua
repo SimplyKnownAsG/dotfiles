@@ -44,7 +44,7 @@ local color_scheme = {
   color_scheme = "Builtin Dark"
 }
 
-local ok, mod = pcall(require, 'color-scheme')
+local ok, mod = pcall(require, 'color_scheme')
 if mod then
   color_scheme.color_scheme = mod.color_scheme
 end
