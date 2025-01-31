@@ -44,148 +44,184 @@ mapleader('n', 'tl', '<cmd>lua toggle_list("loclist", "lopen | wincmd p", "lclos
 -- }}}
 
 
--- {{{ bootstrap packer
-local bootstrap_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return require('packer').sync
-  end
-  return function()
-      -- do nothing
+-- {{{ bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
   end
 end
 
-local sync_packer = bootstrap_packer()
+vim.opt.rtp:prepend(lazypath)
 -- }}}
 
+require("lazy").setup({
+  opts = {
+    rocks = {
+      hererocks = false,
+    },
+  },
+  spec= {
+    { 'neovim/nvim-lspconfig', lazy=false, },
 
-function configure_plugins()
-    local packer = require('packer')
-    packer.startup(function()
-        local use = packer.use
-        use 'wbthomason/packer.nvim'
+    { 'mfussenegger/nvim-jdtls', lazy=false, },
 
-        use 'neovim/nvim-lspconfig'
-
-        use 'mfussenegger/nvim-jdtls'
-
-        use 'tpope/vim-fugitive'
-        use 'tpope/vim-commentary'
-        use 'tpope/vim-surround'
-        use 'tpope/vim-eunuch'
-        use 'tpope/vim-unimpaired'
-        use 'tpope/vim-obsession'
-        use 'tpope/vim-sleuth'
-        use 'tpope/vim-markdown'
+    { 'tpope/vim-fugitive', lazy=false, },
+    { 'tpope/vim-commentary', lazy=false, },
+    { 'tpope/vim-surround', lazy=false, },
+    { 'tpope/vim-eunuch', lazy=false, },
+    { 'tpope/vim-unimpaired', lazy=false, },
+    { 'tpope/vim-obsession', lazy=false, },
+    { 'tpope/vim-sleuth', lazy=false, },
+    { 'tpope/vim-markdown', lazy=false,
+      init = function()
         vim.g.markdown_folding = 1
         vim.g.markdown_fenced_languages = {
-            'html',
-            'python',
-            'bash=sh',
-            'go',
-            'typescript',
-            'json',
-            'yaml',
-            'graphql',
-            'diff'
+          'html',
+          'python',
+          'bash=sh',
+          'go',
+          'typescript',
+          'json',
+          'yaml',
+          'graphql',
+          'diff'
         }
+      end,
+    },
 
-        use 'chrisbra/improvedft'
+    { 'chrisbra/improvedft', lazy=false, },
 
-        use 'ctrlpvim/ctrlp.vim'
+    { 'ctrlpvim/ctrlp.vim', lazy=false,
+      init = function() 
         vim.g.ctrlp_map = '<leader>ff' -- find file
         vim.g.ctrlp_user_command = fd_command
         vim.g.ctrlp_working_path_mode = 0
+      end,
+    },
 
-        use 'majutsushi/tagbar'
+    { 'majutsushi/tagbar', lazy=false, 
+      init = function()
         vim.g.tagbar_sort=0 -- sort by order in file
-        -- Outline
         mapleader('n', 'O', ':TagbarToggle<CR>')
         mapleader('n', 'o', ':TagbarOpenAutoClose<CR>')
-        -- vim.g.tagbar_type_go = {
-        --     \ 'ctagstype' : 'go',
-        --     \ 'kinds'     : [
-        --         \ 'p:package',
-        --         \ 'i:imports:1',
-        --         \ 'c:constants',
-        --         \ 'v:variables',
-        --         \ 'n:interfaces',
-        --         \ 't:types',
-        --         \ 'w:fields',
-        --         \ 'e:embedded',
-        --         \ 'm:methods',
-        --         \ 'r:constructor',
-        --         \ 'f:functions'
-        --     \ ],
-        --     \ 'sro' : '.',
-        --     \ 'kind2scope' : {
-        --         \ 't' : 'ctype',
-        --         \ 'n' : 'ntype'
-        --     \ },
-        --     \ 'scope2kind' : {
-        --         \ 'ctype' : 't',
-        --         \ 'ntype' : 'n'
-        --     \ },
-        --     \ 'ctagsbin'  : 'gotags',
-        --     \ 'ctagsargs' : '-sort -silent'
-        -- \ }
+      end,
+    },
+    -- Outline
+    -- vim.g.tagbar_type_go = {
+    --     \ 'ctagstype' : 'go',
+    --     \ 'kinds'     : [
+    --         \ 'p:package',
+    --         \ 'i:imports:1',
+    --         \ 'c:constants',
+    --         \ 'v:variables',
+    --         \ 'n:interfaces',
+    --         \ 't:types',
+    --         \ 'w:fields',
+    --         \ 'e:embedded',
+    --         \ 'm:methods',
+    --         \ 'r:constructor',
+    --         \ 'f:functions'
+    --     \ ],
+    --     \ 'sro' : '.',
+    --     \ 'kind2scope' : {
+    --         \ 't' : 'ctype',
+    --         \ 'n' : 'ntype'
+    --     \ },
+    --     \ 'scope2kind' : {
+    --         \ 'ctype' : 't',
+    --         \ 'ntype' : 'n'
+    --     \ },
+    --     \ 'ctagsbin'  : 'gotags',
+    --     \ 'ctagsargs' : '-sort -silent'
+    -- \ }
 
 
-        use 'ntpeters/vim-better-whitespace'
+    { 'ntpeters/vim-better-whitespace', lazy=false,
+      init = function()
         mapleader('n', 'w', ':StripWhitespace<CR>')
+      end
+    },
 
-        use 'kamykn/spelunker.vim'
+    { 'kamykn/spelunker.vim', lazy=false,
+      init = function()
         vim.g.enable_spelunker_vim = 0
-        use 'ojroques/vim-oscyank'
+      end,
+    },
+
+    { 'ojroques/vim-oscyank', lazy=false,
+      init = function()
         vim.cmd([[
             autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankRegister "' | endif
         ]])
+      end,
+    },
 
-        -- use 'vim-airline/vim-airline'
-        -- use 'vim-airline/vim-airline-themes'
-        -- -- Set this. Airline will handle the rest.
-        -- vim.g.airline_detect_spell=0
-        -- -- vim.g.airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
-        -- vim.g.airline_section_z ='%p%%%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__#:%v'
-        -- vim.g.airline_theme = 'violet'
-
-        use 'MattesGroeger/vim-bookmarks'
+    { 'MattesGroeger/vim-bookmarks', lazy=false,
+      init = function()
         vim.g.bookmark_disable_ctrlp = 1
+      end,
+    },
 
-        use 'jparise/vim-graphql'
+    { 'jparise/vim-graphql', lazy=false,
+      init = function()
         vim.g.typescript_indent_disable = 1
-        use 'leafgarland/typescript-vim'
-        use 'peitalin/vim-jsx-typescript'
+      end,
+    },
 
-        use 'LnL7/vim-nix'
-        use 'udalov/kotlin-vim'
+    { 'leafgarland/typescript-vim', lazy=false, },
+    { 'peitalin/vim-jsx-typescript', lazy=false, },
 
-        use 'stephpy/vim-yaml'
-        use 'aklt/plantuml-syntax'
-        use 'flazz/vim-colorschemes'
-        use 'sotte/presenting.vim'
-        use 'jbyuki/venn.nvim' -- diagram
+    { 'LnL7/vim-nix', lazy=false, },
+    { 'udalov/kotlin-vim', lazy=false, },
 
-        use 'google/vim-maktaba'
-        use 'google/vim-codefmt'
-        use 'google/vim-glaive'
-        mapleader('n', 'df', ':FormatCode<CR>')
+    { 'stephpy/vim-yaml', lazy=false, },
+    { 'aklt/plantuml-syntax', lazy=false, },
+    { 'flazz/vim-colorschemes', lazy=false, },
+    { 'sotte/presenting.vim', lazy=false, },
+    { 'jbyuki/venn.nvim', lazy=false, },
 
-        use 'prettier/vim-prettier'
-        use { 'malmgg@git.amazon.com:pkg/Vim-code-browse' }
+    -- { 'google/vim-maktaba', lazy=false, },
+    -- { 'google/vim-codefmt', lazy=false, },
+    -- { 'google/vim-glaive', lazy=false,
+    --   init = function()
+    --     mapleader('n', 'df', ':FormatCode<CR>')
+    --   end,
+    -- },
 
-        sync_packer()
-    end)
-end
+    -- { 'sbdchd/neoformat', lazy=false,
+    --   init = function()
+    --     mapleader('n', 'df', ':Neoformat<CR>')
+    --   end,
+    -- },
+
+    { url='malmgg@git.amazon.com:pkg/Vim-code-browse', lazy=false, },
+  },
+})
 
 vim.api.nvim_set_option("clipboard","unnamed")
 vim.api.nvim_set_option("mouse","")
 
-configure_plugins()
-vim.cmd('call glaive#Install()')
+-- configure_plugins()
+-- vim.cmd('call glaive#Install()')
+
+-- Function to format the current file with `npx prettier`
+_G.format_with_prettier = function()
+    vim.fn.system('npx prettier --write ' .. vim.fn.expand('%'))
+    vim.cmd('edit')  -- Reload the buffer to reflect the changes
+end
+
+-- Configure mapleader to run the format function
+mapleader('n', 'df', ':lua format_with_prettier()<CR>', { noremap = true, silent = true })
 
 vim.cmd('filetype plugin indent on')
 

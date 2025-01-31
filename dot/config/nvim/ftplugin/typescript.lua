@@ -1,5 +1,3 @@
-mapleader('n', 'df', ':FormatCode prettier<CR>')
-
-require('lspconfig').tsserver.setup {
+require('lspconfig').ts_ls.setup {
   on_attach = vim.g.on_attach
 }
