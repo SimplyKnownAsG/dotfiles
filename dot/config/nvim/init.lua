@@ -102,14 +102,14 @@ require("lazy").setup({
     { 'chrisbra/improvedft', lazy=false, },
 
     { 'ctrlpvim/ctrlp.vim', lazy=false,
-      init = function() 
+      init = function()
         vim.g.ctrlp_map = '<leader>ff' -- find file
         vim.g.ctrlp_user_command = fd_command
         vim.g.ctrlp_working_path_mode = 0
       end,
     },
 
-    { 'majutsushi/tagbar', lazy=false, 
+    { 'majutsushi/tagbar', lazy=false,
       init = function()
         vim.g.tagbar_sort=0 -- sort by order in file
         mapleader('n', 'O', ':TagbarToggle<CR>')
@@ -204,6 +204,19 @@ require("lazy").setup({
     --   end,
     -- },
 
+    { "zenbones-theme/zenbones.nvim",
+      -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+      -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+      -- In Vim, compat mode is turned on as Lush only works in Neovim.
+      dependencies = "rktjmp/lush.nvim",
+      lazy = false,
+      config = function()
+        vim.g.forestbones = { lightness = 'bright', darkness='stark' }
+        vim.g.rosebones = { lightness = 'bright', darkness='stark' }
+
+        vim.cmd([[colorscheme forestbones]])
+      end,
+    },
     { url='malmgg@git.amazon.com:pkg/Vim-code-browse', lazy=false, },
   },
 })
@@ -328,8 +341,6 @@ vim.opt.grepformat = '%f:%l:%c:%m'
 pcall(require, "background")
 
 vim.cmd([[
-colorscheme happy
-
 autocmd FileType qf wincmd J | vertical resize 10
 
 function! SynStack ()
