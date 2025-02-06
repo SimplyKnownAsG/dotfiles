@@ -214,7 +214,7 @@ require("lazy").setup({
         vim.g.forestbones = { lightness = 'bright', darkness='stark' }
         vim.g.rosebones = { lightness = 'bright', darkness='stark' }
 
-        vim.cmd([[colorscheme forestbones]])
+        vim.cmd([[colorscheme rosebones]])
       end,
     },
     { url='malmgg@git.amazon.com:pkg/Vim-code-browse', lazy=false, },
@@ -235,8 +235,6 @@ end
 
 -- Configure mapleader to run the format function
 mapleader('n', 'df', ':lua format_with_prettier()<CR>', { noremap = true, silent = true })
-
-vim.cmd('filetype plugin indent on')
 
 vim.opt.encoding = 'utf-8'
 vim.opt.backspace = 'indent,eol,start'
@@ -354,12 +352,12 @@ endfunction
 map SS :call SynStack()<CR>
 ]])
 
-vim.filetype.add({
-    extension = {
-        devenv = 'sh',
-        log = 'log',
-    },
-})
+-- vim.filetype.add({
+--     extension = {
+--         devenv = 'sh',
+--         log = 'log',
+--     },
+-- })
 
 local function t(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -430,7 +428,7 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
         -- disable LSP usage for `gq` cause it doesn't work on comments.
-        vim.bo[args.buf].formatexpr = nil
+        -- vim.bo[args.buf].formatexpr = nil
         -- disable @lsp highlight groups
         for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
             vim.api.nvim_set_hl(0, group, {})
@@ -446,3 +444,82 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --     end,
 --     group = generalSettingsGroup,
 -- })
+
+
+-- vim.cmd('autocmd VimEnter * ++nested lua vim.api.nvim_exec_autocmds("FileType", { group = "PrettierFormat" })')
+
+-- Function to run prettier
+_G.prettier_format = function()
+    local start_line = vim.v.lnum
+    print('count: '.. vim.v.count)
+    local end_line = start_line + vim.v.count - 1
+    local filetype = vim.bo.filetype
+    -- Define the file types you want to format with prettier
+    local prettier_filetypes = {
+        javascript = true,
+        javascriptreact = true,
+        typescript = true,
+        typescriptreact = true,
+        json = true,
+        css = true,
+        scss = true,
+        html = true,
+        markdown = true,
+        yaml = true,
+        yml = true
+    }
+
+    if not prettier_filetypes[filetype] then
+        return 0
+    end
+
+    local bufnr = vim.api.nvim_get_current_buf()
+    local bufname = vim.api.nvim_buf_get_name(bufnr)
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    local range_start = vim.api.nvim_buf_get_offset(bufnr, start_line - 1) + 1
+    local range_end = vim.api.nvim_buf_get_offset(bufnr, end_line) - 1
+
+    -- print("Hey Graham, start_line:end_line " .. start_line ..  ":" .. end_line)
+    -- print("Hey Graham, let's start at " .. range_start ..  ":" .. range_end)
+
+    -- Run prettier using vim.fn.system
+    local cmd = {
+        "npx",
+        "prettier",
+        "--stdin-filepath="..bufname,
+        "--range-start="..range_start,
+        "--range-end="..range_end
+    }
+
+    -- cannot run async, results in an error
+    local output = vim.system(cmd, {stdin=lines, text=true}):wait()
+
+    if output.code ~= 0 then
+        vim.notify("Prettier failed: " .. output, vim.log.levels.ERROR)
+        return 1
+    end
+
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, vim.split(output.stdout:gsub("\n+$", ""), "\n"))
+end
+
+-- Set formatexpr to use the prettier_format function
+local prettier_autogroup = vim.api.nvim_create_augroup("PrettierFormat", { clear=true })
+vim.api.nvim_create_autocmd({'FileType'}, {
+    group = prettier_autogroup,
+    pattern = {
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "json",
+      "css",
+      "scss",
+      "html",
+      "markdown",
+      "yaml",
+      "yml",
+    },
+    callback = function(_ev)
+        vim.bo.formatexpr = "v:lua.prettier_format()"
+    end
+})
