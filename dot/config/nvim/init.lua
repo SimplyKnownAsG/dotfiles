@@ -80,7 +80,6 @@ require("lazy").setup({
     { 'tpope/vim-surround', lazy=false, },
     { 'tpope/vim-eunuch', lazy=false, },
     { 'tpope/vim-unimpaired', lazy=false, },
-    { 'tpope/vim-obsession', lazy=false, },
     { 'tpope/vim-sleuth', lazy=false, },
     { 'tpope/vim-markdown', lazy=false,
       init = function()
@@ -229,8 +228,45 @@ vim.api.nvim_set_option("mouse","")
 
 -- Function to format the current file with `npx prettier`
 _G.format_with_prettier = function()
-    vim.fn.system('npx prettier --write ' .. vim.fn.expand('%'))
-    vim.cmd('edit')  -- Reload the buffer to reflect the changes
+    local filetype = vim.bo.filetype
+    local prettier_filetypes = {
+        javascript = true,
+        javascriptreact = true,
+        typescript = true,
+        typescriptreact = true,
+        json = true,
+        css = true,
+        scss = true,
+        html = true,
+        markdown = true,
+        yaml = true,
+        yml = true
+    }
+
+    if not prettier_filetypes[filetype] then
+        return 0
+    end
+
+    local bufnr = vim.api.nvim_get_current_buf()
+    local bufname = vim.api.nvim_buf_get_name(bufnr)
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+
+    -- Run prettier using vim.fn.system
+    local cmd = {
+        "npx",
+        "prettier",
+        "--stdin-filepath="..bufname,
+    }
+
+    -- cannot run async, results in an error
+    local output = vim.system(cmd, {stdin=lines, text=true}):wait()
+
+    if output.code ~= 0 then
+        vim.notify("Prettier failed: " .. output, vim.log.levels.ERROR)
+        return 1
+    end
+
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, vim.split(output.stdout:gsub("\n+$", ""), "\n"))
 end
 
 -- Configure mapleader to run the format function
@@ -521,5 +557,33 @@ vim.api.nvim_create_autocmd({'FileType'}, {
     },
     callback = function(_ev)
         vim.bo.formatexpr = "v:lua.prettier_format()"
+    end
+})
+
+vim.opt.sessionoptions:remove({'blank', 'options'})
+vim.opt.sessionoptions:append({'tabpages', 'localoptions'})
+
+-- Set formatexpr to use the prettier_format function
+-- local session_autogroup = vim.api.nvim_create_augroup("AutoSession", { clear=false })
+vim.api.nvim_create_autocmd({'VimLeavePre'}, {
+    -- group = session_autogroup,
+    callback = function(_ev)
+        if vim.v.this_session ~= "" then
+            vim.cmd("mksession!")
+        end
+    end
+})
+vim.api.nvim_create_autocmd({'BufWinEnter'}, {
+    -- group = session_autogroup,
+    callback = function(ev)
+        if ev["file"] ~= "" or vim.v.this_session ~= "" then
+            return
+        end
+
+        local f = io.open("Session.vim", "r")
+
+        if f ~= nil and io.close(f) then
+            vim.cmd.source {"Session.vim"}
+        end
     end
 })
