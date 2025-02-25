@@ -202,20 +202,26 @@ require("lazy").setup({
     --     mapleader('n', 'df', ':Neoformat<CR>')
     --   end,
     -- },
-
-    { "zenbones-theme/zenbones.nvim",
-      -- Optionally install Lush. Allows for more configuration or extending the colorscheme
-      -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
-      -- In Vim, compat mode is turned on as Lush only works in Neovim.
-      dependencies = "rktjmp/lush.nvim",
+    { "rktjmp/lush.nvim",
       lazy = false,
       config = function()
-        vim.g.forestbones = { lightness = 'bright', darkness='stark' }
-        vim.g.rosebones = { lightness = 'bright', darkness='stark' }
-
-        vim.cmd([[colorscheme rosebones]])
-      end,
+        vim.cmd.colorscheme {"gtheme"}
+      end
     },
+
+    -- { "zenbones-theme/zenbones.nvim",
+    --   -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+    --   -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+    --   -- In Vim, compat mode is turned on as Lush only works in Neovim.
+    --   dependencies = "rktjmp/lush.nvim",
+    --   lazy = false,
+    --   config = function()
+    --     vim.g.forestbones = { lightness = 'bright', darkness='stark' }
+    --     vim.g.rosebones = { lightness = 'bright', darkness='stark' }
+
+    --     vim.cmd.colorscheme {"rosebones"}
+    --   end,
+    -- },
     { url='malmgg@git.amazon.com:pkg/Vim-code-browse', lazy=false, },
   },
 })
@@ -487,7 +493,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- Function to run prettier
 _G.prettier_format = function()
     local start_line = vim.v.lnum
-    print('count: '.. vim.v.count)
     local end_line = start_line + vim.v.count - 1
     local filetype = vim.bo.filetype
     -- Define the file types you want to format with prettier
@@ -561,6 +566,7 @@ vim.api.nvim_create_autocmd({'FileType'}, {
 })
 
 vim.opt.sessionoptions:remove({'blank', 'options'})
+-- localoptions gets colorscheme to load
 vim.opt.sessionoptions:append({'tabpages', 'localoptions'})
 
 -- Set formatexpr to use the prettier_format function

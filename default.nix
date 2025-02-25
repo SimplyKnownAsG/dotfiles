@@ -90,8 +90,7 @@ in
   home.file.".config/nvim/after/ftplugin/gitcommit.vim".source = ./dot/config/nvim/after/ftplugin/gitcommit.vim;
   home.file.".config/nvim/after/ftplugin/graphql.vim".source = ./dot/config/nvim/after/ftplugin/graphql.vim;
   home.file.".config/nvim/after/ftplugin/qf.vim".source = ./dot/config/nvim/after/ftplugin/qf.vim;
-  home.file.".config/nvim/colors/happy.vim".source = ./dot/config/nvim/colors/happy.vim;
-  home.file.".config/nvim/colors/script.py".source = ./dot/config/nvim/colors/script.py;
+  home.file.".config/nvim/colors/gtheme.lua".source = ./dot/config/nvim/colors/gtheme.lua;
   home.file.".config/nvim/ftplugin/go.vim".source = ./dot/config/nvim/ftplugin/go.vim;
   home.file.".config/nvim/ftplugin/log.vim".source = ./dot/config/nvim/ftplugin/log.vim;
   home.file.".config/nvim/ftplugin/markdown.vim".source = ./dot/config/nvim/ftplugin/markdown.vim;
