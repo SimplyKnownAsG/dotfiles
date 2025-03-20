@@ -204,7 +204,7 @@ local lazy_spec = {
   },
 }
 
-local have_work_lazy_spec, work_lazy_spec = pcall(dofile, './work_lazy_spec.lua')
+local have_work_lazy_spec, work_lazy_spec = pcall(dofile, vim.fn.stdpath('config') .. '/work_lazy_spec.lua')
 if have_work_lazy_spec then
   for _,spec in ipairs(work_lazy_spec) do
     table.insert(lazy_spec, spec)
@@ -358,7 +358,7 @@ vim.opt.expandtab = true
 vim.opt.grepprg = 'ag --vimgrep'
 vim.opt.grepformat = '%f:%l:%c:%m'
 
-pcall(dofile, './background.lua')
+pcall(dofile, vim.fn.stdpath('config') .. './background.lua')
 
 vim.cmd([[
 autocmd FileType qf wincmd J | vertical resize 10
@@ -499,9 +499,6 @@ _G.prettier_format = function()
     local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
     local range_start = vim.api.nvim_buf_get_offset(bufnr, start_line - 1) + 1
     local range_end = vim.api.nvim_buf_get_offset(bufnr, end_line) - 1
-
-    -- print("Hey Graham, start_line:end_line " .. start_line ..  ":" .. end_line)
-    -- print("Hey Graham, let's start at " .. range_start ..  ":" .. range_end)
 
     -- Run prettier using vim.fn.system
     local cmd = {
