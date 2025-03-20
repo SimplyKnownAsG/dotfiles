@@ -1,6 +1,7 @@
 vim.g.colors_name = 'gtheme'
+-- vim.o.guicursor = ''
 
--- test with 
+-- test with
 -- source $VIMRUNTIME/syntax/hitest.vim
 local lush = require('lush')
 local hsl = lush.hsl -- We'll use hsl a lot so its nice to bind it separately
@@ -21,28 +22,47 @@ local purple_blue = hsl("#555fcf")
 local purple = hsl("#8855cf")
 local magenta = hsl("#c555cf")
 local reddish_pink = hsl("#cf559c")
-local white = hsl("#ffffff")
+local white = dark_green.lighten(97)
 local mid_green = hsl("#238910")
 
 local foreground = white
 local background = dark_green
 local highlight = bright_green
 
+-- brigher and darker are assuming a DARK backgorund
+-- they reverse if light
+local lighter = 20
+local darker = -20
+
 if vim.o.background == "light" then
+  lighter = -lighter
+  darker = -darker
   foreground = dark_green
   background = white
   highlight = yellow_green
+  yellow = yellow.darken(15)
 end
 
 
 local theme = lush(function()
   return {
-    SpelunkerSpellBad {gui = "undercurl", sp=red },
     Normal { fg = foreground, bg = background, },
-    ColorColumn { bg = green, },
-    Cursor { bg = highlight, },
-    CursorLineNr { fg = highlight, bg = background, },
-    CursorLine { fg = highlight, bg = background, },
+    Visual { fg = highlight, bg = purple_blue },
+
+    SpelunkerSpellBad {gui = "undercurl", sp=red },
+
+    Operator { fg = purple, bg = background, },
+    Function { Operator },
+
+    Cursor { fg = dark_green, bg = bright_green2, },
+    TermCursor { Cursor },
+    lCursor { Cursor },
+
+    -- only for CtrlP
+    CusorColumn { fg = background, bg = foreground },
+    CursorLine { fg = background, bg = foreground },
+
+    ColorColumn { fg = white, bg = green, },
     LineNr { fg = mid_green, bg = background, },
     Conceal { fg = green, bg = background, },
     NonText { Conceal },
@@ -50,8 +70,9 @@ local theme = lush(function()
     SignColumn { fg = highlight, bg = background, },
     VertSplit { fg = green, bg = background, },
     MatchParen { fg = green, bg = highlight, },
-    Search { fg = background, bg = reddish_pink, },
-    IncSearch { fg = reddish_pink, bg = background, gui = "underline" },
+    IncSearch { bg = background.lighten(lighter), gui = "underline" },
+    Search { bg = background.lighten(lighter*0.5), gui = "underline" },
+    CurSearch { bg = background.lighten(lighter * 1.1), gui = "underline" },
     TabLine { fg = green, bg = background, },
     TabLineFill { fg = green, bg = background, },
     TabLineSel { fg = highlight, bg = background, },
@@ -60,17 +81,19 @@ local theme = lush(function()
     PmenuSbar { fg = highlight, bg = background, },
     PmenuThumb { fg = magenta, bg = background, },
     Comment { fg = mid_green, bg = background, gui = "italic" },
-    SpecialComment { fg = highlight, bg = background, gui = "bold" },
+    SpecialComment { fg = mid_green, bg = background, gui = "bold" },
     Todo { fg = green, bg = light_green, },
+
     Constant { fg = orange, bg = background, },
+    String { Constant },
+
     Character { fg = magenta, bg = background, },
-    Delimeter { fg = highlight, bg = green, },
+    Delimiter { fg = highlight, bg = background, },
     NvimParenthesis {fg = highlight, bg = green, },
     NvimComma { fg = highlight, bg = green, },
     NvimColon { fg = highlight, bg = green, },
     Conditional { fg = magenta, bg = background, },
     Label { fg = magenta, bg = background, },
-    Operator { fg = red, bg = background, },
     Special { fg = foreground, bg = background, },
     PreProc { fg = orange, bg = background, gui = "bold" },
     Statement { fg = red, bg = background, gui = "bold" },
@@ -107,4 +130,6 @@ local theme = lush(function()
   }
 end)
 
+
 lush.apply(theme)
+return theme
