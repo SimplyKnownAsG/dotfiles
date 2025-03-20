@@ -63,6 +63,153 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 -- }}}
+--
+local lazy_spec = {
+  { 'neovim/nvim-lspconfig', lazy=false, },
+
+  { 'mfussenegger/nvim-jdtls', lazy=false, },
+
+  { 'tpope/vim-fugitive', lazy=false, },
+  { 'tpope/vim-commentary', lazy=false, },
+  { 'tpope/vim-surround', lazy=false, },
+  { 'tpope/vim-eunuch', lazy=false, },
+  { 'tpope/vim-unimpaired', lazy=false, },
+  { 'tpope/vim-sleuth', lazy=false, },
+  { 'tpope/vim-markdown', lazy=false,
+    init = function()
+      vim.g.markdown_folding = 1
+      vim.g.markdown_fenced_languages = {
+        'html',
+        'python',
+        'bash=sh',
+        'go',
+        'typescript',
+        'json',
+        'yaml',
+        'graphql',
+        'diff'
+      }
+    end,
+  },
+
+  { 'chrisbra/improvedft', lazy=false, },
+
+  { 'ctrlpvim/ctrlp.vim', lazy=false,
+    init = function()
+      vim.g.ctrlp_map = '<leader>ff' -- find file
+      vim.g.ctrlp_user_command = fd_command
+      vim.g.ctrlp_working_path_mode = 0
+    end,
+  },
+
+  { 'majutsushi/tagbar', lazy=false,
+    init = function()
+      vim.g.tagbar_sort=0 -- sort by order in file
+      mapleader('n', 'O', ':TagbarToggle<CR>')
+      mapleader('n', 'o', ':TagbarOpenAutoClose<CR>')
+    end,
+  },
+  -- Outline
+  -- vim.g.tagbar_type_go = {
+  --     \ 'ctagstype' : 'go',
+  --     \ 'kinds'     : [
+  --         \ 'p:package',
+  --         \ 'i:imports:1',
+  --         \ 'c:constants',
+  --         \ 'v:variables',
+  --         \ 'n:interfaces',
+  --         \ 't:types',
+  --         \ 'w:fields',
+  --         \ 'e:embedded',
+  --         \ 'm:methods',
+  --         \ 'r:constructor',
+  --         \ 'f:functions'
+  --     \ ],
+  --     \ 'sro' : '.',
+  --     \ 'kind2scope' : {
+  --         \ 't' : 'ctype',
+  --         \ 'n' : 'ntype'
+  --     \ },
+  --     \ 'scope2kind' : {
+  --         \ 'ctype' : 't',
+  --         \ 'ntype' : 'n'
+  --     \ },
+  --     \ 'ctagsbin'  : 'gotags',
+  --     \ 'ctagsargs' : '-sort -silent'
+  -- \ }
+
+
+  { 'ntpeters/vim-better-whitespace', lazy=false,
+    init = function()
+      mapleader('n', 'w', ':StripWhitespace<CR>')
+    end
+  },
+
+  { 'kamykn/spelunker.vim', lazy=false,
+    init = function()
+      vim.g.enable_spelunker_vim = 0
+    end,
+  },
+
+  -- { 'ojroques/vim-oscpyank', lazy=false,
+  --   init = function()
+  --     vim.cmd([[
+  --         autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankRegister "' | endif
+  --     ]])
+  --   end,
+  -- },
+
+  { 'MattesGroeger/vim-bookmarks', lazy=false,
+    init = function()
+      vim.g.bookmark_disable_ctrlp = 1
+    end,
+  },
+
+  { 'jparise/vim-graphql', lazy=false,
+    init = function()
+      vim.g.typescript_indent_disable = 1
+    end,
+  },
+
+  { 'leafgarland/typescript-vim', lazy=false, },
+  { 'peitalin/vim-jsx-typescript', lazy=false, },
+
+  { 'LnL7/vim-nix', lazy=false, },
+  { 'udalov/kotlin-vim', lazy=false, },
+
+  { 'stephpy/vim-yaml', lazy=false, },
+  { 'aklt/plantuml-syntax', lazy=false, },
+  { 'flazz/vim-colorschemes', lazy=false, },
+  { 'sotte/presenting.vim', lazy=false, },
+  { 'jbyuki/venn.nvim', lazy=false, },
+
+  -- { 'google/vim-maktaba', lazy=false, },
+  -- { 'google/vim-codefmt', lazy=false, },
+  -- { 'google/vim-glaive', lazy=false,
+  --   init = function()
+  --     mapleader('n', 'df', ':FormatCode<CR>')
+  --   end,
+  -- },
+
+  -- { 'sbdchd/neoformat', lazy=false,
+  --   init = function()
+  --     mapleader('n', 'df', ':Neoformat<CR>')
+  --   end,
+  -- },
+  { "rktjmp/lush.nvim",
+    lazy = false,
+    config = function()
+      vim.cmd.colorscheme {"gtheme"}
+    end
+  },
+}
+
+local have_work_lazy_spec, work_lazy_spec = pcall(dofile, './work_lazy_spec.lua')
+if have_work_lazy_spec then
+  for _,spec in ipairs(work_lazy_spec) do
+    table.insert(lazy_spec, spec)
+  end
+end
 
 require("lazy").setup({
   opts = {
@@ -70,163 +217,10 @@ require("lazy").setup({
       hererocks = false,
     },
   },
-  spec= {
-    { 'neovim/nvim-lspconfig', lazy=false, },
-
-    { 'mfussenegger/nvim-jdtls', lazy=false, },
-
-    { 'tpope/vim-fugitive', lazy=false, },
-    { 'tpope/vim-commentary', lazy=false, },
-    { 'tpope/vim-surround', lazy=false, },
-    { 'tpope/vim-eunuch', lazy=false, },
-    { 'tpope/vim-unimpaired', lazy=false, },
-    { 'tpope/vim-sleuth', lazy=false, },
-    { 'tpope/vim-markdown', lazy=false,
-      init = function()
-        vim.g.markdown_folding = 1
-        vim.g.markdown_fenced_languages = {
-          'html',
-          'python',
-          'bash=sh',
-          'go',
-          'typescript',
-          'json',
-          'yaml',
-          'graphql',
-          'diff'
-        }
-      end,
-    },
-
-    { 'chrisbra/improvedft', lazy=false, },
-
-    { 'ctrlpvim/ctrlp.vim', lazy=false,
-      init = function()
-        vim.g.ctrlp_map = '<leader>ff' -- find file
-        vim.g.ctrlp_user_command = fd_command
-        vim.g.ctrlp_working_path_mode = 0
-      end,
-    },
-
-    { 'majutsushi/tagbar', lazy=false,
-      init = function()
-        vim.g.tagbar_sort=0 -- sort by order in file
-        mapleader('n', 'O', ':TagbarToggle<CR>')
-        mapleader('n', 'o', ':TagbarOpenAutoClose<CR>')
-      end,
-    },
-    -- Outline
-    -- vim.g.tagbar_type_go = {
-    --     \ 'ctagstype' : 'go',
-    --     \ 'kinds'     : [
-    --         \ 'p:package',
-    --         \ 'i:imports:1',
-    --         \ 'c:constants',
-    --         \ 'v:variables',
-    --         \ 'n:interfaces',
-    --         \ 't:types',
-    --         \ 'w:fields',
-    --         \ 'e:embedded',
-    --         \ 'm:methods',
-    --         \ 'r:constructor',
-    --         \ 'f:functions'
-    --     \ ],
-    --     \ 'sro' : '.',
-    --     \ 'kind2scope' : {
-    --         \ 't' : 'ctype',
-    --         \ 'n' : 'ntype'
-    --     \ },
-    --     \ 'scope2kind' : {
-    --         \ 'ctype' : 't',
-    --         \ 'ntype' : 'n'
-    --     \ },
-    --     \ 'ctagsbin'  : 'gotags',
-    --     \ 'ctagsargs' : '-sort -silent'
-    -- \ }
-
-
-    { 'ntpeters/vim-better-whitespace', lazy=false,
-      init = function()
-        mapleader('n', 'w', ':StripWhitespace<CR>')
-      end
-    },
-
-    { 'kamykn/spelunker.vim', lazy=false,
-      init = function()
-        vim.g.enable_spelunker_vim = 0
-      end,
-    },
-
-    { 'ojroques/vim-oscyank', lazy=false,
-      init = function()
-        vim.cmd([[
-            autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankRegister "' | endif
-        ]])
-      end,
-    },
-
-    { 'MattesGroeger/vim-bookmarks', lazy=false,
-      init = function()
-        vim.g.bookmark_disable_ctrlp = 1
-      end,
-    },
-
-    { 'jparise/vim-graphql', lazy=false,
-      init = function()
-        vim.g.typescript_indent_disable = 1
-      end,
-    },
-
-    { 'leafgarland/typescript-vim', lazy=false, },
-    { 'peitalin/vim-jsx-typescript', lazy=false, },
-
-    { 'LnL7/vim-nix', lazy=false, },
-    { 'udalov/kotlin-vim', lazy=false, },
-
-    { 'stephpy/vim-yaml', lazy=false, },
-    { 'aklt/plantuml-syntax', lazy=false, },
-    { 'flazz/vim-colorschemes', lazy=false, },
-    { 'sotte/presenting.vim', lazy=false, },
-    { 'jbyuki/venn.nvim', lazy=false, },
-
-    -- { 'google/vim-maktaba', lazy=false, },
-    -- { 'google/vim-codefmt', lazy=false, },
-    -- { 'google/vim-glaive', lazy=false,
-    --   init = function()
-    --     mapleader('n', 'df', ':FormatCode<CR>')
-    --   end,
-    -- },
-
-    -- { 'sbdchd/neoformat', lazy=false,
-    --   init = function()
-    --     mapleader('n', 'df', ':Neoformat<CR>')
-    --   end,
-    -- },
-    { "rktjmp/lush.nvim",
-      lazy = false,
-      config = function()
-        vim.cmd.colorscheme {"gtheme"}
-      end
-    },
-
-    -- { "zenbones-theme/zenbones.nvim",
-    --   -- Optionally install Lush. Allows for more configuration or extending the colorscheme
-    --   -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
-    --   -- In Vim, compat mode is turned on as Lush only works in Neovim.
-    --   dependencies = "rktjmp/lush.nvim",
-    --   lazy = false,
-    --   config = function()
-    --     vim.g.forestbones = { lightness = 'bright', darkness='stark' }
-    --     vim.g.rosebones = { lightness = 'bright', darkness='stark' }
-
-    --     vim.cmd.colorscheme {"rosebones"}
-    --   end,
-    -- },
-    { url='malmgg@git.amazon.com:pkg/Vim-code-browse', lazy=false, },
-  },
+  spec= lazy_spec,
 })
 
-vim.api.nvim_set_option("clipboard","unnamed")
+vim.o.clipboard = "unnamedplus"
 vim.api.nvim_set_option("mouse","")
 
 -- configure_plugins()
@@ -292,20 +286,6 @@ vim.opt.textwidth = 120
 map('', '<C-Tab>', '<C-W>w', {noremap=true})
 map('', 'zO', 'zR', {noremap=true})
 map('', 'zC', 'zM', {noremap=true})
-
-vim.cmd([[
-" Find all, open quickfix
-function! FindAll(include_test, pattern)
-    if a:include_test
-        let l:files = systemlist(']] .. fd_command .. [[')
-    else
-        let l:files = systemlist(']] .. fd_command .. [[ | grep -Pv "(Test[^a-z]|\btest\b)"')
-    endif
-    execute "vimgrep /" . a:pattern . "/g " . join(l:files, ' ')
-    copen
-    wincmd p
-endfunction
-]])
 
 function find_all_ish(include_test)
     local mode = vim.api.nvim_get_mode()["mode"]
@@ -378,7 +358,7 @@ vim.opt.expandtab = true
 vim.opt.grepprg = 'ag --vimgrep'
 vim.opt.grepformat = '%f:%l:%c:%m'
 
-pcall(require, "background")
+pcall(dofile, './background.lua')
 
 vim.cmd([[
 autocmd FileType qf wincmd J | vertical resize 10
@@ -569,7 +549,6 @@ vim.opt.sessionoptions:remove({'blank', 'options'})
 -- localoptions gets colorscheme to load
 vim.opt.sessionoptions:append({'tabpages', 'localoptions'})
 
--- Set formatexpr to use the prettier_format function
 -- local session_autogroup = vim.api.nvim_create_augroup("AutoSession", { clear=false })
 vim.api.nvim_create_autocmd({'VimLeavePre'}, {
     -- group = session_autogroup,

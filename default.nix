@@ -232,6 +232,5 @@ in
         }
       '' + shellFunctions;
     };
-
   };
 }
