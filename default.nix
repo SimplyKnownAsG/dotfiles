@@ -27,6 +27,7 @@ in
     ncurses
     nix
     nodePackages.typescript-language-server
+    nodePackages.prettier
     nodejs
     (
       python3.withPackages (p: with p; [

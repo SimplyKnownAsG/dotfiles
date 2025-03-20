@@ -253,7 +253,6 @@ _G.format_with_prettier = function()
 
     -- Run prettier using vim.fn.system
     local cmd = {
-        "npx",
         "prettier",
         "--stdin-filepath="..bufname,
     }
