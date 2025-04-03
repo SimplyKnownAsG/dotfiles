@@ -271,6 +271,8 @@ end
 -- Configure mapleader to run the format function
 mapleader('n', 'df', ':lua format_with_prettier()<CR>', { noremap = true, silent = true })
 
+-- Disable termsync https://github.com/wezterm/wezterm/issues/4607
+vim.opt.temsync = false
 vim.opt.encoding = 'utf-8'
 vim.opt.backspace = 'indent,eol,start'
 vim.opt.splitright = true
