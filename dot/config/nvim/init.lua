@@ -165,7 +165,7 @@ local lazy_spec = {
     end,
   },
 
-  { 'jparise/vim-graphql', lazy=false,
+  { 'jparise/vim-graphql', lazy=true,
     init = function()
       vim.g.typescript_indent_disable = 1
     end,
@@ -231,6 +231,7 @@ _G.format_with_prettier = function()
     local filetype = vim.bo.filetype
     local prettier_filetypes = {
         javascript = true,
+        graphql = true,
         javascriptreact = true,
         typescript = true,
         typescriptreact = true,
@@ -503,7 +504,6 @@ _G.prettier_format = function()
 
     -- Run prettier using vim.fn.system
     local cmd = {
-        "npx",
         "prettier",
         "--stdin-filepath="..bufname,
         "--range-start="..range_start,
@@ -530,6 +530,7 @@ vim.api.nvim_create_autocmd({'FileType'}, {
       "javascriptreact",
       "typescript",
       "typescriptreact",
+      "graphql",
       "json",
       "css",
       "scss",
