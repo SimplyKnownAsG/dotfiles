@@ -32,6 +32,7 @@ in
     nodejs
     uv
     ollama
+    pyright
     (
       python3.withPackages (p: with p; [
         pip
