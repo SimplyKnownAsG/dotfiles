@@ -1,6 +1,7 @@
 { config, pkgs, nixpkgs, lib, nixgl, ... }:
 let
   shellFunctions = builtins.readFile ./shell-functions.sh;
+
 in
 {
   fonts.fontconfig.enable = true;
@@ -29,6 +30,8 @@ in
     nodePackages.typescript-language-server
     nodePackages.prettier
     nodejs
+    uv
+    ollama
     (
       python3.withPackages (p: with p; [
         pip
