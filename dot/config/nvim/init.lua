@@ -165,7 +165,7 @@ local lazy_spec = {
     end,
   },
 
-  { 'jparise/vim-graphql', lazy=true,
+  { 'jparise/vim-graphql', lazy=false,
     init = function()
       vim.g.typescript_indent_disable = 1
     end,
