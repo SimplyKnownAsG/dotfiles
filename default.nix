@@ -40,6 +40,8 @@ in
         matplotlib
         tabulate
         scipy
+        python-lsp-server
+        pylsp-rope
       ])
     )
     ripgrep
@@ -99,6 +101,7 @@ in
   home.file.".config/nvim/ftplugin/go.vim".source = ./dot/config/nvim/ftplugin/go.vim;
   home.file.".config/nvim/ftplugin/log.vim".source = ./dot/config/nvim/ftplugin/log.vim;
   home.file.".config/nvim/ftplugin/markdown.vim".source = ./dot/config/nvim/ftplugin/markdown.vim;
+  home.file.".config/nvim/ftplugin/python.lua".source = ./dot/config/nvim/ftplugin/python.lua;
   home.file.".config/nvim/ftplugin/typescript.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/ftplugin/typescriptreact.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/init.lua".source = ./dot/config/nvim/init.lua;
