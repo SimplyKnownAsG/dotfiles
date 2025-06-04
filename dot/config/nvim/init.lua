@@ -180,6 +180,13 @@ local lazy_spec = {
   { 'stephpy/vim-yaml', lazy=false, },
   { 'aklt/plantuml-syntax', lazy=false, },
   { 'flazz/vim-colorschemes', lazy=false, },
+  {
+    "scottmckendry/cyberdream.nvim",
+    lazy = false,
+    opts = {
+      variant = "auto"
+    },
+  },
   { 'sotte/presenting.vim', lazy=false, },
   { 'jbyuki/venn.nvim', lazy=false, },
 
@@ -199,7 +206,7 @@ local lazy_spec = {
   { "rktjmp/lush.nvim",
     lazy = false,
     config = function()
-      vim.cmd.colorscheme {"gtheme"}
+      vim.cmd.colorscheme {"cyberdream"}
     end
   },
 }
