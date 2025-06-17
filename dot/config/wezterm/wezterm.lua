@@ -99,7 +99,12 @@ return {
     {
       key = 'T',
       mods = 'CTRL|SHIFT',
-      action = act.SpawnCommandInNewTab { domain = 'CurrentPaneDomain', cwd=wezterm.home_dir, },
+      action = act.SpawnCommandInNewTab {
+        -- XXX: This can be removed once the default_prog fix is available
+        -- XXX: https://github.com/wezterm/wezterm/issues/6955
+        args = { 'zsh', '-l' },
+        domain = 'CurrentPaneDomain', cwd=wezterm.home_dir,
+      },
     },
 
     -- resize
