@@ -22,6 +22,7 @@ in
     figlet # for presenting.vim
     ion-cli
     jq
+    toml-cli
     lolcat
     mesa
     neovim
