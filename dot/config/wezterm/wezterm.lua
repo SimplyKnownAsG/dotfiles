@@ -67,11 +67,11 @@ return {
   scrollback_lines = 20000,
   default_cwd = wezterm.home_dir,
 
-  window_decorations = "INTEGRATED_BUTTONS|RESIZE",
+  window_decorations = "NONE",
   hide_tab_bar_if_only_one_tab = false,
   use_fancy_tab_bar = true,
   tab_bar_at_bottom = true,
-  enable_wayland = true,
+  enable_wayland = false,
 
   -- front_end = 'WebGpu',
 

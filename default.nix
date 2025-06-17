@@ -198,7 +198,7 @@ in
     zsh = {
       enable = true;
       enableCompletion = true;
-      initExtra = ''
+      initContent = ''
         setopt rmstarsilent
         bindkey -v
         set -o vi
