@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Check if we have at least 2 arguments (the files to compare)
+if [ $# -lt 2 ]; then
+    echo "Usage: diffjson [diff options] file1 file2"
+    echo "Compares two JSON files after sorting them with jq"
+    exit 1
+fi
+
+# Get all arguments except the last two (these are diff options)
+diffargs=("${@:1:$#-2}")
+
+# Get the last two arguments (these are the files)
+file1="${@: -2:1}"
+file2="${@: -1}"
+
+# Check if files exist
+if [ ! -f "$file1" ]; then
+    echo "Error: File not found: $file1"
+    exit 1
+fi
+
+if [ ! -f "$file2" ]; then
+    echo "Error: File not found: $file2"
+    exit 1
+fi
+
+# Run diff with all provided options, using process substitution for jq
+diff "${diffargs[@]}" <(jq -S . "$file1") <(jq -S . "$file2")
