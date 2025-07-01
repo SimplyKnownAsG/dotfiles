@@ -227,11 +227,11 @@ require("lazy").setup({
   spec= lazy_spec,
 })
 
-vim.o.clipboard = "unnamedplus"
-vim.api.nvim_set_option("mouse","")
-
--- configure_plugins()
--- vim.cmd('call glaive#Install()')
+-- use osc52 to get yanks to work everywhere
+vim.g.clipboard = "osc52"
+-- treat actual yanks as system clipboard yanks
+vim.keymap.set({'n', 'v'}, 'y', '"+y', { noremap = true })
+vim.keymap.set('n', 'Y', '"+Y', { noremap = true })
 
 -- Function to format the current file with `npx prettier`
 _G.format_with_prettier = function()
