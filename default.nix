@@ -88,6 +88,8 @@ in
     # https://github.com/kovidgoyal/kitty/issues/268#issuecomment-419342337
     clear = ''printf '\033[2J\033[3J\033[1;1H' '';
     clip = "xclip -sel clip";
+    could-you = "uv --project ~/Documents/could-you-mcp-host run could-you";
+    cy = "uv --project ~/Documents/could-you-mcp-host run cy";
   };
 
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
