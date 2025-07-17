@@ -7,8 +7,6 @@ in
   fonts.fontconfig.enable = true;
 
   nixGL.packages = nixgl.packages;
-  nixGL.defaultWrapper = "mesa";
-  nixGL.installScripts = [ "mesa" ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
