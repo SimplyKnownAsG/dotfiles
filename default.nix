@@ -24,7 +24,6 @@ in
     jq
     toml-cli
     lolcat
-    mesa
     neovim
     ncurses
     nix
