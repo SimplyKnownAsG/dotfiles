@@ -79,8 +79,7 @@ in
     grep = "grep --color=auto";
     ":q" = "exit";
     bk = ''cd ''${OLDPWD}'';
-    py = "python2";
-    py3 = "python3";
+    py = "python";
     gotest = "go test -v -count=1 ./...";
     gopest = "go test -v -count=1 -parallel 4 ./...";
     aws-cfn-list-all = ''aws cloudformation list-stacks | jq -r ".StackSummaries[].StackName" |
