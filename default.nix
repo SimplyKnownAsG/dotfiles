@@ -161,7 +161,7 @@ in
         squash = ''!f() { git reset --hard $1 && git merge --squash HEAD@{1} && git commit ; }; f'';
         grep = ''grep -n'';
         br = ''branch'';
-        cl = ''clean -fxd'';
+        cl = ''clean -fxde .gitignored -e .could-you*'';
         filetype = ''diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD --'';
       };
       extraConfig = {
