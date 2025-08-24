@@ -151,7 +151,7 @@ in
         "lombok.config"
         "annotation-generated-src/"
         "/?/"
-        ".could-you-*.json"
+        ".could-you-*.json*"
       ];
       aliases = {
         co = ''checkout'';

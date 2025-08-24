@@ -95,6 +95,56 @@ return {
       action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
     },
 
+        {
+      mods = 'CTRL|SHIFT',
+      key = 'i',
+      action = wezterm.action_callback(function(win, pane)
+        wezterm.log_info 'Hello from callback!'
+        wezterm.log_info(
+          'WindowID:',
+          win:window_id(),
+          'PaneID:',
+          pane:pane_id()
+        )
+      end),
+    },
+
+
+    -- open buffer in vim
+    {
+      key = 'f',
+      mods = 'ALT',
+      action = wezterm.action_callback(function(window, pane)
+        local text = pane:get_lines_as_text(pane:get_dimensions().scrollback_rows)
+
+        -- Create a temporary file to pass to vim
+        local name = os.tmpname()
+        local f = io.open(name, 'w+')
+        f:write(text)
+        f:flush()
+        f:close()
+
+        wezterm.log_info("thing:")
+        wezterm.log_info("thing: " ..name)
+        -- Open a new window running vim and tell it to open the file
+        window:perform_action(
+          act.SpawnCommandInNewTab {
+            args = { 'vim', name },
+          },
+          pane
+        )
+
+        -- -- Wait "enough" time for vim to read the file before we remove it.
+        -- -- The window creation and process spawn are asynchronous wrt. running
+        -- -- this script and are not awaitable, so we just pick a number.
+        -- --
+        -- -- Note: We don't strictly need to remove this file, but it is nice
+        -- -- to avoid cluttering up the temporary directory.
+        wezterm.sleep_ms(1000)
+        os.remove(name)
+      end)
+    },
+
     -- override tab default directory
     {
       key = 'T',
@@ -132,6 +182,7 @@ return {
 
     { mods = 'ALT', key = 'DownArrow', action = act.ActivatePaneDirection 'Down' },
     { mods = 'ALT', key = 'j', action = act.ActivatePaneDirection 'Down' },
+
   },
   ssh_domains = ssh_domains,
 }
