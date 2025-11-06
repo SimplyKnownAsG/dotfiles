@@ -227,11 +227,13 @@ require("lazy").setup({
   spec= lazy_spec,
 })
 
+vim.opt.clipboard:append({'unnamedplus'})
+-- I do not understand, this used to work, now it does not.
 -- use osc52 to get yanks to work everywhere
-vim.g.clipboard = "osc52"
+-- vim.g.clipboard = "osc52"
 -- treat actual yanks as system clipboard yanks
-vim.keymap.set({'n', 'v'}, 'y', '"+y', { noremap = true })
-vim.keymap.set('n', 'Y', '"+Y', { noremap = true })
+-- vim.keymap.set({'n', 'v'}, 'y', '"+y', { noremap = true })
+-- vim.keymap.set('n', 'Y', '"+Y', { noremap = true })
 
 -- Function to format the current file with `npx prettier`
 _G.format_with_prettier = function()
