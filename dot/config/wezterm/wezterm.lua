@@ -9,37 +9,6 @@ local act = wezterm.action
 --   return tab.active_pane.title
 -- end)
 
-local hacky_user_commands = {
-  ['set-tab-title'] = function(window, pane, cmd_context)
-    pane:mux_pane():tab():set_title(cmd_context.title)
-  end,
-  ['open-tab'] = function(window, pane, cmd_context)
-    for tab_index, tab in ipairs(window:mux_window():tabs()) do
-      if tab:get_title() == cmd_context.title then
-        window:perform_action(
-          act.ActivateTab(tab_index-1),
-          pane
-        )
-        return
-      end
-    end
-
-    local new_tab, _, _ = window:mux_window():spawn_tab {
-      cwd = cmd_context.cwd
-    }
-
-    new_tab:set_title(cmd_context.title)
-  end,
-}
-
-wezterm.on('user-var-changed', function(window, pane, name, value)
-  if name == 'hacky-user-command' then
-    local cmd_context = wezterm.json_parse(value)
-    hacky_user_commands[cmd_context.cmd](window, pane, cmd_context)
-    return
-  end
-end)
-
 local color_scheme = {
   color_scheme = "Builtin Dark"
 }
@@ -58,6 +27,7 @@ end
 
 return {
   default_prog = { 'zsh', '-l' },
+  default_cwd = wezterm.home_dir,
   font = wezterm.font {
     family = 'Cascadia Code PL',
     weight = 'Medium',
@@ -65,7 +35,6 @@ return {
   font_size = 10,
   color_scheme = color_scheme.color_scheme,
   scrollback_lines = 20000,
-  default_cwd = wezterm.home_dir,
 
   window_decorations = "NONE",
   hide_tab_bar_if_only_one_tab = false,
@@ -95,7 +64,7 @@ return {
       action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
     },
 
-        {
+    {
       mods = 'CTRL|SHIFT',
       key = 'i',
       action = wezterm.action_callback(function(win, pane)
@@ -108,7 +77,6 @@ return {
         )
       end),
     },
-
 
     -- open buffer in vim
     {
@@ -149,12 +117,18 @@ return {
     {
       key = 'T',
       mods = 'CTRL|SHIFT',
+      -- action = act.SpawnTab 'CurrentPaneDomain',
       action = act.SpawnCommandInNewTab {
-        -- XXX: This can be removed once the default_prog fix is available
-        -- XXX: https://github.com/wezterm/wezterm/issues/6955
-        args = { 'zsh', '-l' },
-        domain = 'CurrentPaneDomain', cwd=wezterm.home_dir,
+        domain = 'DefaultDomain',
+        cwd = wezterm.home_dir,
       },
+      -- action = act.SpawnCommandInNewTab {
+      --   -- XXX: This can be removed once the default_prog fix is available
+      --   -- XXX: https://github.com/wezterm/wezterm/issues/6955
+      --   args = { 'zsh', '-l' },
+      --   domain = 'CurrentPaneDomain',
+      --   cwd = wezterm.home_dir,
+      -- },
     },
 
     -- resize
