@@ -89,6 +89,7 @@ in
     clip = "xclip -sel clip";
     could-you = "uv --project ~/Documents/could-you-ai-agent run could-you";
     cy = "uv --project ~/Documents/could-you-ai-agent run cy";
+    venv = "if [ ! -d .venv ]; then uv venv --seed ; fi ; source .venv/bin/activate";
   };
 
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;

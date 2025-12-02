@@ -248,7 +248,6 @@ _G.format_with_prettier = function()
         css = true,
         scss = true,
         html = true,
-        markdown = true,
         yaml = true,
         yml = true
     }
@@ -350,10 +349,8 @@ end
 
 local find_all = function() find_all_ish(true) end
 local find_all_no_test = function() find_all_ish(false) end
-
 mapleader('n', 'fA', '<cmd>lua find_all_ish(true)<CR>')
 mapleader('n', 'fa', '<cmd>lua find_all_ish(false)<CR>')
-
 mapleader('v', 'fA', '<cmd>lua find_all_ish(true)<CR>')
 mapleader('v', 'fa', '<cmd>lua find_all_ish(false)<CR>')
 
@@ -384,13 +381,6 @@ function! SynStack ()
 endfunction
 map SS :call SynStack()<CR>
 ]])
-
--- vim.filetype.add({
---     extension = {
---         devenv = 'sh',
---         log = 'log',
---     },
--- })
 
 local function t(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -468,18 +458,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end
     end,
 })
-
--- local generalSettingsGroup = vim.api.nvim_create_augroup('Textwidth', { clear = true })
--- vim.api.nvim_create_autocmd('FileType', {
---     pattern = { '*.ts', '*.tsx', '*.js', '*.jsx' },
---     callback = function()
---         vim.opt.textwidth = 120
---     end,
---     group = generalSettingsGroup,
--- })
-
-
--- vim.cmd('autocmd VimEnter * ++nested lua vim.api.nvim_exec_autocmds("FileType", { group = "PrettierFormat" })')
 
 -- Function to run prettier
 _G.prettier_format = function()
