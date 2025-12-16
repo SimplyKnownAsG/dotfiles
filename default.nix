@@ -153,6 +153,7 @@ in
         "annotation-generated-src/"
         "/?/"
         ".could-you-config.json*"
+        ".could-you-config.yaml*"
         ".could-you-messages.json*"
       ];
       aliases = {
