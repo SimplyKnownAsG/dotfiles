@@ -422,34 +422,28 @@ function graham_setqflist()
     vim.cmd('wincmd p')
 end
 
-
-vim.g.on_attach = function(client, bufnr)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    opts = {noremap=true}
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    -- vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, opts)
-
-    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<TAB>', 'v:lua.smart_tab()', {expr=true, noremap=true})
-    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<S-TAB>', 'pumvisible() ? "<C-p>" : "<S-TAB>"', {noremap=true, expr=true})
-
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>cl', '<cmd>lua graham_setloclist()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>cq', '<cmd>lua graham_setqflist()<CR>', opts)
-end
-
 -- https://vi.stackexchange.com/a/39800/22825
 -- gq uses lsp format now?
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
+        vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        opts = {noremap=true}
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        -- vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, opts)
+
+        vim.api.nvim_buf_set_keymap(args.buf, 'i', '<TAB>', 'v:lua.smart_tab()', {expr=true, noremap=true})
+        vim.api.nvim_buf_set_keymap(args.buf, 'i', '<S-TAB>', 'pumvisible() ? "<C-p>" : "<S-TAB>"', {noremap=true, expr=true})
+
+        vim.api.nvim_buf_set_keymap(args.buf, 'n', '<leader>cl', '<cmd>lua graham_setloclist()<CR>', opts)
+        vim.api.nvim_buf_set_keymap(args.buf, 'n', '<leader>cq', '<cmd>lua graham_setqflist()<CR>', opts)
+
         -- disable LSP usage for `gq` cause it doesn't work on comments.
         -- vim.bo[args.buf].formatexpr = nil
         -- disable @lsp highlight groups
@@ -527,7 +521,7 @@ vim.api.nvim_create_autocmd({'FileType'}, {
       "yml",
     },
     callback = function(_ev)
-        vim.bo.formatexpr = "v:lua.prettier_format()"
+        -- vim.bo.formatexpr = "v:lua.prettier_format()"
     end
 })
 
