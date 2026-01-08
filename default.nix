@@ -51,7 +51,7 @@ in
     graphviz
     jdt-language-server
     plantuml
-    vscode
+    # vscode
   ];
 
   home.activation = {
@@ -156,31 +156,33 @@ in
         ".could-you-config.yaml*"
         ".could-you-messages.json*"
       ];
-      aliases = {
-        co = ''checkout'';
-        st = ''status'';
-        hist = ''log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short'';
-        sed = ''!f() { git ls-files -z | xargs -0 sed -i "$1"; }; f'';
-        squash = ''!f() { git reset --hard $1 && git merge --squash HEAD@{1} && git commit ; }; f'';
-        grep = ''grep -n'';
-        br = ''branch'';
-        cl = ''clean -fxde .gitignored -e .could-you*'';
-        filetype = ''diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD --'';
-      };
-      extraConfig = {
-        core = {
-          push = "nothing";
-          autocrlf = "input";
-          commentchar = ";";
+      settings = {
+        alias = {
+          co = ''checkout'';
+          st = ''status'';
+          hist = ''log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short'';
+          sed = ''!f() { git ls-files -z | xargs -0 sed -i "$1"; }; f'';
+          squash = ''!f() { git reset --hard $1 && git merge --squash HEAD@{1} && git commit ; }; f'';
+          grep = ''grep -n'';
+          br = ''branch'';
+          cl = ''clean -fxde .gitignored -e .could-you*'';
+          filetype = ''diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD --'';
         };
-        pull = {
-          rebase = "true";
-        };
-        fetch = {
-          prune = "true";
-        };
-        diff = {
-          colorMoved = "zebra";
+        extraConfig = {
+          core = {
+            push = "nothing";
+            autocrlf = "input";
+            commentchar = ";";
+          };
+          pull = {
+            rebase = "true";
+          };
+          fetch = {
+            prune = "true";
+          };
+          diff = {
+            colorMoved = "zebra";
+          };
         };
       };
       hooks = {
