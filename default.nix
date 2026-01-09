@@ -168,21 +168,19 @@ in
           cl = ''clean -fxde .gitignored -e .could-you*'';
           filetype = ''diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD --'';
         };
-        extraConfig = {
-          core = {
-            push = "nothing";
-            autocrlf = "input";
-            commentchar = ";";
-          };
-          pull = {
-            rebase = "true";
-          };
-          fetch = {
-            prune = "true";
-          };
-          diff = {
-            colorMoved = "zebra";
-          };
+        core = {
+          push = "nothing";
+          autocrlf = "input";
+          commentchar = ";";
+        };
+        pull = {
+          rebase = "true";
+        };
+        fetch = {
+          prune = "true";
+        };
+        diff = {
+          colorMoved = "zebra";
         };
       };
       hooks = {
