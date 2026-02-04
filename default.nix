@@ -152,9 +152,7 @@ in
         "lombok.config"
         "annotation-generated-src/"
         "/?/"
-        ".could-you-config.json*"
-        ".could-you-config.yaml*"
-        ".could-you-messages.json*"
+        ".could-you/"
       ];
       settings = {
         alias = {
@@ -165,7 +163,7 @@ in
           squash = ''!f() { git reset --hard $1 && git merge --squash HEAD@{1} && git commit ; }; f'';
           grep = ''grep -n'';
           br = ''branch'';
-          cl = ''clean -fxde .gitignored -e .could-you*'';
+          cl = ''clean -fxde .gitignored -e .could-you/'';
           filetype = ''diff --stat 4b825dc642cb6eb9a060e54bf8d69288fbee4904 HEAD --'';
         };
         core = {
