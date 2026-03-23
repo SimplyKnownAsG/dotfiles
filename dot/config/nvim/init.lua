@@ -302,9 +302,9 @@ function find_all_ish(include_test)
     local pattern = ""
     local cmd = {
         "ag",
+        "-s",
         "--vimgrep",
         "--ignore", "Session.vim",
-        "-s"
     }
 
     if mode == "n" then
@@ -332,12 +332,20 @@ function find_all_ish(include_test)
     end
 
     if not include_test then
-        cmd[#cmd+1] = '--ignore'
-        cmd[#cmd+1] = '*Test.*'
-        cmd[#cmd+1] = '--ignore'
-        cmd[#cmd+1] = '*.test.*'
-        cmd[#cmd+1] = '--ignore'
-        cmd[#cmd+1] = '*-test-*'
+        local ignores = {
+            {"--ignore", "*Test.*"},    -- java
+            {"--ignore-dir", "tst"},    -- java
+            {"--ignore", "*.test.*"},   -- nodejs
+            {"--ignore", "*-test-*"},   -- nodejs
+            {"--ignore", "test_*"},     -- python
+            {"--ignore-dir", "test"},   -- python
+            {"--ignore-dir", "spec"},   -- python
+            {"--ignore", "*.md"},       -- docs
+        }
+        for _, pair in ipairs(ignores) do
+            table.insert(cmd, pair[1])
+            table.insert(cmd, pair[2])
+        end
     end
 
     cmd[#cmd+1] = pattern
