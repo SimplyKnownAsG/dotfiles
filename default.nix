@@ -2,6 +2,10 @@
 let
   shellFunctions = builtins.readFile ./shell-functions.sh;
 
+  whisperModel = pkgs.fetchurl {
+    url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin";
+    sha256 = "00nhqqvgwyl9zgyy7vk9i3n017q2wlncp5p7ymsk0cpkdp47jdx0";
+  };
 in
 {
   fonts.fontconfig.enable = true;
@@ -14,7 +18,6 @@ in
     # silver-searcher
     bashInteractive
     cascadia-code
-    open-dyslexic
     ctags
     fd
     figlet # for presenting.vim
@@ -52,6 +55,8 @@ in
     jdt-language-server
     plantuml
     # vscode
+
+    whisper-cpp
   ];
 
   home.activation = {
@@ -112,6 +117,8 @@ in
   home.file.".local/bin/list-colors".source = ./dot/local/bin/list-colors;
   home.file.".local/bin/diffjson".source = ./dot/local/bin/diffjson;
   home.file.".local/bin/diff-json".source = ./dot/local/bin/diffjson;
+  home.file.".local/share/whisper/ggml-base.en.bin".source = whisperModel;
+
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

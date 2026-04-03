@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+tmp_dir=$(mktemp -d)
+pid_file="$tmp_dir/recording.pid"
+
+echo "Recording ..." 1>&2
+# Start recording in background
+arecord -f S16_LE "$tmp_dir/recording.wav" &
+echo $! > "$pid_file"
+read
+echo "Recording done ..." 1>&2
+
+# Stop recording
+if [ -f "$pid_file" ]; then
+    kill $(cat "$pid_file") 2>/dev/null
+fi
+
+# Wait a moment for file to be written
+sleep 0.1
+
+echo "Transcribing ..." 1>&2
+# Transcribe
+whisper-cli -m ~/.local/share/whisper/ggml-base.en.bin "$tmp_dir/recording.wav" --output-txt > $tmp_dir/whisper.stdout 2> $tmp_dir/whisper.stderr
+
+echo "Transcribing done ..." 1>&2
+# Output the transcription (only stdout, errors to stderr)
+if [ -f "$tmp_dir/recording.wav.txt" ]; then
+    cat "$tmp_dir/recording.wav.txt"
+else
+    echo "could not find output file" >&2
+fi
+
+# Cleanup
+rm -rf "$tmp_dir"

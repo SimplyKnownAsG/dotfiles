@@ -560,3 +560,5 @@ vim.api.nvim_create_autocmd({'BufWinEnter'}, {
         end
     end
 })
+
+require('transcribe-me')
