@@ -183,32 +183,13 @@ local lazy_spec = {
   {
     "scottmckendry/cyberdream.nvim",
     lazy = false,
-    opts = {
-      variant = "auto"
-    },
-  },
-  { 'sotte/presenting.vim', lazy=false, },
-  { 'jbyuki/venn.nvim', lazy=false, },
-
-  -- { 'google/vim-maktaba', lazy=false, },
-  -- { 'google/vim-codefmt', lazy=false, },
-  -- { 'google/vim-glaive', lazy=false,
-  --   init = function()
-  --     mapleader('n', 'df', ':FormatCode<CR>')
-  --   end,
-  -- },
-
-  -- { 'sbdchd/neoformat', lazy=false,
-  --   init = function()
-  --     mapleader('n', 'df', ':Neoformat<CR>')
-  --   end,
-  -- },
-  { "rktjmp/lush.nvim",
-    lazy = false,
     config = function()
+      require('cyberdream').setup({ variant = "auto" })
       vim.cmd.colorscheme {"cyberdream"}
     end
   },
+  { 'sotte/presenting.vim', lazy=false, },
+  { 'jbyuki/venn.nvim', lazy=false, },
 }
 
 local have_work_lazy_spec, work_lazy_spec = pcall(dofile, vim.fn.stdpath('config') .. '/work_lazy_spec.lua')
@@ -534,7 +515,6 @@ vim.api.nvim_create_autocmd({'FileType'}, {
 })
 
 vim.opt.sessionoptions:remove({'blank', 'options'})
--- localoptions gets colorscheme to load
 vim.opt.sessionoptions:append({'tabpages', 'localoptions'})
 
 -- local session_autogroup = vim.api.nvim_create_augroup("AutoSession", { clear=false })
