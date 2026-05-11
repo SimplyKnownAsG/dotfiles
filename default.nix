@@ -110,6 +110,7 @@ in
   home.file.".config/nvim/ftplugin/typescript.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/ftplugin/typescriptreact.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/init.lua".source = ./dot/config/nvim/init.lua;
+  home.file.".config/nvim/lua/transcribe-me.lua".source = ./dot/config/nvim/lua/transcribe-me.lua;
   home.file.".config/wezterm/wezterm.lua".source = ./dot/config/wezterm/wezterm.lua;
   home.file.".local/bin/cloudformation-dep-graph".source = ./dot/local/bin/cloudformation-dep-graph;
   home.file.".local/bin/git-config-github".source = ./dot/local/bin/git-config-github;
@@ -117,6 +118,7 @@ in
   home.file.".local/bin/list-colors".source = ./dot/local/bin/list-colors;
   home.file.".local/bin/diffjson".source = ./dot/local/bin/diffjson;
   home.file.".local/bin/diff-json".source = ./dot/local/bin/diffjson;
+  home.file.".local/bin/transcribe-me".source = ./dot/local/bin/transcribe-me;
   home.file.".local/share/whisper/ggml-base.en.bin".source = whisperModel;
 
 
