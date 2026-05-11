@@ -156,18 +156,13 @@ return {
     {
       key = 'T',
       mods = 'CTRL|SHIFT',
-      -- action = act.SpawnTab 'CurrentPaneDomain',
       action = act.SpawnCommandInNewTab {
-        domain = 'DefaultDomain',
-        cwd = wezterm.home_dir,
+        -- XXX: This can be removed once the default_prog fix is available
+        -- XXX: https://github.com/wezterm/wezterm/issues/6955
+        args = { 'zsh', '-l' },
+        domain = 'CurrentPaneDomain',
+        -- Don't specify cwd - let the shell use its default home directory
       },
-      -- action = act.SpawnCommandInNewTab {
-      --   -- XXX: This can be removed once the default_prog fix is available
-      --   -- XXX: https://github.com/wezterm/wezterm/issues/6955
-      --   args = { 'zsh', '-l' },
-      --   domain = 'CurrentPaneDomain',
-      --   cwd = wezterm.home_dir,
-      -- },
     },
 
     -- resize
