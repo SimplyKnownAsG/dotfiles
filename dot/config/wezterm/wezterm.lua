@@ -9,6 +9,45 @@ local act = wezterm.action
 --   return tab.active_pane.title
 -- end)
 
+-- Set orange tab bar for any remote connection
+wezterm.on('update-status', function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+
+  -- Check if we're connected to any remote (not local domain)
+  local domain_name = pane:get_domain_name()
+  if domain_name and domain_name ~= 'local' and domain_name ~= 'DefaultDomain' then
+    overrides.colors = {
+      tab_bar = {
+        background = '#FF9900',
+        active_tab = {
+          bg_color = '#FF9900',
+          fg_color = '#000000',
+        },
+        inactive_tab = {
+          bg_color = '#CC7A00',
+          fg_color = '#000000',
+        },
+        inactive_tab_hover = {
+          bg_color = '#E68A00',
+          fg_color = '#000000',
+        },
+        new_tab = {
+          bg_color = '#CC7A00',
+          fg_color = '#000000',
+        },
+        new_tab_hover = {
+          bg_color = '#E68A00',
+          fg_color = '#000000',
+        },
+      },
+    }
+  else
+    overrides.colors = nil
+  end
+
+  window:set_config_overrides(overrides)
+end)
+
 local color_scheme = {
   color_scheme = "Builtin Dark"
 }
