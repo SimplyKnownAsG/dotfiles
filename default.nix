@@ -1,6 +1,7 @@
 { config, pkgs, nixpkgs, lib, nixgl, ... }:
 let
   shellFunctions = builtins.readFile ./shell-functions.sh;
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 
   whisperModel = pkgs.fetchurl {
     url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin";
@@ -10,7 +11,10 @@ in
 {
   fonts.fontconfig.enable = true;
 
-  targets.genericLinux.nixGL.packages = nixgl.packages;
+  targets.genericLinux = lib.mkIf (!isDarwin) {
+    enable = true;
+    nixGL.packages = nixgl.packages;
+  };
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -48,15 +52,16 @@ in
     ripgrep
     silver-searcher
     tree
-    (config.lib.nixGL.wrap wezterm)
+    (if isDarwin then wezterm else config.lib.nixGL.wrap wezterm)
     zsh
-    xclip
     graphviz
     jdt-language-server
     plantuml
     # vscode
 
     whisper-cpp
+  ] ++ lib.optionals (!isDarwin) [
+    xclip
   ];
 
   home.activation = {
@@ -76,7 +81,7 @@ in
   ];
 
   home.shellAliases = {
-    ls = "ls --color=auto";
+    ls = if isDarwin then "ls -G" else "ls --color=auto";
     ll = "ls -alhF";
     up = "cd ..";
     u2 = "cd ../..";
@@ -91,7 +96,7 @@ in
                 xargs -I@ -P4 sh -c "aws cloudformation get-template --stack-name @ > @.json"'';
     # https://github.com/kovidgoyal/kitty/issues/268#issuecomment-419342337
     clear = ''printf '\033[2J\033[3J\033[1;1H' '';
-    clip = "xclip -sel clip";
+    clip = if isDarwin then "pbcopy" else "xclip -sel clip";
     could-you = "uv --project ~/Documents/could-you-ai-agent run could-you";
     cy = "uv --project ~/Documents/could-you-ai-agent run cy";
     venv = "if [ ! -d .venv ]; then uv venv --seed ; fi ; source .venv/bin/activate";
@@ -131,8 +136,6 @@ in
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "24.11";
-
-  targets.genericLinux.enable = !pkgs.stdenv.hostPlatform.isDarwin;
 
   xdg = {
     enable = true;
