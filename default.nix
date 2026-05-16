@@ -1,4 +1,4 @@
-{ config, pkgs, nixpkgs, lib, nixgl, ... }:
+{ config, pkgs, nixpkgs, lib, nixgl, username, homeDirectory, ... }:
 let
   shellFunctions = builtins.readFile ./shell-functions.sh;
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
@@ -18,6 +18,9 @@ in
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
+  home.username = username;
+  home.homeDirectory = homeDirectory;
+
   home.packages = with pkgs; [
     # silver-searcher
     bashInteractive
@@ -57,8 +60,6 @@ in
     graphviz
     jdt-language-server
     plantuml
-    # vscode
-
     whisper-cpp
   ] ++ lib.optionals (!isDarwin) [
     xclip
