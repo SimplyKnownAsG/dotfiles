@@ -61,6 +61,7 @@ in
     jdt-language-server
     plantuml
     whisper-cpp
+    google-cloud-sdk
   ] ++ lib.optionals (!isDarwin) [
     xclip
   ];
