@@ -9,45 +9,6 @@ local act = wezterm.action
 --   return tab.active_pane.title
 -- end)
 
--- Set orange tab bar for any remote connection
-wezterm.on('update-status', function(window, pane)
-  local overrides = window:get_config_overrides() or {}
-
-  -- Check if we're connected to any remote (not local domain)
-  local domain_name = pane:get_domain_name()
-  if domain_name and domain_name ~= 'local' and domain_name ~= 'DefaultDomain' then
-    overrides.colors = {
-      tab_bar = {
-        background = '#FF9900',
-        active_tab = {
-          bg_color = '#FF9900',
-          fg_color = '#000000',
-        },
-        inactive_tab = {
-          bg_color = '#CC7A00',
-          fg_color = '#000000',
-        },
-        inactive_tab_hover = {
-          bg_color = '#E68A00',
-          fg_color = '#000000',
-        },
-        new_tab = {
-          bg_color = '#CC7A00',
-          fg_color = '#000000',
-        },
-        new_tab_hover = {
-          bg_color = '#E68A00',
-          fg_color = '#000000',
-        },
-      },
-    }
-  else
-    overrides.colors = nil
-  end
-
-  window:set_config_overrides(overrides)
-end)
-
 local color_scheme = {
   color_scheme = "Builtin Dark"
 }
@@ -58,17 +19,86 @@ if mod then
 end
 
 local ssh_domains = {}
-local domain_sources = { "work_ssh_domains", "personal_ssh_domains" }
+local domain_kind_by_name = {}
+local domain_sources = {
+  { module = "work_ssh_domains", kind = "work" },
+  { module = "personal_ssh_domains", kind = "personal" },
+}
 
 for _, domain_source in ipairs(domain_sources) do
-  local ok, source_ssh_domains = pcall(require, domain_source)
+  local ok, source_ssh_domains = pcall(require, domain_source.module)
 
   if source_ssh_domains then
     for _, domain in ipairs(source_ssh_domains) do
       table.insert(ssh_domains, domain)
+      if domain.name then
+        domain_kind_by_name[domain.name] = domain_source.kind
+      end
     end
   end
 end
+
+-- Color palettes per host kind
+-- work = orange, personal = violet (#7F00FF)
+local tab_bar_palettes = {
+  work = {
+    background = '#FF9900',
+    active_bg = '#FF9900',
+    inactive_bg = '#CC7A00',
+    hover_bg = '#E68A00',
+  },
+  personal = {
+    background = '#7F00FF',
+    active_bg = '#7F00FF',
+    inactive_bg = '#5F00BF',
+    hover_bg = '#9933FF',
+  },
+}
+
+local function build_tab_bar_colors(palette)
+  return {
+    tab_bar = {
+      background = palette.background,
+      active_tab = {
+        bg_color = palette.active_bg,
+        fg_color = '#000000',
+      },
+      inactive_tab = {
+        bg_color = palette.inactive_bg,
+        fg_color = '#000000',
+      },
+      inactive_tab_hover = {
+        bg_color = palette.hover_bg,
+        fg_color = '#000000',
+      },
+      new_tab = {
+        bg_color = palette.inactive_bg,
+        fg_color = '#000000',
+      },
+      new_tab_hover = {
+        bg_color = palette.hover_bg,
+        fg_color = '#000000',
+      },
+    },
+  }
+end
+
+-- Set tab bar color based on remote host kind (work = orange, personal = violet)
+wezterm.on('update-status', function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+
+  -- Check if we're connected to any remote (not local domain)
+  local domain_name = pane:get_domain_name()
+  if domain_name and domain_name ~= 'local' and domain_name ~= 'DefaultDomain' then
+    local kind = domain_kind_by_name[domain_name] or 'work'
+    local palette = tab_bar_palettes[kind] or tab_bar_palettes.work
+    overrides.colors = build_tab_bar_colors(palette)
+  else
+    overrides.colors = nil
+  end
+
+  window:set_config_overrides(overrides)
+end)
 
 return {
   default_prog = { 'zsh', '-l' },
