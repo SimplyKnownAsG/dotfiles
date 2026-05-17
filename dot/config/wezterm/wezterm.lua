@@ -189,16 +189,39 @@ return {
     },
 
     -- override tab default directory
+    --
+    -- For local panes we force `zsh -l` (works around
+    -- https://github.com/wezterm/wezterm/issues/6955).
+    -- For remote SSH panes we let the remote host pick its default login
+    -- shell, since `zsh -l` may not exist / be on PATH there.
     {
       key = 'T',
       mods = 'CTRL|SHIFT',
-      action = act.SpawnCommandInNewTab {
-        -- XXX: This can be removed once the default_prog fix is available
-        -- XXX: https://github.com/wezterm/wezterm/issues/6955
-        args = { 'zsh', '-l' },
-        domain = 'CurrentPaneDomain',
-        -- Don't specify cwd - let the shell use its default home directory
-      },
+      action = wezterm.action_callback(function(window, pane)
+        local domain_name = pane:get_domain_name()
+        local is_local = (not domain_name)
+          or domain_name == 'local'
+          or domain_name == 'DefaultDomain'
+
+        if is_local then
+          window:perform_action(
+            act.SpawnCommandInNewTab {
+              args = { 'zsh', '-l' },
+              domain = 'CurrentPaneDomain',
+              -- Don't specify cwd - let the shell use its default home directory
+            },
+            pane
+          )
+        else
+          -- Omit `args` so the remote domain uses its configured default shell.
+          window:perform_action(
+            act.SpawnCommandInNewTab {
+              domain = 'CurrentPaneDomain',
+            },
+            pane
+          )
+        end
+      end),
     },
 
     -- resize
