@@ -58,10 +58,16 @@ if mod then
 end
 
 local ssh_domains = {}
+local domain_sources = { "work_ssh_domains", "personal_ssh_domains" }
 
-local ok, work_ssh_domains = pcall(require, 'work_ssh_domains')
-if work_ssh_domains then
-  ssh_domains = work_ssh_domains
+for _, domain_source in ipairs(domain_sources) do
+  local ok, source_ssh_domains = pcall(require, domain_source)
+
+  if source_ssh_domains then
+    for _, domain in ipairs(source_ssh_domains) do
+      table.insert(ssh_domains, domain)
+    end
+  end
 end
 
 return {
