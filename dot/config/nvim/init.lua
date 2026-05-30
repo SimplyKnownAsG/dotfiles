@@ -22,6 +22,13 @@ mapleader('n', '<CR>', ':source $MYVIMRC<CR>')
 nmap('<C-l>', ':tabn<CR>')
 nmap('<C-h>', ':tabp<CR>')
 
+-- Define languages for Tree-sitter parser installation and autocommands
+local ts_languages = {
+  "javascript", "typescript", "tsx", "html", "css", "scss",
+  "lua", "python", "java", "kotlin", "go", "rust",
+  "cpp", "c", "markdown", "markdown_inline", "graphql", "diff"
+}
+
 local fd_command = 'fd -t f --exclude=Session.vim --exclude="*.class"'
 
 -- {{{ toggle quickfix
@@ -67,6 +74,48 @@ vim.opt.rtp:prepend(lazypath)
 local lazy_spec = {
   { 'neovim/nvim-lspconfig', lazy=false, },
 
+  -- Tree-sitter support
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    priority = 1000, -- Load early
+    build = function()
+      vim.notify("Running TSUpdate for ensure_installed languages", vim.log.levels.INFO)
+      -- Install all parsers in ts_languages
+      for _, lang in ipairs(ts_languages) do
+        vim.notify("Installing parser for: " .. lang, vim.log.levels.INFO)
+        vim.cmd("TSInstall! " .. lang)
+      end
+      vim.cmd("TSUpdate")
+    end,
+  },
+
+  -- Additional Tree-sitter plugins for enhanced functionality
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    lazy = false,
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
+
+  -- Plugin for better Markdown language injection
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    lazy = false,
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      local status_ok, context = pcall(require, "treesitter-context")
+      if not status_ok then
+        vim.notify("treesitter-context not yet available, skipping config", vim.log.levels.WARN)
+        return
+      end
+
+      context.setup({
+        enable = true,
+        max_lines = 3,
+      })
+    end,
+  },
+
   { 'mfussenegger/nvim-jdtls', lazy=false, },
 
   { 'tpope/vim-fugitive', lazy=false, },
@@ -75,22 +124,6 @@ local lazy_spec = {
   { 'tpope/vim-eunuch', lazy=false, },
   { 'tpope/vim-unimpaired', lazy=false, },
   { 'tpope/vim-sleuth', lazy=false, },
-  { 'tpope/vim-markdown', lazy=false,
-    init = function()
-      vim.g.markdown_folding = 1
-      vim.g.markdown_fenced_languages = {
-        'html',
-        'python',
-        'bash=sh',
-        'go',
-        'typescript',
-        'json',
-        'yaml',
-        'graphql',
-        'diff'
-      }
-    end,
-  },
 
   { 'chrisbra/improvedft', lazy=false, },
 
@@ -109,35 +142,6 @@ local lazy_spec = {
       mapleader('n', 'o', ':TagbarOpenAutoClose<CR>')
     end,
   },
-  -- Outline
-  -- vim.g.tagbar_type_go = {
-  --     \ 'ctagstype' : 'go',
-  --     \ 'kinds'     : [
-  --         \ 'p:package',
-  --         \ 'i:imports:1',
-  --         \ 'c:constants',
-  --         \ 'v:variables',
-  --         \ 'n:interfaces',
-  --         \ 't:types',
-  --         \ 'w:fields',
-  --         \ 'e:embedded',
-  --         \ 'm:methods',
-  --         \ 'r:constructor',
-  --         \ 'f:functions'
-  --     \ ],
-  --     \ 'sro' : '.',
-  --     \ 'kind2scope' : {
-  --         \ 't' : 'ctype',
-  --         \ 'n' : 'ntype'
-  --     \ },
-  --     \ 'scope2kind' : {
-  --         \ 'ctype' : 't',
-  --         \ 'ntype' : 'n'
-  --     \ },
-  --     \ 'ctagsbin'  : 'gotags',
-  --     \ 'ctagsargs' : '-sort -silent'
-  -- \ }
-
 
   { 'ntpeters/vim-better-whitespace', lazy=false,
     init = function()
@@ -151,33 +155,6 @@ local lazy_spec = {
     end,
   },
 
-  -- { 'ojroques/vim-oscpyank', lazy=false,
-  --   init = function()
-  --     vim.cmd([[
-  --         autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankRegister "' | endif
-  --     ]])
-  --   end,
-  -- },
-
-  { 'MattesGroeger/vim-bookmarks', lazy=false,
-    init = function()
-      vim.g.bookmark_disable_ctrlp = 1
-    end,
-  },
-
-  { 'jparise/vim-graphql', lazy=false,
-    init = function()
-      vim.g.typescript_indent_disable = 1
-    end,
-  },
-
-  { 'leafgarland/typescript-vim', lazy=false, },
-  { 'peitalin/vim-jsx-typescript', lazy=false, },
-
-  { 'LnL7/vim-nix', lazy=false, },
-  { 'udalov/kotlin-vim', lazy=false, },
-
-  { 'stephpy/vim-yaml', lazy=false, },
   { 'aklt/plantuml-syntax', lazy=false, },
   { 'flazz/vim-colorschemes', lazy=false, },
   {
@@ -349,7 +326,12 @@ vim.opt.smartcase = true
 vim.opt.infercase = true
 vim.opt.hidden = true
 vim.opt.autowriteall = true
-vim.opt.syntax = 'on'
+-- Explicitly disable traditional syntax highlighting to let Tree-sitter handle all highlighting
+vim.opt.syntax = ''
+
+-- Enable Tree-sitter highlighting (built-in Neovim feature)
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.expandtab = true
 
 vim.opt.grepprg = 'ag --vimgrep'
@@ -516,6 +498,19 @@ vim.api.nvim_create_autocmd({'FileType'}, {
 
 vim.opt.sessionoptions:remove({'blank', 'options'})
 vim.opt.sessionoptions:append({'tabpages', 'localoptions'})
+
+-- Enable Tree-sitter highlighting for various file types
+-- Note: With the nvim-treesitter repository archived, parsers may need to be installed manually
+-- You can install parsers using :TSInstall <language> command
+-- Enable built-in Tree-sitter functionality
+local ts_au_id = vim.api.nvim_create_augroup("TreeSitterSetup", { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  group = ts_au_id,
+  pattern = ts_languages,
+  callback = function(args)
+    vim.treesitter.start()
+  end,
+})
 
 -- local session_autogroup = vim.api.nvim_create_augroup("AutoSession", { clear=false })
 vim.api.nvim_create_autocmd({'VimLeavePre'}, {
