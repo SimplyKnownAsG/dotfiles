@@ -1,5 +1,18 @@
-{ config, pkgs, nixpkgs, lib, nixgl, username, homeDirectory, ... }:
+{ config, pkgs, nixpkgs, unstable, lib, nixgl, username, homeDirectory, ... }:
 let
+  # Create our own package set with unstable packages using simple overlay
+  unstablePkgs = import unstable {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+
+  myPkgs = pkgs.extend (self: super: {
+    tree-sitter = unstablePkgs.tree-sitter;
+    neovim = unstablePkgs.neovim;
+    wezterm = unstablePkgs.wezterm;
+    # Add more packages from unstable as needed
+  });
+
   shellFunctions = builtins.readFile ./shell-functions.sh;
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 
@@ -21,7 +34,7 @@ in
   home.username = username;
   home.homeDirectory = homeDirectory;
 
-  home.packages = with pkgs; [
+  home.packages = with myPkgs; [
     # silver-searcher
     bashInteractive
     cascadia-code
@@ -33,16 +46,17 @@ in
     toml-cli
     lolcat
     neovim
+    tree-sitter
     ncurses
     nix
-    nodePackages.typescript-language-server
-    nodePackages.prettier
+    myPkgs.nodePackages.typescript-language-server
+    myPkgs.nodePackages.prettier
     nodejs
     uv
     ollama
     pyright
     (
-      python3.withPackages (p: with p; [
+      myPkgs.python3.withPackages (p: with p; [
         pip
         numpy
         matplotlib
@@ -55,7 +69,7 @@ in
     ripgrep
     silver-searcher
     tree
-    (if isDarwin then wezterm else config.lib.nixGL.wrap wezterm)
+    (if isDarwin then myPkgs.wezterm else config.lib.nixGL.wrap myPkgs.wezterm)
     zsh
     graphviz
     jdt-language-server
@@ -68,7 +82,7 @@ in
 
   home.activation = {
     nodejs = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      ${pkgs.nodejs}/bin/npm config set prefix "$HOME/.npm-global"
+      ${myPkgs.nodejs}/bin/npm config set prefix "$HOME/.npm-global"
     '';
   };
 
