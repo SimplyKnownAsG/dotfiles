@@ -1,4 +1,4 @@
-{ config, pkgs, nixpkgs, unstable, lib, nixgl, username, homeDirectory, ... }:
+{ config, pkgs, nixpkgs, unstable, ion-cli, lib, nixgl, username, homeDirectory, ... }:
 let
   # Create our own package set with unstable packages using simple overlay
   unstablePkgs = import unstable {
@@ -10,6 +10,8 @@ let
     tree-sitter = unstablePkgs.tree-sitter;
     neovim = unstablePkgs.neovim;
     wezterm = unstablePkgs.wezterm;
+    # Add ion-cli from the ion-cli flake
+    ion-cli = ion-cli.packages.${pkgs.system}.default;
     # Add more packages from unstable as needed
   });
 
