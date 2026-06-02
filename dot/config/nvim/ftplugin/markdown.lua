@@ -1,0 +1,5 @@
+vim.opt_local.spell = true
+vim.opt_local.spelllang = 'en_us'
+vim.opt_local.textwidth = 120
+vim.opt_local.foldenable = true
+vim.opt_local.foldlevel = 1

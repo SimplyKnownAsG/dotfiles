@@ -122,13 +122,13 @@ in
 
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
   home.file.".config/npm/config".source = ./dot/config/npm/config;
-  home.file.".config/nvim/after/ftplugin/gitcommit.vim".source = ./dot/config/nvim/after/ftplugin/gitcommit.vim;
+  home.file.".config/nvim/after/ftplugin/gitcommit.lua".source = ./dot/config/nvim/after/ftplugin/gitcommit.lua;
   home.file.".config/nvim/after/ftplugin/graphql.lua".source = ./dot/config/nvim/after/ftplugin/graphql.lua;
-  home.file.".config/nvim/after/ftplugin/qf.vim".source = ./dot/config/nvim/after/ftplugin/qf.vim;
+  home.file.".config/nvim/after/ftplugin/qf.lua".source = ./dot/config/nvim/after/ftplugin/qf.lua;
   home.file.".config/nvim/colors/gtheme.lua".source = ./dot/config/nvim/colors/gtheme.lua;
-  home.file.".config/nvim/ftplugin/go.vim".source = ./dot/config/nvim/ftplugin/go.vim;
-  home.file.".config/nvim/ftplugin/log.vim".source = ./dot/config/nvim/ftplugin/log.vim;
-  home.file.".config/nvim/ftplugin/markdown.vim".source = ./dot/config/nvim/ftplugin/markdown.vim;
+  home.file.".config/nvim/ftplugin/go.lua".source = ./dot/config/nvim/ftplugin/go.lua;
+  home.file.".config/nvim/ftplugin/log.lua".source = ./dot/config/nvim/ftplugin/log.lua;
+  home.file.".config/nvim/ftplugin/markdown.lua".source = ./dot/config/nvim/ftplugin/markdown.lua;
   home.file.".config/nvim/ftplugin/python.lua".source = ./dot/config/nvim/ftplugin/python.lua;
   home.file.".config/nvim/ftplugin/typescript.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
   home.file.".config/nvim/ftplugin/typescriptreact.lua".source = ./dot/config/nvim/ftplugin/typescript.lua;
