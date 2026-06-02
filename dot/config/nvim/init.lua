@@ -252,8 +252,6 @@ vim.opt.wrap = false
 vim.opt.textwidth = 120
 
 map('', '<C-Tab>', '<C-W>w', {noremap=true})
-map('', 'zO', 'zR', {noremap=true})
-map('', 'zC', 'zM', {noremap=true})
 
 function find_all_ish(include_test)
     local mode = vim.api.nvim_get_mode()["mode"]
