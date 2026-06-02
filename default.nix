@@ -2,7 +2,7 @@
 let
   # Create our own package set with unstable packages using simple overlay
   unstablePkgs = import unstable {
-    inherit (pkgs) system;
+    system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
 
@@ -11,7 +11,7 @@ let
     neovim = unstablePkgs.neovim;
     wezterm = unstablePkgs.wezterm;
     # Add ion-cli from the ion-cli flake
-    ion-cli = ion-cli.packages.${pkgs.system}.default;
+    ion-cli = ion-cli.packages.${pkgs.stdenv.hostPlatform.system}.default;
     # Add more packages from unstable as needed
   });
 
