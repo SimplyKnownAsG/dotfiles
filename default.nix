@@ -37,7 +37,7 @@ in
   home.homeDirectory = homeDirectory;
 
   home.packages = with myPkgs; [
-    # silver-searcher
+    gcc
     bashInteractive
     cascadia-code
     ctags

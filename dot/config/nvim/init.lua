@@ -24,9 +24,26 @@ nmap('<C-h>', ':tabp<CR>')
 
 -- Define languages for Tree-sitter parser installation and autocommands
 local ts_languages = {
-  "javascript", "typescript", "tsx", "html", "css", "scss",
-  "lua", "python", "java", "kotlin", "go", "rust",
-  "cpp", "c", "markdown", "markdown_inline", "graphql", "diff"
+ "bash",
+ "c",
+ "cpp",
+ "css",
+ "diff",
+ "go",
+ "graphql",
+ "html",
+ "java",
+ "javascript",
+ "kotlin",
+ "lua",
+ "nix",
+ "markdown",
+ "markdown_inline",
+ "python",
+ "rust",
+ "scss",
+ "tsx",
+ "typescript",
 }
 
 local fd_command = 'fd -t f --exclude=Session.vim --exclude="*.class"'
