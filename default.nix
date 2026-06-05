@@ -120,6 +120,7 @@ in
     venv = "if [ ! -d .venv ]; then uv venv --seed ; fi ; source .venv/bin/activate";
   };
 
+  home.file.".config/could-you/git-tools.any-script.yaml".source = ./dot/config/could-you/git-tools.any-script.yaml;
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
   home.file.".config/npm/config".source = ./dot/config/npm/config;
   home.file.".config/nvim/after/ftplugin/gitcommit.lua".source = ./dot/config/nvim/after/ftplugin/gitcommit.lua;
@@ -136,11 +137,11 @@ in
   home.file.".config/nvim/lua/transcribe-me.lua".source = ./dot/config/nvim/lua/transcribe-me.lua;
   home.file.".config/wezterm/wezterm.lua".source = ./dot/config/wezterm/wezterm.lua;
   home.file.".local/bin/cloudformation-dep-graph".source = ./dot/local/bin/cloudformation-dep-graph;
+  home.file.".local/bin/diff-json".source = ./dot/local/bin/diffjson;
+  home.file.".local/bin/diffjson".source = ./dot/local/bin/diffjson;
   home.file.".local/bin/git-config-github".source = ./dot/local/bin/git-config-github;
   home.file.".local/bin/gkill".source = ./dot/local/bin/gkill;
   home.file.".local/bin/list-colors".source = ./dot/local/bin/list-colors;
-  home.file.".local/bin/diffjson".source = ./dot/local/bin/diffjson;
-  home.file.".local/bin/diff-json".source = ./dot/local/bin/diffjson;
   home.file.".local/bin/transcribe-me".source = ./dot/local/bin/transcribe-me;
   home.file.".local/share/whisper/ggml-base.en.bin".source = whisperModel;
 

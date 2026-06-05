@@ -1,0 +1,358 @@
+#############################
+#
+# use with
+#
+# mcpServers:
+#   git-tools:
+#     command: npx
+#     args:
+#       - any-script-mcp
+#     env:
+#       ANY_SCRIPT_MCP_CONFIG: "$COULD_YOU_WORKSPACE/.could-you/git-tools.any-script.yaml"
+#
+#############################
+
+tools:
+  - name: git_status
+    description: "Shows the working tree status"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" status
+
+  - name: git_diff_unstaged
+    description: "Shows changes in the working directory that are not yet staged"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      context_lines:
+        type: number
+        description: "Number of context lines for the diff."
+        required: false
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" diff --unified=${INPUTS__CONTEXT_LINES:-3}
+
+  - name: git_diff_staged
+    description: "Shows changes that are staged for commit"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      context_lines:
+        type: number
+        description: "Number of context lines for the diff."
+        required: false
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" diff --staged --unified=${INPUTS__CONTEXT_LINES:-3}
+
+  - name: git_diff
+    description: "Shows differences between branches or commits"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      target:
+        type: string
+        description: "The target branch or commit to diff against."
+      context_lines:
+        type: number
+        description: "Number of context lines for the diff."
+        required: false
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" diff --unified=${INPUTS__CONTEXT_LINES:-3} "${INPUTS__TARGET}"
+
+  - name: git_commit
+    description: "Records changes to the repository"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      message:
+        type: string
+        description: "The commit message."
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" commit -m "${INPUTS__MESSAGE}"
+
+  - name: git_add
+    description: "Adds file contents to the staging area"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      files:
+        type: string
+        description: "space separated list of files"
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" add -- ${INPUTS__FILES}
+
+  - name: git_reset
+    description: "Unstages all staged changes"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" reset
+
+  - name: git_log
+    description: "Shows the commit logs"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      max_count:
+        type: number
+        description: "Limit the number of commits to output."
+        required: false
+      start_timestamp:
+        type: string
+        description: "Start timestamp for filtering commits (e.g., '2 weeks ago', '2024-01-01')."
+        required: false
+      end_timestamp:
+        type: string
+        description: "End timestamp for filtering commits."
+        required: false
+    run: |
+      set -eu
+      args=()
+      if [ -n "${INPUTS__MAX_COUNT:-}" ]; then
+        args+=(--max-count="${INPUTS__MAX_COUNT}")
+      fi
+      if [ -n "${INPUTS__START_TIMESTAMP:-}" ]; then
+        args+=(--since="${INPUTS__START_TIMESTAMP}")
+      fi
+      if [ -n "${INPUTS__END_TIMESTAMP:-}" ]; then
+        args+=(--until="${INPUTS__END_TIMESTAMP}")
+      fi
+      git -C "${INPUTS__REPO_PATH}" log "${args[@]:-}"
+
+  - name: git_create_branch
+    description: "Creates a new branch from an optional base branch"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      branch_name:
+        type: string
+        description: "The name for the new branch."
+      base_branch:
+        type: string
+        description: "The starting point for the new branch."
+        required: false
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" branch "${INPUTS__BRANCH_NAME}" ${INPUTS__BASE_BRANCH:-}
+
+  - name: git_checkout
+    description: "Switches branches"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      branch_name:
+        type: string
+        description: "The name of the branch to switch to."
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" checkout "${INPUTS__BRANCH_NAME}"
+
+  - name: git_show
+    description: "Shows the contents of a commit"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      revision:
+        type: string
+        description: "The commit hash or branch name to show."
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" show "${INPUTS__REVISION}"
+
+  - name: git_branch
+    description: "List Git branches"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      branch_type:
+        type: string
+        description: "Whether to list local, remote, or all branches."
+        enum: ["local", "remote", "all"]
+      contains:
+        type: string
+        description: "The commit sha that branch should contain."
+        required: false
+      not_contains:
+        type: string
+        description: "The commit sha that branch should NOT contain."
+        required: false
+    run: |
+      set -eu
+      args=()
+      case "${INPUTS__BRANCH_TYPE}" in
+        remote)
+          args+=("-r")
+          ;;
+        all)
+          args+=("-a")
+          ;;
+      esac
+      if [ -n "${INPUTS__CONTAINS:-}" ]; then
+        args+=(--contains "${INPUTS__CONTAINS}")
+      fi
+      if [ -n "${INPUTS__NOT_CONTAINS:-}" ]; then
+        args+=(--no-contains "${INPUTS__NOT_CONTAINS}")
+      fi
+      git -C "${INPUTS__REPO_PATH}" branch "${args[@]:-}"
+
+  - name: git_sed
+    description: "Run `sed` over tracked files in a git repository."
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      sed_input:
+        type: string
+        description: |
+          Input to `sed -i "sed_input"` (e.g., 's/old/new/g').
+      dry_run:
+        type: boolean
+        description: "If true, preview the resulting diff without modifying files."
+        required: false
+    run: |
+      set -eu
+      REPO_PATH="${INPUTS__REPO_PATH}"
+
+      if [ "${INPUTS__DRY_RUN:-false}" = "true" ]; then
+        tmpdir="$(mktemp -d)"
+        trap 'rm -rf "$tmpdir"' EXIT
+
+        git -C "$REPO_PATH" ls-files -z | while IFS= read -r -d '' file; do
+          mkdir -p "$tmpdir/$(dirname "$file")"
+          cp "$REPO_PATH/$file" "$tmpdir/$file"
+          sed -i "$INPUTS__SED_INPUT" "$tmpdir/$file"
+        done
+
+        git --no-pager diff --no-index -- "$REPO_PATH" "$tmpdir" || true
+        exit 0
+      fi
+
+      git -C "$REPO_PATH" ls-files -z | xargs -0 -I {} sed -i "$INPUTS__SED_INPUT" "$REPO_PATH/{}"
+
+  - name: git_edit
+    description: "Make exact text replacements in tracked git files."
+    shell: "python {0}"
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      old_text:
+        type: string
+        description: "Exact text to replace."
+      new_text:
+        type: string
+        description: "Replacement text."
+      dry_run:
+        type: boolean
+        description: "If true, preview the resulting diff without modifying files."
+        required: false
+    run: |
+      import os
+      import subprocess
+      import sys
+      import tempfile
+      from pathlib import Path
+
+      repo_path = Path(os.environ["INPUTS__REPO_PATH"])
+      old = os.environ["INPUTS__OLD_TEXT"]
+      new = os.environ["INPUTS__NEW_TEXT"]
+      dry_run = os.environ.get("INPUTS__DRY_RUN", "false").lower() == "true"
+
+      try:
+          files_list = subprocess.check_output(
+              ["git", "ls-files", "-z"], cwd=repo_path, text=True, stderr=subprocess.PIPE
+          )
+      except subprocess.CalledProcessError as e:
+          print(f"Error calling git ls-files: {e.stderr}", file=sys.stderr)
+          sys.exit(1)
+
+      files = [repo_path / f for f in files_list.strip().split('\0') if f]
+      changed_rel = []
+
+      if dry_run:
+          with tempfile.TemporaryDirectory() as tmp:
+              tmp_root = Path(tmp)
+              orig_root = tmp_root / "orig"
+              new_root = tmp_root / "new"
+              orig_root.mkdir()
+              new_root.mkdir()
+
+              for file_abs in files:
+                  try:
+                      text = file_abs.read_text()
+                      if old in text:
+                          file_rel = file_abs.relative_to(repo_path)
+
+                          # Replicate structure in orig and new dirs
+                          (orig_root / file_rel).parent.mkdir(parents=True, exist_ok=True)
+                          (new_root / file_rel).parent.mkdir(parents=True, exist_ok=True)
+
+                          (orig_root / file_rel).write_text(text)
+                          (new_root / file_rel).write_text(text.replace(old, new))
+                          changed_rel.append(file_rel)
+                  except Exception as e:
+                      print(f"Could not process file {file_abs}: {e}", file=sys.stderr)
+
+              if not changed_rel:
+                  print("git_edit: no tracked files matched old_text", file=sys.stderr)
+                  sys.exit(1)
+
+              result = subprocess.run(
+                  ["git", "--no-pager", "diff", "--no-index", "--", str(orig_root), str(new_root)],
+                  capture_output=True, text=True
+              )
+              sys.stdout.write(result.stdout)
+              sys.stderr.write(result.stderr)
+              # Diff returns 1 if there are differences, which is not an error here.
+              if result.returncode not in (0, 1):
+                  sys.exit(result.returncode)
+              sys.exit(0)
+
+      for file_abs in files:
+          try:
+              text = file_abs.read_text()
+              if old in text:
+                  file_abs.write_text(text.replace(old, new))
+                  changed_rel.append(str(file_abs.relative_to(repo_path)))
+          except Exception as e:
+              print(f"Could not process file {file_abs}: {e}", file=sys.stderr)
+
+      if not changed_rel:
+          print("git_edit: no tracked files matched old_text", file=sys.stderr)
+          sys.exit(1)
+
+      subprocess.run(["git", "--no-pager", "diff", "--", *changed_rel], cwd=repo_path, check=True)
+
+  - name: git_restore
+    description: "Restore tracked files from git, discarding working tree changes."
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      files:
+        type: string
+        description: "Space-separated tracked file paths to restore. Use '.' for all."
+    run: |
+      set -eu
+      git -C "${INPUTS__REPO_PATH}" restore -- ${INPUTS__FILES}
