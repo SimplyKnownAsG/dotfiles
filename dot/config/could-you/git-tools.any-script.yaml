@@ -18,7 +18,7 @@ tools:
     inputs:
       repo_path:
         type: string
-        description: "The path to the Git repository."
+        description: "Git repository path."
     run: |
       set -eu
       git -C "${INPUTS__REPO_PATH}" status
@@ -31,7 +31,7 @@ tools:
         description: "The path to the Git repository."
       context_lines:
         type: number
-        description: "Number of context lines for the diff."
+        description: "Number of context lines."
         required: false
     run: |
       set -eu
@@ -59,7 +59,7 @@ tools:
         description: "The path to the Git repository."
       target:
         type: string
-        description: "The target branch or commit to diff against."
+        description: "Target branch or commit."
       context_lines:
         type: number
         description: "Number of context lines for the diff."
@@ -76,10 +76,29 @@ tools:
         description: "The path to the Git repository."
       message:
         type: string
-        description: "The commit message."
+        description: "Commit message."
     run: |
       set -eu
       git -C "${INPUTS__REPO_PATH}" commit -m "${INPUTS__MESSAGE}"
+
+  - name: git_commit_amend
+    description: "Replaces the most recent commit. Uses staged files and a new message."
+    inputs:
+      repo_path:
+        type: string
+        description: "The path to the Git repository."
+      message:
+        type: string
+        description: "New commit message."
+        required: false
+    run: |
+        set -eu
+        args=()
+        if [ -n "${INPUTS__MESSAGE:-}" ]; then
+            args+=(-m "${INPUTS__MESSAGE}")
+        fi
+        git -C "${INPUTS__REPO_PATH}" commit --amend --no-edit "${args[@]:-}"
+
 
   - name: git_add
     description: "Adds file contents to the staging area"
@@ -89,7 +108,7 @@ tools:
         description: "The path to the Git repository."
       files:
         type: string
-        description: "space separated list of files"
+        description: "Space-separated list of files."
     run: |
       set -eu
       git -C "${INPUTS__REPO_PATH}" add -- ${INPUTS__FILES}
@@ -112,15 +131,15 @@ tools:
         description: "The path to the Git repository."
       max_count:
         type: number
-        description: "Limit the number of commits to output."
+        description: "Max number of commits."
         required: false
       start_timestamp:
         type: string
-        description: "Start timestamp for filtering commits (e.g., '2 weeks ago', '2024-01-01')."
+        description: "Start timestamp for commits (e.g., '2 weeks ago', '2024-01-01')."
         required: false
       end_timestamp:
         type: string
-        description: "End timestamp for filtering commits."
+        description: "End timestamp for commits."
         required: false
     run: |
       set -eu
@@ -144,10 +163,10 @@ tools:
         description: "The path to the Git repository."
       branch_name:
         type: string
-        description: "The name for the new branch."
+        description: "New branch name."
       base_branch:
         type: string
-        description: "The starting point for the new branch."
+        description: "Base branch for the new branch."
         required: false
     run: |
       set -eu
@@ -161,7 +180,7 @@ tools:
         description: "The path to the Git repository."
       branch_name:
         type: string
-        description: "The name of the branch to switch to."
+        description: "Branch name to switch to."
     run: |
       set -eu
       git -C "${INPUTS__REPO_PATH}" checkout "${INPUTS__BRANCH_NAME}"
@@ -174,7 +193,7 @@ tools:
         description: "The path to the Git repository."
       revision:
         type: string
-        description: "The commit hash or branch name to show."
+        description: "Commit hash or branch name."
     run: |
       set -eu
       git -C "${INPUTS__REPO_PATH}" show "${INPUTS__REVISION}"
@@ -187,15 +206,15 @@ tools:
         description: "The path to the Git repository."
       branch_type:
         type: string
-        description: "Whether to list local, remote, or all branches."
+        description: "List local, remote, or all branches."
         enum: ["local", "remote", "all"]
       contains:
         type: string
-        description: "The commit sha that branch should contain."
+        description: "Commit SHA the branch must contain."
         required: false
       not_contains:
         type: string
-        description: "The commit sha that branch should NOT contain."
+        description: "Commit SHA the branch must not contain."
         required: false
     run: |
       set -eu
@@ -224,11 +243,10 @@ tools:
         description: "The path to the Git repository."
       sed_input:
         type: string
-        description: |
-          Input to `sed -i "sed_input"` (e.g., 's/old/new/g').
+        description: "`sed -i` input (e.g., 's/old/new/g')."
       dry_run:
         type: boolean
-        description: "If true, preview the resulting diff without modifying files."
+        description: "Preview changes without modifying files."
         required: false
     run: |
       set -eu
@@ -352,7 +370,7 @@ tools:
         description: "The path to the Git repository."
       files:
         type: string
-        description: "Space-separated tracked file paths to restore. Use '.' for all."
+        description: "Space-separated paths to restore. Use '.' for all."
     run: |
       set -eu
       git -C "${INPUTS__REPO_PATH}" restore -- ${INPUTS__FILES}
