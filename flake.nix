@@ -40,6 +40,13 @@
               pkgs = import nixpkgs {
                 inherit system;
                 config.allowUnfree = true;
+                overlays = [
+                  (_: _:
+                    lib.optionalAttrs (builtins.hasAttr system ion-cli.packages && ion-cli.packages.${system} ? default) {
+                      ion-cli = ion-cli.packages.${system}.default;
+                    }
+                  )
+                ];
               };
               extraSpecialArgs = {
                 nixgl = if isDarwin then null else nixgl;
