@@ -20,6 +20,16 @@ let
     url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin";
     sha256 = "00nhqqvgwyl9zgyy7vk9i3n017q2wlncp5p7ymsk0cpkdp47jdx0";
   };
+
+  piperModel = pkgs.fetchurl {
+    url = "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/hfc_female/medium/en_US-hfc_female-medium.onnx";
+    sha256 = "sha256-kUxHN4j8H6i2Os4c3NtEWI9K5SPTqzffFTZhaDWhQLc=";
+  };
+
+  piperModelJson = pkgs.fetchurl {
+    url = "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/hfc_female/medium/en_US-hfc_female-medium.onnx.json";
+    sha256 = "sha256-A/H6BiK4BGMoNZLZesqfbomuw0WlxWtyV3I+AJPFi2w=";
+  };
 in
 {
   fonts.fontconfig.enable = true;
@@ -75,6 +85,7 @@ in
     jdt-language-server
     plantuml
     whisper-cpp
+    piper-tts
     google-cloud-sdk
   ] ++ lib.optionals (!isDarwin) [
     xclip
@@ -142,6 +153,8 @@ in
   home.file.".local/bin/list-colors".source = ./dot/local/bin/list-colors;
   home.file.".local/bin/transcribe-me".source = ./dot/local/bin/transcribe-me;
   home.file.".local/share/whisper/ggml-base.en.bin".source = whisperModel;
+  home.file."models/piper-voices/en_US-hfc_female-medium.onnx".source = piperModel;
+  home.file."models/piper-voices/en_US-hfc_female-medium.onnx.json".source = piperModelJson;
 
 
   # This value determines the Home Manager release that your
