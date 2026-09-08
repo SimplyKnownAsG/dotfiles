@@ -19,7 +19,7 @@ sleep 0.1
 
 echo "Transcribing ..." 1>&2
 # Transcribe
-whisper-cli -m ~/.local/share/whisper/ggml-base.en.bin "$tmp_dir/recording.wav" --output-txt > $tmp_dir/whisper.stdout 2> $tmp_dir/whisper.stderr
+whisper-cli -m ~/models/whisper-cpp/ggml-base.en.bin "$tmp_dir/recording.wav" --output-txt > $tmp_dir/whisper.stdout 2> $tmp_dir/whisper.stderr
 
 echo "Transcribing done ..." 1>&2
 # Output the transcription (only stdout, errors to stderr)

@@ -10,6 +10,7 @@ let
     tree-sitter = unstablePkgs.tree-sitter;
     neovim = unstablePkgs.neovim;
     wezterm = unstablePkgs.wezterm;
+    whisper-cpp = super.whisper-cpp.override { vulkanSupport = true; };
     # Add more packages from unstable as needed
   });
 
@@ -152,7 +153,7 @@ in
   home.file.".local/bin/gkill".source = ./dot/local/bin/gkill;
   home.file.".local/bin/list-colors".source = ./dot/local/bin/list-colors;
   home.file.".local/bin/transcribe-me".source = ./dot/local/bin/transcribe-me;
-  home.file.".local/share/whisper/ggml-base.en.bin".source = whisperModel;
+  home.file."models/whisper-cpp/ggml-base.en.bin".source = whisperModel;
   home.file."models/piper-voices/en_US-hfc_female-medium.onnx".source = piperModel;
   home.file."models/piper-voices/en_US-hfc_female-medium.onnx.json".source = piperModelJson;
 
