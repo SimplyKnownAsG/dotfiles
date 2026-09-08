@@ -24,9 +24,18 @@ whisper-cli -m ~/models/whisper-cpp/ggml-base.en.bin "$tmp_dir/recording.wav" --
 echo "Transcribing done ..." 1>&2
 # Output the transcription (only stdout, errors to stderr)
 if [ -f "$tmp_dir/recording.wav.txt" ]; then
+    echo "<transcribed-may-contain-errors>"
     cat "$tmp_dir/recording.wav.txt"
+    echo "</transcribed-may-contain-errors>"
 else
-    echo "could not find output file" >&2
+    echo "<transcription-failed>"
+    echo "<transcription-stdout>"
+    cat "$tmp_dir/whisper.stdout"
+    echo "</transcription-stdout>"
+    echo "<transcription-stderr>"
+    cat "$tmp_dir/whisper.stderr"
+    echo "</transcription-stderr>"
+    echo "</transcription-failed>"
 fi
 
 # Cleanup
