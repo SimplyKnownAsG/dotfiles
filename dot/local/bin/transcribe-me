@@ -4,7 +4,7 @@ pid_file="$tmp_dir/recording.pid"
 
 echo "Recording ..." 1>&2
 # Start recording in background
-arecord -f S16_LE "$tmp_dir/recording.wav" &
+parec --file-format=wav "$tmp_dir/recording.wav" &
 echo $! > "$pid_file"
 read
 echo "Recording done ..." 1>&2

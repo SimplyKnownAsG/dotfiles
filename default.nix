@@ -146,6 +146,7 @@ in
   home.file.".config/nvim/init.lua".source = ./dot/config/nvim/init.lua;
   home.file.".config/nvim/lua/transcribe-me.lua".source = ./dot/config/nvim/lua/transcribe-me.lua;
   home.file.".config/wezterm/wezterm.lua".source = ./dot/config/wezterm/wezterm.lua;
+  home.file.".config/wireplumber/bluetooth.lua.d/50-bluez-config.lua".source = ./dot/config/wireplumber/bluetooth.lua.d/50-bluez-config.lua;
   home.file.".local/bin/cloudformation-dep-graph".source = ./dot/local/bin/cloudformation-dep-graph;
   home.file.".local/bin/diff-json".source = ./dot/local/bin/diffjson;
   home.file.".local/bin/diffjson".source = ./dot/local/bin/diffjson;
