@@ -22,14 +22,24 @@ let
     sha256 = "00nhqqvgwyl9zgyy7vk9i3n017q2wlncp5p7ymsk0cpkdp47jdx0";
   };
 
-  piperModel = pkgs.fetchurl {
+  hfcFemaleModel = pkgs.fetchurl {
     url = "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/hfc_female/medium/en_US-hfc_female-medium.onnx";
     sha256 = "sha256-kUxHN4j8H6i2Os4c3NtEWI9K5SPTqzffFTZhaDWhQLc=";
   };
 
-  piperModelJson = pkgs.fetchurl {
+  hfcFemaleModelJson = pkgs.fetchurl {
     url = "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/hfc_female/medium/en_US-hfc_female-medium.onnx.json";
     sha256 = "sha256-A/H6BiK4BGMoNZLZesqfbomuw0WlxWtyV3I+AJPFi2w=";
+  };
+
+  hfcMaleModel = pkgs.fetchurl {
+    url = "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/hfc_male/medium/en_US-hfc_male-medium.onnx";
+    sha256 = "sha256-0R5AOgK99aZwyHez3Fbg4cjOzm+zAolYYxTf/cCnjLA=";
+  };
+
+  hfcMaleModelJson = pkgs.fetchurl {
+    url = "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/hfc_male/medium/en_US-hfc_male-medium.onnx.json";
+    sha256 = "sha256-9mhHQkrtC/mey7XXz95HwKkG9Cag2vfEbzBefSGv2IY=";
   };
 in
 {
@@ -155,8 +165,10 @@ in
   home.file.".local/bin/list-colors".source = ./dot/local/bin/list-colors;
   home.file.".local/bin/transcribe-me".source = ./dot/local/bin/transcribe-me;
   home.file."models/whisper-cpp/ggml-base.en.bin".source = whisperModel;
-  home.file."models/piper-voices/en_US-hfc_female-medium.onnx".source = piperModel;
-  home.file."models/piper-voices/en_US-hfc_female-medium.onnx.json".source = piperModelJson;
+  home.file."models/piper-voices/en_US-hfc_female-medium.onnx".source = hfcFemaleModel;
+  home.file."models/piper-voices/en_US-hfc_female-medium.onnx.json".source = hfcFemaleModelJson;
+  home.file."models/piper-voices/en_US-hfc_male-medium.onnx".source = hfcMaleModel;
+  home.file."models/piper-voices/en_US-hfc_male-medium.onnx.json".source = hfcMaleModelJson;
 
 
   # This value determines the Home Manager release that your
