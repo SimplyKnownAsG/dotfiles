@@ -1,4 +1,4 @@
-{ config, pkgs, nixpkgs, unstable, lib, nixgl, username, homeDirectory, ... }:
+{ config, pkgs, nixpkgs, unstable, lib, ... }@inputs:
 let
   # Create our own package set with unstable packages using simple overlay
   unstablePkgs = import unstable {
@@ -47,16 +47,17 @@ in
 
   targets.genericLinux = lib.mkIf (!isDarwin) {
     enable = true;
-    nixGL.packages = nixgl.packages;
+    nixGL.packages = inputs.nixgl.packages;
   };
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = username;
-  home.homeDirectory = homeDirectory;
+  home.username = inputs.username;
+  home.homeDirectory = inputs.homeDirectory;
 
   home.packages = with myPkgs; [
     gcc
+    curl
     bashInteractive
     cascadia-code
     ctags
@@ -74,7 +75,6 @@ in
     myPkgs.nodePackages.prettier
     nodejs
     uv
-    ollama
     pyright
     (
       myPkgs.python3.withPackages (p: with p; [
@@ -298,6 +298,25 @@ in
             printf '\e[0;32m%s\e[0m : \e[0;35m%s\e[0m%b\n' "$(date --rfc-3339=s)" "$(ps1_home_tilde_fix)" "$git_info"
         }
       '' + shellFunctions;
+    };
+  };
+
+  services.ollama = {
+    enable = inputs.enableOllama;
+
+    # Force Home Manager to pull the ROCm-enabled Ollama package
+    # package = pkgs.nixpkgs.legacyPackages.nixpkgs.ollama;
+    package = unstablePkgs.ollama;
+
+    # # Structural Nix declaration for the override
+    # rocmOverrideGfx = "11.5.0";
+    acceleration = "rocm";
+
+    environmentVariables = {
+      OLLAMA_IGPU_ENABLE = "1";
+      OLLAMA_FLASH_ATTENTION = "1";
+      OLLAMA_KV_CACHE_TYPE = "q4_0";
+      OLLAMA_KEEP_ALIVE = "30m";
     };
   };
 }

@@ -25,8 +25,9 @@
     };
   };
 
-  outputs = { nixpkgs, nixos2405, unstable, home-manager, nixgl, ion-cli, ... }:
+  outputs = { nixpkgs, nixos2405, unstable, home-manager, nixgl, ion-cli, ... }@inputs:
     let
+      # enableOllama = true;  # Set to false for work
       lib = nixpkgs.lib;
     in
     {
@@ -54,6 +55,7 @@
                 ion-cli = ion-cli;
                 username = "g";
                 homeDirectory = "/home/g";
+                enableOllama = true;
               };
               modules = [
                 ./.
