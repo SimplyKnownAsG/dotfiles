@@ -56,7 +56,7 @@
                 homeDirectory = "/home/g";
               };
               modules = [
-                ./personal
+                ./.
               ];
             };
         in {
