@@ -55,7 +55,7 @@
                 ion-cli = ion-cli;
                 username = "g";
                 homeDirectory = "/home/g";
-                enableOllama = true;
+                atHome = true;
               };
               modules = [
                 ./.

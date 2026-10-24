@@ -100,6 +100,8 @@ in
     google-cloud-sdk
   ] ++ lib.optionals (!isDarwin) [
     xclip
+  ] ++ lib.optionals (inputs.atHome) [
+    framework-tool
   ];
 
   home.activation = {
@@ -302,14 +304,11 @@ in
   };
 
   services.ollama = {
-    enable = inputs.enableOllama;
+    enable = inputs.atHome;
 
     # Force Home Manager to pull the ROCm-enabled Ollama package
     # package = pkgs.nixpkgs.legacyPackages.nixpkgs.ollama;
     package = unstablePkgs.ollama;
-
-    # # Structural Nix declaration for the override
-    # rocmOverrideGfx = "11.5.0";
     acceleration = "rocm";
 
     environmentVariables = {
