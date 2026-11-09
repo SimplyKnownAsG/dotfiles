@@ -145,6 +145,7 @@ in
   home.file.".config/could-you/git-tools.any-script.yaml".source = ./dot/config/could-you/git-tools.any-script.yaml;
   home.file.".config/nix/nix.conf".source = ./dot/config/nix/nix.conf;
   home.file.".config/npm/config".source = ./dot/config/npm/config;
+  home.file.".config/nvim/after/ftplugin/fugitive.lua".source = ./dot/config/nvim/after/ftplugin/fugitive.lua;
   home.file.".config/nvim/after/ftplugin/gitcommit.lua".source = ./dot/config/nvim/after/ftplugin/gitcommit.lua;
   home.file.".config/nvim/after/ftplugin/graphql.lua".source = ./dot/config/nvim/after/ftplugin/graphql.lua;
   home.file.".config/nvim/after/ftplugin/qf.lua".source = ./dot/config/nvim/after/ftplugin/qf.lua;
