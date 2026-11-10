@@ -7,14 +7,11 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
     nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-25.11";
+      url = "github:nixos/nixpkgs/nixos-26.05";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos2405 = {
-      url = "github:nixos/nixpkgs/nixos-24.05";
     };
     nixgl = {
       url = "github:nix-community/nixGL";
@@ -25,7 +22,7 @@
     };
   };
 
-  outputs = { nixpkgs, nixos2405, unstable, home-manager, nixgl, ion-cli, ... }@inputs:
+  outputs = { nixpkgs, unstable, home-manager, nixgl, ion-cli, ... }@inputs:
     let
       # enableOllama = true;  # Set to false for work
       lib = nixpkgs.lib;
