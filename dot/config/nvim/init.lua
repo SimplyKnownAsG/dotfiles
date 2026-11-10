@@ -46,8 +46,6 @@ local ts_languages = {
  "typescript",
 }
 
-local fd_command = 'fd -t f --exclude=Session.vim --exclude="*.class"'
-
 -- {{{ toggle quickfix
 function toggle_list(list_name, open_cmd, close_cmd)
     local list_exists = false
@@ -144,12 +142,23 @@ local lazy_spec = {
 
   { 'chrisbra/improvedft', lazy=false, },
 
-  { 'ctrlpvim/ctrlp.vim', lazy=false,
+  {
+    "junegunn/fzf",
+  },
+  {
+    "junegunn/fzf.vim",
+    dependencies = { "junegunn/fzf" },
     init = function()
-      vim.g.ctrlp_map = '<leader>ff' -- find file
-      vim.g.ctrlp_user_command = fd_command
-      vim.g.ctrlp_working_path_mode = 0
+      vim.g.fzf_action = {
+        ["ctrl-t"] = "tab split",
+        ["ctrl-s"] = "split",
+        ["ctrl-v"] = "vsplit",
+      }
+      vim.env.FZF_DEFAULT_COMMAND = 'ag -g ""'
     end,
+    keys = {
+      { "<leader>ff", "<cmd>Files<cr>", desc = "Find files" },
+    },
   },
 
   { 'majutsushi/tagbar', lazy=false,

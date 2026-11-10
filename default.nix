@@ -61,7 +61,11 @@ in
     bashInteractive
     cascadia-code
     ctags
-    fd
+
+    fzf
+    silver-searcher
+    ripgrep
+
     figlet # for presenting.vim
     ion-cli
     jq
@@ -87,8 +91,6 @@ in
         pylsp-rope
       ])
     )
-    ripgrep
-    silver-searcher
     tree
     (if isDarwin then myPkgs.wezterm else config.lib.nixGL.wrap myPkgs.wezterm)
     zsh
@@ -100,9 +102,6 @@ in
     google-cloud-sdk
   ] ++ lib.optionals (!isDarwin) [
     xclip
-  ] ++ lib.optionals (inputs.atHome) [
-    framework-tool
-  ];
 
   home.activation = {
     nodejs = lib.hm.dag.entryAfter ["writeBoundary"] ''
