@@ -10,6 +10,7 @@ let
     tree-sitter = unstablePkgs.tree-sitter;
     neovim = unstablePkgs.neovim;
     wezterm = unstablePkgs.wezterm;
+    opencode = unstablePkgs.opencode;
     whisper-cpp = super.whisper-cpp.override { vulkanSupport = true; };
     # Add more packages from unstable as needed
   });
@@ -102,6 +103,9 @@ in
     google-cloud-sdk
   ] ++ lib.optionals (!isDarwin) [
     xclip
+  ] ++ lib.optionals (inputs.atHome) [
+    opencode
+  ];
 
   home.activation = {
     nodejs = lib.hm.dag.entryAfter ["writeBoundary"] ''
