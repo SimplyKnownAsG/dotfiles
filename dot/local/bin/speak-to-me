@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VOICE=~/models/piper-voices/en_US-hfc_female-medium.onnx
+
+if [ $# -gt 0 ]; then
+    # File path provided as argument
+    piper -m "$VOICE" -i "$1" -f /dev/stdout 2>/dev/null | aplay -q -
+else
+    # Read from stdin
+    piper -m "$VOICE" -f /dev/stdout 2>/dev/null | aplay -q -
+fi

@@ -169,6 +169,7 @@ in
   home.file.".local/bin/git-config-github".source = ./dot/local/bin/git-config-github;
   home.file.".local/bin/gkill".source = ./dot/local/bin/gkill;
   home.file.".local/bin/list-colors".source = ./dot/local/bin/list-colors;
+  home.file.".local/bin/speak-to-me".source = ./dot/local/bin/speak-to-me;
   home.file.".local/bin/transcribe-me".source = ./dot/local/bin/transcribe-me;
   home.file."models/whisper-cpp/ggml-base.en.bin".source = whisperModel;
   home.file."models/piper-voices/en_US-hfc_female-medium.onnx".source = hfcFemaleModel;
