@@ -215,6 +215,22 @@ in
         "annotation-generated-src/"
         "/?/"
         ".could-you/"
+
+        # srt adds these -- `srt -c "ls -la ."`
+        ".bash_profile"
+        ".bashrc"
+        ".claude"
+        ".could-you"
+        ".env"
+        ".gitconfig"
+        ".gitmodules"
+        ".idea"
+        ".mcp.json"
+        ".profile"
+        ".ripgreprc"
+        ".vscode"
+        ".zprofile"
+        ".zshrc"
       ];
       settings = {
         alias = {
